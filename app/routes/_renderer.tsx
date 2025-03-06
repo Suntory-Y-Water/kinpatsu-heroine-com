@@ -11,7 +11,9 @@ export default jsxRenderer(({ children }) => {
         <Link href='/app/style.css' rel='stylesheet' />
         <Script src='/app/client.ts' async />
       </head>
-      <body>{children}</body>
+      <body>
+        <main class={'mx-auto py-24'}>{children}</main>
+      </body>
     </html>
   );
 });
