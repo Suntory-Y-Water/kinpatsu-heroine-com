@@ -14,6 +14,7 @@ declare module 'hono' {
       R2_BUCKET: R2Bucket;
       R2_BUCKET_PREVIEW: R2Bucket; // preview bucket
       R2_ENDPOINT: string;
+      DB: D1Database;
     };
   }
   // interface Bindings {

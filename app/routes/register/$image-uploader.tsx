@@ -42,7 +42,6 @@ export default function ImageUploader() {
       if (error instanceof Error) {
         console.error('画像アップロードエラー:', error.message);
       }
-      console.error('画像アップロードエラー:', error);
       alert('画像のアップロードに失敗しました。再度お試しください。');
     } finally {
       setIsUploading(false);
@@ -80,11 +79,8 @@ export default function ImageUploader() {
           </div>
         )}
       </div>
-      <p className='text-gray-500 text-xs mt-1'>
-        ※お問い合わせ内容の写真を添付できます
-      </p>
       <p className='text-gray-500 text-xs'>
-        ※JPEG、PNG形式のファイル最大4枚まで可能です
+        ※JPEG、PNG形式のファイルがアップロード可能です
       </p>
 
       {/* 画像URLを保持する隠しフィールド */}
