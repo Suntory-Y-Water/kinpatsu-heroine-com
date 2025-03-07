@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.13.2",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.40.0",
     "hono": "^4.7.2",
