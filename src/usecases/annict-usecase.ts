@@ -1,4 +1,6 @@
+import type { DatabaseError } from '@/types/error';
 import { inject, injectable } from 'inversify';
+import { type Result, err, ok } from 'neverthrow';
 import type { AnnictId } from '../domain/value_object/annict';
 import type { AnnictRepository } from '../repositories/annict-repository';
 import type { AnnictWorkCharacters, AnnictWorksDTO } from '../types/annict';
@@ -10,25 +12,39 @@ export class AnnictUsecase {
     @inject(TYPES.AnnictRepository) private annictRepository: AnnictRepository,
   ) {}
 
-  async getWorks(p: { clientId: string }): Promise<AnnictWorksDTO> {
+  async getWorks(p: { clientId: string }): Promise<
+    Result<AnnictWorksDTO, DatabaseError>
+  > {
     const result = await this.annictRepository.getWorks(p);
-    return {
-      annictInfo: result.data.searchWorks.nodes.map((node) => ({
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    const value = {
+      annictInfo: result.value.data.searchWorks.nodes.map((node) => ({
         annictId: node.annictId,
-        name: node.name,
+        title: node.title,
       })),
     };
+
+    // キー情報と画面に表示する作品名を返却する
+    return ok(value);
   }
 
   async getWorkCharactersById(p: {
     clientId: string;
     id: AnnictId;
-  }): Promise<AnnictWorkCharacters> {
+  }): Promise<Result<AnnictWorkCharacters, DatabaseError>> {
     const result = await this.annictRepository.getWorkCharactersById(p);
-    return {
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    const value = {
       data: {
         searchWorks: {
-          edges: result.data.searchWorks.edges.map((edge) => ({
+          edges: result.value.data.searchWorks.edges.map((edge) => ({
             node: {
               casts: {
                 edges: edge.node.casts.edges.map((castEdge) => ({
@@ -45,5 +61,7 @@ export class AnnictUsecase {
         },
       },
     };
+    // 作品IDを元にキー情報と画面に表示するキャラクター名を返却する
+    return ok(value);
   }
 }

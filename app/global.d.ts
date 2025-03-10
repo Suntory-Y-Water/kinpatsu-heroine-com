@@ -15,6 +15,7 @@ declare module 'hono' {
       R2_BUCKET_PREVIEW: R2Bucket; // preview bucket
       R2_ENDPOINT: string;
       DB: D1Database;
+      ANNICT_CLIENT_ID: string;
     };
   }
   // interface Bindings {

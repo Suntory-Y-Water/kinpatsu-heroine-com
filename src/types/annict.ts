@@ -12,7 +12,7 @@ interface SearchWorks {
 
 interface Node {
   readonly annictId: number;
-  readonly name: string;
+  readonly title: string;
 }
 
 export interface AnnictWorkCharacters {
@@ -57,6 +57,6 @@ interface Character {
 export interface AnnictWorksDTO {
   annictInfo: {
     annictId: number;
-    name: string;
+    title: string;
   }[];
 }
