@@ -1,0 +1,306 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "96111a1a-9926-49cb-b3c6-f74fa55612b8",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "character_table": {
+      "name": "character_table",
+      "columns": {
+        "character_id_annict": {
+          "name": "character_id_annict",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "character_name": {
+          "name": "character_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "character_image_url": {
+          "name": "character_image_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "like_button_count": {
+          "name": "like_button_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
+        },
+        "registration_timestamp": {
+          "name": "registration_timestamp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "work_id_annict": {
+          "name": "work_id_annict",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "character_table_work_id_annict_work_table_work_id_annict_fk": {
+          "name": "character_table_work_id_annict_work_table_work_id_annict_fk",
+          "tableFrom": "character_table",
+          "tableTo": "work_table",
+          "columnsFrom": ["work_id_annict"],
+          "columnsTo": ["work_id_annict"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "distribution_site_table": {
+      "name": "distribution_site_table",
+      "columns": {
+        "distribution_site_id": {
+          "name": "distribution_site_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "distribution_site_name": {
+          "name": "distribution_site_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "like_history_table": {
+      "name": "like_history_table",
+      "columns": {
+        "character_id_annict": {
+          "name": "character_id_annict",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cookie_id": {
+          "name": "cookie_id",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "registration_timestamp": {
+          "name": "registration_timestamp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "like_history_table_character_id_annict_character_table_character_id_annict_fk": {
+          "name": "like_history_table_character_id_annict_character_table_character_id_annict_fk",
+          "tableFrom": "like_history_table",
+          "tableTo": "character_table",
+          "columnsFrom": ["character_id_annict"],
+          "columnsTo": ["character_id_annict"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "like_history_table_character_id_annict_cookie_id_pk": {
+          "columns": ["character_id_annict", "cookie_id"],
+          "name": "like_history_table_character_id_annict_cookie_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "waiting_list_table": {
+      "name": "waiting_list_table",
+      "columns": {
+        "character_id_annict": {
+          "name": "character_id_annict",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "work_id_annict": {
+          "name": "work_id_annict",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "character_image_url": {
+          "name": "character_image_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "registration_timestamp": {
+          "name": "registration_timestamp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "registered_flag": {
+          "name": "registered_flag",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "deleted_flag": {
+          "name": "deleted_flag",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "waiting_list_table_character_id_annict_work_id_annict_pk": {
+          "columns": ["character_id_annict", "work_id_annict"],
+          "name": "waiting_list_table_character_id_annict_work_id_annict_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "work_distribution_site_mapping_table": {
+      "name": "work_distribution_site_mapping_table",
+      "columns": {
+        "work_id_annict": {
+          "name": "work_id_annict",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "distribution_site_id": {
+          "name": "distribution_site_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "work_distribution_site_mapping_table_work_id_annict_work_table_work_id_annict_fk": {
+          "name": "work_distribution_site_mapping_table_work_id_annict_work_table_work_id_annict_fk",
+          "tableFrom": "work_distribution_site_mapping_table",
+          "tableTo": "work_table",
+          "columnsFrom": ["work_id_annict"],
+          "columnsTo": ["work_id_annict"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "work_distribution_site_mapping_table_distribution_site_id_distribution_site_table_distribution_site_id_fk": {
+          "name": "work_distribution_site_mapping_table_distribution_site_id_distribution_site_table_distribution_site_id_fk",
+          "tableFrom": "work_distribution_site_mapping_table",
+          "tableTo": "distribution_site_table",
+          "columnsFrom": ["distribution_site_id"],
+          "columnsTo": ["distribution_site_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "work_distribution_site_mapping_table_work_id_annict_distribution_site_id_pk": {
+          "columns": ["work_id_annict", "distribution_site_id"],
+          "name": "work_distribution_site_mapping_table_work_id_annict_distribution_site_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "work_table": {
+      "name": "work_table",
+      "columns": {
+        "work_id_annict": {
+          "name": "work_id_annict",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "work_name": {
+          "name": "work_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "work_id_anilist": {
+          "name": "work_id_anilist",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "official_site_url": {
+          "name": "official_site_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "wikipedia_url": {
+          "name": "wikipedia_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

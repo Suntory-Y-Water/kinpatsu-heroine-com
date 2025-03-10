@@ -6,5 +6,20 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "r2_buckets": [
+    {
+      "binding": "R2_BUCKET",
+      "bucket_name": "character-r2",
+      "preview_bucket_name": "character-r2-preview"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kinpatsu-heroine-com",
+      "database_id": "9769343c-fcc7-4bf2-bcbd-8afd1dfdc891",
+      "migrations_dir": "./drizzle/migrations/"
+    }
+  ]
 }
