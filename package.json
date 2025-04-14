@@ -6,31 +6,36 @@
     "build": "vite build --mode client && vite build && cp ./.assetsignore ./dist",
     "preview": "wrangler dev",
     "preview:remote": "vite build --mode client && vite build && cp ./.assetsignore ./dist && wrangler dev --remote",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "lint": "biome lint ./src && biome lint ./app",
+    "lint:fix": "biome lint --write ./src && biome lint --write ./app",
+    "format": "biome format ./src && biome format ./app"
   },
   "private": true,
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "drizzle-orm": "^0.40.0",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.41.0",
     "graphql": "^16.10.0",
     "graphql-request": "^7.1.2",
-    "hono": "^4.7.2",
-    "honox": "^0.1.38",
-    "inversify": "^7.0.1",
+    "hono": "^4.7.6",
+    "honox": "^0.1.40",
+    "inversify": "^7.5.0",
     "neverthrow": "^8.2.0",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/workers-types": "^4.20250214.0",
-    "@hono/vite-build": "^1.3.0",
-    "@hono/vite-dev-server": "^0.18.2",
-    "@tailwindcss/vite": "^4.0.9",
-    "@types/node": "^22.13.9",
-    "drizzle-kit": "^0.30.5",
-    "tailwindcss": "^4.0.9",
+    "@cloudflare/workers-types": "^4.20250413.0",
+    "@hono/vite-build": "^1.6.0",
+    "@hono/vite-dev-server": "^0.18.3",
+    "@tailwindcss/vite": "^4.1.3",
+    "@types/node": "^22.14.1",
+    "drizzle-kit": "^0.30.6",
+    "eslint-config-prettier": "^10.1.2",
+    "prettier": "^3.5.3",
+    "tailwindcss": "^4.1.3",
     "tsx": "^4.19.3",
-    "vite": "^6.1.1",
-    "wrangler": "^3.109.2"
+    "vite": "^6.2.6",
+    "wrangler": "^3.114.5"
   }
 }

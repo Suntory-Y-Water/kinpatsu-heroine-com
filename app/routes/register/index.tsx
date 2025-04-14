@@ -1,9 +1,14 @@
 import { createRoute } from 'honox/factory';
 import { container } from '../../../src/container';
 import { TYPES } from '../../../src/types/symbol-types';
+import type { AnnictUsecase } from '../../../src/usecases/annict-usecase';
 import type { D1usecase } from '../../../src/usecases/d1usecase';
+import { ErrorMessage } from '../../islands/error-message';
+import WorkAndCharacterSelector from './$form-selector';
 import ImageUploader from './$image-uploader';
 
+// TODO: あるべきはキャラクター名と作品名を画面表示時のAPIで紐づけをして、
+// そのIDを送信するようにする
 export const POST = createRoute(async (c) => {
   try {
     // フォームデータの解析
@@ -61,7 +66,25 @@ export const POST = createRoute(async (c) => {
   }
 });
 
-export default createRoute((c) => {
+export default createRoute(async (c) => {
+  // キャラクター登録画面から、現在登録していない作品を取得します。
+
+  // annictから作品情報を取得
+  const annictUsecase = container.get<AnnictUsecase>(TYPES.AnnictUsecase);
+  const result = await annictUsecase.getWorks({
+    clientId: c.env.ANNICT_CLIENT_ID,
+  });
+
+  if (result.isErr()) {
+    return c.render(<ErrorMessage error={result.error} />);
+  }
+
+  // 登録しているキャラクター情報を取得
+
+  // TODO: テスト用で10件のみ取得
+  const resultList = result.value.annictInfo.slice(0, 100);
+  console.log(resultList);
+
   return c.render(
     <div className='max-w-3xl mx-auto py-8 px-4'>
       <h1 className='text-2xl font-bold text-center mb-8'>キャラクター登録</h1>
@@ -71,38 +94,7 @@ export default createRoute((c) => {
         action='/register'
         className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
       >
-        <div className='mb-4'>
-          <label
-            className='block text-gray-700 text-sm font-bold mb-2'
-            htmlFor='characterName'
-          >
-            キャラクター名
-            <span className='text-red-500 ml-1'>必須</span>
-          </label>
-          <input
-            id='characterName'
-            name='characterName'
-            type='text'
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            className='block text-gray-700 text-sm font-bold mb-2'
-            htmlFor='workName'
-          >
-            作品名
-            <span className='text-red-500 ml-1'>必須</span>
-          </label>
-          <input
-            id='workName'
-            name='workName'
-            type='text'
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            required
-          />
-        </div>
+        <WorkAndCharacterSelector works={resultList} />
 
         <ImageUploader />
 

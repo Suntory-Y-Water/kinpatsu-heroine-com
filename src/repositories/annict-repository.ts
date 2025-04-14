@@ -1,8 +1,7 @@
 import { gql, request } from 'graphql-request';
-
 import { injectable } from 'inversify';
-
-import { type Result, err, ok } from 'neverthrow';
+import { err, ok } from 'neverthrow';
+import type { Result } from 'neverthrow';
 import type { AnnictId } from '../domain/value_object/annict';
 import type { AnnictWorkCharacters, AnnictWorks } from '../types/annict';
 import { DatabaseError } from '../types/error';
@@ -11,9 +10,9 @@ export interface AnnictRepository {
   /**
    * @description 作品一覧を取得する
    */
-  getWorks(p: { clientId: string }): Promise<
-    Result<AnnictWorks, DatabaseError>
-  >;
+  getWorks(p: {
+    clientId: string;
+  }): Promise<Result<AnnictWorks, DatabaseError>>;
 
   /**
    * @description 作品IDに紐づくキャラクター一覧を取得する
@@ -45,16 +44,17 @@ export class AnnictRepositoryImpl implements AnnictRepository {
   }): Promise<Result<AnnictWorkCharacters, DatabaseError>> {
     try {
       const query = gql`
-      query GetWorkCharacters($ids: [Int!]!) {
-        searchWorks(annictIds: $ids) {
-          edges {
-            node {
-              casts {
-                edges {
-                  node {
-                    character {
-                      annictId
-                      name
+        query GetWorkCharacters($ids: [Int!]!) {
+          searchWorks(annictIds: $ids) {
+            edges {
+              node {
+                casts {
+                  edges {
+                    node {
+                      character {
+                        annictId
+                        name
+                      }
                     }
                   }
                 }
@@ -62,8 +62,7 @@ export class AnnictRepositoryImpl implements AnnictRepository {
             }
           }
         }
-      }
-    `;
+      `;
 
       // graphql-requestを使用してクエリを実行
       const response = await request<{
@@ -114,20 +113,20 @@ export class AnnictRepositoryImpl implements AnnictRepository {
     }
   }
 
-  async getWorks(p: { clientId: string }): Promise<
-    Result<AnnictWorks, DatabaseError>
-  > {
+  async getWorks(p: {
+    clientId: string;
+  }): Promise<Result<AnnictWorks, DatabaseError>> {
     try {
       const query = gql`
-      query GetWorks {
-        searchWorks(orderBy: { field: CREATED_AT, direction: DESC }) {
-          nodes {
-            annictId
-            title
+        query GetWorks {
+          searchWorks(orderBy: { field: CREATED_AT, direction: DESC }) {
+            nodes {
+              annictId
+              title
+            }
           }
         }
-      }
-    `;
+      `;
 
       // graphql-requestを使用してクエリを実行
       const response = await request<{
