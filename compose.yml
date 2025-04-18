@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: ./.devcontainer
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace
+      - node_modules:/workspace/node_modules
+      - pnpm_store:/workspace/.pnpm-store
+      - wrangler_cache:/root/.wrangler
+    ports:
+      - "5173:5173"
+      - "8787:8787"  # Wrangler用のポート
+    command: sleep infinity
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+
+volumes:
+  node_modules:
+  wrangler_cache:
