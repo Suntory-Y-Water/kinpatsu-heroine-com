@@ -1,17 +1,11 @@
 import { Container } from 'inversify';
 import 'reflect-metadata';
-import {
-  type AnnictRepository,
-  AnnictRepositoryImpl,
-} from './repositories/annict-repository';
-import {
-  type D1Repository,
-  D1RepositoryImpl,
-} from './repositories/d1repository';
-import {
-  type R2Repository,
-  R2RepositoryImpl,
-} from './repositories/r2repository';
+import { AnnictRepositoryImpl } from './repositories/annict-repository';
+import type { AnnictRepository } from './repositories/annict-repository';
+import { D1RepositoryImpl } from './repositories/d1repository';
+import type { D1Repository } from './repositories/d1repository';
+import { R2RepositoryImpl } from './repositories/r2repository';
+import type { R2Repository } from './repositories/r2repository';
 import { TYPES } from './types/symbol-types';
 import { AnnictUsecase } from './usecases/annict-usecase';
 import { D1usecase } from './usecases/d1usecase';

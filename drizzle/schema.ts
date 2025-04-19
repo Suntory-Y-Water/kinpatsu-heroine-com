@@ -35,7 +35,7 @@ export const workDistributionSiteMappingTable = sqliteTable(
     pk: primaryKey({
       columns: [table.work_id_annict, table.distribution_site_id],
     }),
-  }),
+  })
 );
 
 export const characterTable = sqliteTable('character_table', {
@@ -64,7 +64,7 @@ export const likeHistoryTable = sqliteTable(
   },
   (table) => ({
     pk: primaryKey({ columns: [table.character_id_annict, table.cookie_id] }),
-  }),
+  })
 );
 
 export const waitingListTable = sqliteTable(
@@ -89,5 +89,5 @@ export const waitingListTable = sqliteTable(
     pk: primaryKey({
       columns: [table.character_id_annict, table.work_id_annict],
     }),
-  }),
+  })
 );

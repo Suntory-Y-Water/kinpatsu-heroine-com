@@ -1,14 +1,15 @@
-import { type Result, err, ok } from 'neverthrow';
+import { err, ok } from 'neverthrow';
 import { ValidationError } from '../../types/error';
+import type { Result } from 'neverthrow';
 
 const annictIdBrand = Symbol();
 
 type AnnictIdPrimitive = number & { [annictIdBrand]: unknown };
 
-export type AnnictId = {
+export interface AnnictId {
   readonly _type: 'AnnictId';
   readonly val: AnnictIdPrimitive;
-};
+}
 
 export const createAnnictId = (
   value: number,

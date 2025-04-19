@@ -1,9 +1,10 @@
-import type { DatabaseError } from '@/types/error';
 import { inject, injectable } from 'inversify';
 import { type Result, err, ok } from 'neverthrow';
 import type { AnnictId } from '../domain/value_object/annict';
+
 import type { AnnictRepository } from '../repositories/annict-repository';
 import type { AnnictWorkCharacters, AnnictWorksDTO } from '../types/annict';
+import type { DatabaseError } from '../types/error';
 import { TYPES } from '../types/symbol-types';
 
 @injectable()
@@ -12,9 +13,9 @@ export class AnnictUsecase {
     @inject(TYPES.AnnictRepository) private annictRepository: AnnictRepository,
   ) {}
 
-  async getWorks(p: { clientId: string }): Promise<
-    Result<AnnictWorksDTO, DatabaseError>
-  > {
+  async getWorks(p: {
+    clientId: string;
+  }): Promise<Result<AnnictWorksDTO, DatabaseError>> {
     const result = await this.annictRepository.getWorks(p);
     if (result.isErr()) {
       return err(result.error);
