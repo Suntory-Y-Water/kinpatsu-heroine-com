@@ -2,12 +2,12 @@ import { createRoute } from 'honox/factory';
 
 export default createRoute((c) => {
   return c.render(
-    <div className='min-h-screen bg-[#1A1F2C] text-[#FFFDE7]'>
+    <div className='bg-gray-900 text-white'>
       <div className='container mx-auto px-4 py-8'>
-        <h1 className='text-3xl font-bold text-[#F3DB5F] mb-8'>利用規約</h1>
+        <h1 className='text-3xl font-bold text-yellow-200 mb-8'>利用規約</h1>
         <div className='prose prose-invert max-w-none space-y-6 text-lg leading-relaxed'>
           <section>
-            <h2 className='text-2xl font-semibold text-[#F3DB5F] mb-4'>
+            <h2 className='text-2xl font-semibold text-yellow-200 mb-4'>
               第1条（適用）
             </h2>
             <p>
@@ -15,7 +15,7 @@ export default createRoute((c) => {
             </p>
           </section>
           <section>
-            <h2 className='text-2xl font-semibold text-[#F3DB5F] mb-4'>
+            <h2 className='text-2xl font-semibold text-yellow-200 mb-4'>
               第2条（禁止事項）
             </h2>
             <p>
@@ -37,7 +37,7 @@ export default createRoute((c) => {
             </ul>
           </section>
           <section>
-            <h2 className='text-2xl font-semibold text-[#F3DB5F] mb-4'>
+            <h2 className='text-2xl font-semibold text-yellow-200 mb-4'>
               第3条（免責事項）
             </h2>
             <p>

@@ -34,7 +34,7 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
   return (
     <div>
       <div className='mb-4'>
-        <label htmlFor='characterId' className='block text-[#FFFDE7] mb-2'>
+        <label htmlFor='characterId' className='block text-white mb-2'>
           キャラクター名
         </label>
         <select

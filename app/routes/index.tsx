@@ -68,7 +68,7 @@ export default createRoute((c) => {
                 key={page}
                 className={`
                 w-10 h-10 rounded-full flex items-center justify-center transition-colors
-                ${currentPage === page ? 'bg-[#F3DB5F] text-black font-bold' : 'text-[#FFFDE7] hover:bg-yellow-900/20'}
+                ${currentPage === page ? 'bg-yellow-400 text-black font-bold' : 'text-white hover:bg-yellow-900/20'}
               `}
               >
                 {page}

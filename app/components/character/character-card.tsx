@@ -27,14 +27,14 @@ export function CharacterCard({
         <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
       </div>
       <div className='absolute bottom-0 w-full p-4'>
-        <h3 className='text-[#F3DB5F] text-lg font-bold mb-1 truncate'>
+        <h3 className='text-yellow-200 text-lg font-bold mb-1 truncate'>
           {name}
         </h3>
-        <p className='text-[#FFFDE780] text-sm truncate'>{animeName}</p>
+        <p className='text-yellow-50/50 text-sm truncate'>{animeName}</p>
       </div>
       <div className='absolute top-2 right-2 flex items-center gap-1 bg-black/60 rounded-full px-3 py-1'>
-        <span className='text-[#F3DB5F] text-sm'>♥</span>
-        <span className='text-[#FFFDE7] text-sm'>{likes}</span>
+        <span className='text-yellow-200 text-sm'>♥</span>
+        <span className='text-white text-sm'>{likes}</span>
       </div>
     </a>
   );

@@ -2,7 +2,6 @@ import { createRoute } from 'honox/factory';
 import { container } from '../../../../src/container';
 import type { AnnictUsecase } from '../../../../src/usecases/annict-usecase';
 import { TYPES } from '../../../../src/types/symbol-types';
-import { ErrorMessage } from '../../../islands/error-message';
 import WorkForm from './$work-form';
 
 import { z } from 'zod';
@@ -39,7 +38,7 @@ export default createRoute(async (c) => {
   });
 
   if (result.isErr()) {
-    return c.render(<ErrorMessage error={result.error} />);
+    throw new Error('作品情報の取得に失敗しました');
   }
 
   // 登録しているキャラクター情報を取得
@@ -49,13 +48,13 @@ export default createRoute(async (c) => {
   );
 
   return c.render(
-    <div className='max-w-md mx-auto bg-[#232836] p-6 rounded-lg shadow-lg border border-yellow-900/30'>
-      <h1 className='text-2xl font-bold text-[#F3DB5F] mb-6'>作品登録</h1>
+    <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg border border-yellow-900/30'>
+      <h1 className='text-3xl font-bold text-center mb-8'>作品登録</h1>
       <form method='post' action='/register/work'>
         <WorkForm works={resultList} />
         <button
           type='submit'
-          className='w-full bg-[#F3DB5F] text-[#1A1F2C] py-2 px-4 rounded font-medium hover:bg-[#E5CD50] transition-colors'
+          className='w-full bg-yellow-400 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
         >
           次へ
         </button>

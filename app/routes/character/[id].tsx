@@ -16,9 +16,9 @@ export default createRoute((c) => {
       {/* 戻るボタン */}
       <a
         href='/'
-        className='inline-flex items-center gap-2 text-[#FFFDE7] hover:text-[#F3DB5F] mb-8 transition-colors'
+        className='inline-flex items-center gap-2 text-white hover:text-yellow-200 mb-8 transition-colors'
       >
-        <span className='text-[#FFFDE7]'>←</span>
+        <span className='text-white'>←</span>
         <span>キャラクター一覧に戻る</span>
       </a>
 
@@ -38,10 +38,10 @@ export default createRoute((c) => {
           <div className='md:w-1/2 p-6 md:p-8 relative'>
             <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-0'>
               <div>
-                <h1 className='text-2xl md:text-3xl font-bold text-[#F3DB5F] mb-2'>
+                <h1 className='text-2xl md:text-3xl font-bold text-yellow-200 mb-2'>
                   {character.name}
                 </h1>
-                <p className='text-lg md:text-xl text-[#FFFDE780] mb-6'>
+                <p className='text-lg md:text-xl text-yellow-50/50 mb-6'>
                   {character.animeName}
                 </p>
               </div>
@@ -50,13 +50,13 @@ export default createRoute((c) => {
               </div>
             </div>
 
-            <p className='text-[#FFFDE7] mb-8 leading-relaxed'>
+            <p className='text-white mb-8 leading-relaxed'>
               {character.description}
             </p>
 
             {/* 関連リンク */}
             <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-[#F3DB5F] mb-4'>
+              <h2 className='text-xl font-bold text-yellow-200 mb-4'>
                 関連リンク
               </h2>
               <div className='grid gap-4'>
@@ -64,18 +64,18 @@ export default createRoute((c) => {
                   href={character.as.official}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center gap-3 text-[#FFFDE7] hover:text-[#F3DB5F] transition-colors'
+                  className='flex items-center gap-3 text-white hover:text-yellow-200 transition-colors'
                 >
-                  <span className='text-[#FFFDE7]'>🌐</span>
+                  <span className='text-white'>🌐</span>
                   <span>公式サイト</span>
                 </a>
                 <a
                   href={character.as.wikipedia}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center gap-3 text-[#FFFDE7] hover:text-[#F3DB5F] transition-colors'
+                  className='flex items-center gap-3 text-white hover:text-yellow-200 transition-colors'
                 >
-                  <span className='text-[#FFFDE7]'>📖</span>
+                  <span className='text-white'>📖</span>
                   <span>Wikipedia</span>
                 </a>
               </div>
@@ -83,7 +83,7 @@ export default createRoute((c) => {
 
             {/* 配信サービス */}
             <div className='mt-8'>
-              <h2 className='text-xl font-bold text-[#F3DB5F] mb-4'>
+              <h2 className='text-xl font-bold text-yellow-200 mb-4'>
                 視聴できる配信サービス
               </h2>
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -93,9 +93,9 @@ export default createRoute((c) => {
                     href={service.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center gap-2 text-[#FFFDE7] hover:text-[#F3DB5F] transition-colors'
+                    className='flex items-center gap-2 text-white hover:text-yellow-200 transition-colors'
                   >
-                    <span className='text-[#FFFDE7]'>▶️</span>
+                    <span className='text-white'>▶️</span>
                     <span>{service.name}</span>
                   </a>
                 ))}

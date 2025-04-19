@@ -73,11 +73,9 @@ export default createRoute(async (c) => {
   }));
 
   return c.render(
-    <div className='max-w-md mx-auto bg-[#232836] p-6 rounded-lg shadow-lg border border-yellow-900/30'>
-      <h1 className='text-2xl font-bold text-[#F3DB5F] mb-6'>
-        キャラクター登録
-      </h1>
-      <div className='mb-4 text-[#FFFDE7]'>
+    <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg border border-yellow-900/30'>
+      <h1 className='text-3xl font-bold text-center mb-8'>キャラクター登録</h1>
+      <div className='mb-4 text-white'>
         <span className='font-medium'>作品名：</span>
         {workName}
       </div>
@@ -88,7 +86,7 @@ export default createRoute(async (c) => {
         <ImageUploader />
         <button
           type='submit'
-          className='w-full bg-[#F3DB5F] text-[#1A1F2C] py-2 px-4 rounded font-medium hover:bg-[#E5CD50] transition-colors'
+          className='w-full bg-yellow-400 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
         >
           登録
         </button>

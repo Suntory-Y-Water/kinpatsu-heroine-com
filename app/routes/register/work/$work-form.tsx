@@ -50,7 +50,7 @@ export default function WorkForm({ works }: WorkFormProps) {
     <div>
       {/* 作品検索フィールド */}
       <div className='mb-4 relative'>
-        <label htmlFor='workName' className='block text-[#FFFDE7] mb-2'>
+        <label htmlFor='workName' className='block text-white mb-2'>
           作品名
         </label>
         <input
@@ -68,7 +68,7 @@ export default function WorkForm({ works }: WorkFormProps) {
               setShowSuggestions(false);
             }, 200);
           }}
-          className='w-full bg-[#1A1F2C] border border-gray-700 rounded p-2 text-[#FFFDE7]'
+          className='w-full bg-gray-900 border border-gray-700 rounded p-2 text-white'
           placeholder='作品名を入力してください'
           required
         />

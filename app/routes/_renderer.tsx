@@ -20,7 +20,7 @@ export default jsxRenderer(({ children }) => {
         <Link href='/app/style.css' rel='stylesheet' />
         <Script src='/app/client.ts' async />
       </head>
-      <body className='min-h-screen bg-gradient-to-r from-[#1A1F2C] to-[#221F26] flex flex-col'>
+      <body className='min-h-screen bg-gradient-to-r bg-gray-900 flex flex-col'>
         <Header />
         <main className='container mx-auto px-4 py-8 flex-1'>{children}</main>
         <Footer />
