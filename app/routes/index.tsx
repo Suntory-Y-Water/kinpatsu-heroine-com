@@ -1,71 +1,46 @@
 import { createRoute } from 'honox/factory';
-import { CharacterCard } from '../components/character/CharacterCard';
+import { CharacterCard } from '../components/character/character-card';
+import { paginateItems } from '../lib/pagination';
+import SortDropdown, { type SortOption } from '../islands/sort-dropdown';
+import { MOCK_CHARACTERS_LIST } from '../../_mock';
 
-// 仮のデータ
-const MOCK_CHARACTERS = [
-  {
-    id: '1',
-    name: 'アリス・シンセシス・サーティ',
-    image: 'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
-    animeName: 'ソードアート・オンライン アリシゼーション',
-    likes: 1234,
-  },
-  {
-    id: '2',
-    name: 'ヴァイオレット・エヴァーガーデン',
-    image: 'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
-    animeName: 'ヴァイオレット・エヴァーガーデン',
-    likes: 3456,
-  },
-  {
-    id: '3',
-    name: 'セイバー',
-    image: 'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
-    animeName: 'Fate/stay night',
-    likes: 5678,
-  },
-  {
-    id: '4',
-    name: 'ダークネス',
-    image: 'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
-    animeName: 'この素晴らしい世界に祝福を！',
-    likes: 2345,
-  },
-  {
-    id: '5',
-    name: 'マーニー',
-    image: 'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
-    animeName: '思い出のマーニー',
-    likes: 4567,
-  },
-  {
-    id: '6',
-    name: 'シャーロット・デュノア',
-    image: 'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
-    animeName: 'インフィニット・ストラトス',
-    likes: 3789,
-  },
+type SortOrder = 'newest' | 'likes_desc';
+const DEFAULT_SORT_ORDER: SortOrder = 'newest';
+const sortOptions: SortOption[] = [
+  { key: 'newest', label: '新着順' },
+  { key: 'likes_desc', label: 'いいね順' },
 ];
 
+// 最大表示件数
+const ITEMS_PER_PAGE = 4;
+
 export default createRoute((c) => {
-  // 本来はuseStateなどで管理するところだが、レイアウト固定のため省略
-  // 表示するのは最初の4件
-  const characters = MOCK_CHARACTERS.slice(0, 4);
-  const currentPage = 1;
-  const totalPages = Math.ceil(MOCK_CHARACTERS.length / 4);
-  const sortByLikes = false;
+  const pageQuery = c.req.query('page');
+  const pageNum = Number.parseInt(pageQuery || '1', 10) || 1;
+
+  const sortQuery = c.req.query('sort') as SortOrder;
+  const currentSort: SortOrder = sortOptions.some(
+    (opt) => opt.key === sortQuery,
+  )
+    ? sortQuery
+    : DEFAULT_SORT_ORDER;
+
+  // TODO: 本来はDBからデータ取得
+  const allCharacters = [...MOCK_CHARACTERS_LIST];
+
+  if (currentSort === 'likes_desc') {
+    allCharacters.sort((a, b) => b.likes - a.likes);
+  }
+
+  const paginatedResult = paginateItems(allCharacters, pageNum, ITEMS_PER_PAGE);
+  const characters = paginatedResult.items;
+  const currentPage = paginatedResult.currentPage;
+  const totalPages = paginatedResult.totalPages;
 
   return c.render(
-    <div className='space-y-8'>
-      {/* ソートボタン */}
+    <div className='space-y-8 pt-16 md:pt-0'>
       <div className='flex justify-end'>
-        <button
-          type='button'
-          className='flex items-center gap-2 bg-black/40 rounded-full px-4 py-2 border border-yellow-900/30 hover:bg-yellow-900/20 transition-colors text-[#FFFDE7]'
-        >
-          <span className='text-[#FFFDE7]'>⇅</span>
-          <span>いいね{sortByLikes ? '昇順' : '降順'}</span>
-        </button>
+        <SortDropdown currentSort={currentSort} options={sortOptions} />
       </div>
 
       {/* キャラクターグリッド */}
@@ -78,22 +53,28 @@ export default createRoute((c) => {
       {/* ページネーション */}
       {totalPages > 1 && (
         <div className='flex justify-center gap-2 mt-8 flex-wrap'>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              type='button'
-              key={page}
-              className={`
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+            const params = new URLSearchParams();
+            if (currentSort !== DEFAULT_SORT_ORDER) {
+              params.set('sort', currentSort);
+            }
+            if (page > 1) {
+              params.set('page', String(page));
+            }
+            const pageHref = `/?${params.toString()}`;
+            return (
+              <a
+                href={pageHref}
+                key={page}
+                className={`
                 w-10 h-10 rounded-full flex items-center justify-center transition-colors
-                ${
-                  currentPage === page
-                    ? 'bg-[#F3DB5F] text-black font-bold'
-                    : 'text-[#FFFDE7] hover:bg-yellow-900/20'
-                }
+                ${currentPage === page ? 'bg-[#F3DB5F] text-black font-bold' : 'text-[#FFFDE7] hover:bg-yellow-900/20'}
               `}
-            >
-              {page}
-            </button>
-          ))}
+              >
+                {page}
+              </a>
+            );
+          })}
         </div>
       )}
     </div>,

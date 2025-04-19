@@ -1,0 +1,98 @@
+import { useState, useEffect, useRef } from 'hono/jsx';
+
+type SortOrder = 'newest' | 'likes_desc';
+
+export interface SortOption {
+  key: SortOrder;
+  label: string;
+}
+
+interface SortDropdownProps {
+  currentSort: SortOrder;
+  options: SortOption[];
+}
+
+export default function SortDropdown({
+  currentSort,
+  options,
+}: SortDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null); // ドロップダウン要素への参照
+
+  const currentLabel =
+    options.find((opt) => opt.key === currentSort)?.label || '並び替え';
+
+  // ドロップダウンの外側をクリックしたときに閉じる処理
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    // イベントリスナーを登録
+    document.addEventListener('mousedown', handleClickOutside);
+    // クリーンアップ関数でイベントリスナーを削除
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]); // refが変わることは通常ないが、依存配列に含める
+
+  return (
+    <div className='relative inline-block text-left' ref={dropdownRef}>
+      <div>
+        <button
+          type='button'
+          className='inline-flex justify-center items-center w-full rounded-full border border-yellow-900/30 shadow-sm px-4 py-2 bg-black/40 text-sm font-medium text-[#FFFDE7] hover:bg-yellow-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#F3DB5F] transition-colors'
+          id='options-menu'
+          aria-haspopup='true'
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {currentLabel}
+          {/* 下向きの矢印アイコン */}
+          <svg
+            className='-mr-1 ml-2 h-5 w-5'
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 20 20'
+            fill='currentColor'
+            aria-hidden='true'
+          >
+            <path
+              fillRule='evenodd'
+              d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+              clipRule='evenodd'
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* ドロップダウンメニュー本体 */}
+      {isOpen && (
+        <div
+          className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#1A1F2C] ring-1 ring-black ring-opacity-5 focus:outline-none border border-yellow-900/50 z-10'
+          role='menu'
+          aria-orientation='vertical'
+          aria-labelledby='options-menu'
+        >
+          <div className='py-1'>
+            {options.map((option) => (
+              <a
+                key={option.key}
+                href={`/?sort=${option.key}`} // ページ番号をリセットしてソート
+                className={`block px-4 py-2 text-sm transition-colors ${currentSort === option.key ? 'bg-[#F3DB5F] text-black' : 'text-[#FFFDE7] hover:bg-yellow-900/20 hover:text-[#F3DB5F]'}`}
+                role='menuitem'
+                // メニュー項目クリック時にドロップダウンを閉じる
+                onClick={() => setIsOpen(false)}
+              >
+                {option.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

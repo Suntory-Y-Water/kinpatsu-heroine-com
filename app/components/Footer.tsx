@@ -17,7 +17,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* リンク集1 */}
+          {/* リンク集 */}
           <div>
             <h3 className='text-[#F3DB5F] font-bold mb-4'>サイト情報</h3>
             <ul className='space-y-2'>
@@ -55,39 +55,12 @@ export function Footer() {
               </li>
             </ul>
           </div>
-
-          {/* リンク集2 */}
-          <div>
-            <h3 className='text-[#F3DB5F] font-bold mb-4'>コミュニティ</h3>
-            <ul className='space-y-2'>
-              <li>
-                <a
-                  href='https://twitter.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='text-[#FFFDE7] hover:text-[#F3DB5F] text-sm transition-colors'
-                >
-                  Twitter
-                </a>
-              </li>
-              <li>
-                <a
-                  href='https://github.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='text-[#FFFDE7] hover:text-[#F3DB5F] text-sm transition-colors'
-                >
-                  GitHub
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* コピーライト */}
         <div className='mt-12 pt-8 border-t border-yellow-900/30 text-center'>
           <p className='text-[#FFFDE780] text-sm'>
-            © 2024 金髪ヒロイン.com All rights reserved.
+            © 2025 金髪ヒロイン.com All rights reserved.
           </p>
         </div>
       </div>
