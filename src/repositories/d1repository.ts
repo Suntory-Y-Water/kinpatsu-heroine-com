@@ -1,4 +1,6 @@
 import type { Character } from '../types/character';
+import { drizzle } from 'drizzle-orm/d1';
+import { registrationQueueTable } from '../../drizzle/schema';
 
 export interface D1Repository {
   createCharacter(p: {
@@ -12,28 +14,16 @@ export class D1RepositoryImpl implements D1Repository {
     DB: D1Database;
     character: Character;
   }): Promise<Character> {
-    // insert waiting_list_table
-    const stmt = p.DB.prepare(`
-      INSERT INTO waiting_list_table (
-        character_id_annict,
-        work_id_annict,
-        character_image_url,
-        registration_timestamp,
-        registered_flag,
-        deleted_flag
-      ) VALUES (
-        ?,
-        ?,
-        ?,
-        CURRENT_TIMESTAMP,
-        0,
-        0
-      )
-    `);
+    const db = drizzle(p.DB);
 
-    await stmt
-      .bind(p.character.characterId, p.character.workId, p.character.imageUrl)
-      .run();
+    await db.insert(registrationQueueTable).values({
+      character_id: p.character.characterId,
+      work_id: p.character.workId,
+      character_name: p.character.characterName,
+      character_image_url: p.character.imageUrl,
+      is_registered: false,
+      is_deleted: false,
+    });
 
     return p.character;
   }

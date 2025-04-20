@@ -34,24 +34,36 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
   return (
     <div>
       <div className='mb-4'>
-        <label htmlFor='characterId' className='block text-[#FFFDE7] mb-2'>
+        <label htmlFor='characterName' className='block text-white mb-2'>
           キャラクター名
         </label>
         <select
-          id='characterId'
-          name='characterId'
+          id='characterName'
+          name='characterName'
           value={selectedCharacter?.annictId || ''}
           onChange={handleSelectCharacter}
-          className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+          className='bg-gray-800 border border-gray-700 text-white rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent'
           required
         >
-          <option value=''>キャラクターを選択してください</option>
+          <option value='' className='bg-gray-800 text-gray-400'>
+            キャラクターを選択してください
+          </option>
           {characters.map((character) => (
-            <option key={character.annictId} value={character.annictId}>
+            <option
+              key={character.annictId}
+              value={character.annictId}
+              className='bg-gray-800 text-white'
+            >
               {character.name}
             </option>
           ))}
         </select>
+        {/* 隠しフィールドでキャラクターIDを保持 */}
+        <input
+          type='hidden'
+          name='characterId'
+          value={selectedCharacter?.annictId || ''}
+        />
       </div>
     </div>
   );

@@ -2,14 +2,21 @@
   "name": "kinpatsu-hiroin.com",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build --mode client && vite build && cp ./.assetsignore ./dist",
     "preview": "wrangler dev",
     "preview:remote": "vite build --mode client && vite build && cp ./.assetsignore ./dist && wrangler dev --remote",
     "deploy": "npm run build && wrangler deploy",
     "lint": "biome lint ./src && biome lint ./app",
     "lint:fix": "biome lint --write ./src && biome lint --write ./app",
-    "format": "biome format ./src && biome format ./app"
+    "format": "biome format ./src && biome format ./app",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:local": "tsx scripts/migrate.ts local latest",
+    "db:preview": "tsx scripts/migrate.ts preview latest --remote",
+    "db:prod": "tsx scripts/migrate.ts production latest --remote",
+    "db:all": "pnpm run db:local && pnpm run db:preview && pnpm run db:prod"
   },
   "private": true,
   "dependencies": {
@@ -27,7 +34,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/workers-types": "^4.20250419.0",
+    "@cloudflare/workers-types": "^4.20250420.0",
     "@hono/vite-build": "^1.6.0",
     "@hono/vite-dev-server": "^0.18.3",
     "@tailwindcss/vite": "^4.1.4",

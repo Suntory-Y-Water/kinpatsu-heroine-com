@@ -45,7 +45,7 @@ export default function SortDropdown({
       <div>
         <button
           type='button'
-          className='inline-flex justify-center items-center w-full rounded-full border border-yellow-900/30 shadow-sm px-4 py-2 bg-black/40 text-sm font-medium text-[#FFFDE7] hover:bg-yellow-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#F3DB5F] transition-colors'
+          className='inline-flex justify-center w-full rounded-md border border-gray-700 shadow-sm px-4 py-2 bg-gray-800 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-300 transition-colors'
           id='options-menu'
           aria-haspopup='true'
           aria-expanded={isOpen}
@@ -72,7 +72,7 @@ export default function SortDropdown({
       {/* ドロップダウンメニュー本体 */}
       {isOpen && (
         <div
-          className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#1A1F2C] ring-1 ring-black ring-opacity-5 focus:outline-none border border-yellow-900/50 z-10'
+          className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 focus:outline-none border border-yellow-900/50 z-10'
           role='menu'
           aria-orientation='vertical'
           aria-labelledby='options-menu'
@@ -82,9 +82,12 @@ export default function SortDropdown({
               <a
                 key={option.key}
                 href={`/?sort=${option.key}`} // ページ番号をリセットしてソート
-                className={`block px-4 py-2 text-sm transition-colors ${currentSort === option.key ? 'bg-[#F3DB5F] text-black' : 'text-[#FFFDE7] hover:bg-yellow-900/20 hover:text-[#F3DB5F]'}`}
+                className={`block px-4 py-2 text-sm transition-colors ${
+                  currentSort === option.key
+                    ? 'bg-yellow-300 text-black'
+                    : 'text-white hover:bg-yellow-900/20 hover:text-yellow-300'
+                }`}
                 role='menuitem'
-                // メニュー項目クリック時にドロップダウンを閉じる
                 onClick={() => setIsOpen(false)}
               >
                 {option.label}
