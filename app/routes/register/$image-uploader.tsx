@@ -52,13 +52,13 @@ export default function ImageUploader() {
     <div className='mb-4'>
       <label
         htmlFor='image-upload'
-        className='block text-gray-700 text-sm font-bold mb-2'
+        className='block text-white text-sm font-bold mb-2'
       >
         画像添付
       </label>
       <div className='flex flex-col items-start'>
         <label
-          className={`bg-white border border-gray-400 rounded py-2 px-4 text-gray-700 cursor-pointer hover:bg-gray-100 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`bg-white border border-gray-400 font-semibold rounded py-2 px-4 text-gray-700 cursor-pointer hover:bg-gray-100 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {isUploading ? '画像をアップロード中...' : '画像を選択する'}
           <input

@@ -68,7 +68,7 @@ export default function WorkForm({ works }: WorkFormProps) {
               setShowSuggestions(false);
             }, 200);
           }}
-          className='w-full bg-gray-900 border border-gray-700 rounded p-2 text-white'
+          className='w-full bg-gray-800 border border-gray-700 rounded py-2 px-3 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent'
           placeholder='作品名を入力してください'
           required
         />
@@ -82,11 +82,11 @@ export default function WorkForm({ works }: WorkFormProps) {
 
         {/* 作品候補のドロップダウン */}
         {showSuggestions && filteredWorks.length > 0 && (
-          <ul className='absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-auto'>
+          <ul className='absolute z-10 mt-1 w-full bg-gray-800 border border-gray-700 rounded shadow-lg max-h-60 overflow-auto'>
             {filteredWorks.map((work) => (
               <li
                 key={work.annictId}
-                className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                className='px-4 py-2 text-white hover:bg-gray-700 cursor-pointer'
                 onClick={() => {
                   handleSelectWork(work);
                 }}

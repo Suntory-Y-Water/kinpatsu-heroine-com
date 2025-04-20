@@ -16,13 +16,13 @@ export default createRoute((c) => {
       {/* 戻るボタン */}
       <a
         href='/'
-        className='inline-flex items-center gap-2 text-white hover:text-yellow-200 mb-8 transition-colors'
+        className='inline-flex items-center gap-2 text-white hover:text-yellow-300 mb-8 transition-colors'
       >
         <span className='text-white'>←</span>
         <span>キャラクター一覧に戻る</span>
       </a>
 
-      <div className='bg-gradient-to-b from-gray-900 to-black rounded-xl overflow-hidden shadow-2xl border border-yellow-900/30'>
+      <div className='bg-gradient-to-b  rounded-xl overflow-hidden shadow-2xl border border-yellow-900/30'>
         <div className='md:flex'>
           {/* 画像セクション */}
           <div className='md:w-1/2 relative'>
@@ -38,7 +38,7 @@ export default createRoute((c) => {
           <div className='md:w-1/2 p-6 md:p-8 relative'>
             <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-0'>
               <div>
-                <h1 className='text-2xl md:text-3xl font-bold text-yellow-200 mb-2'>
+                <h1 className='text-2xl md:text-3xl font-bold text-yellow-300 mb-2'>
                   {character.name}
                 </h1>
                 <p className='text-lg md:text-xl text-yellow-50/50 mb-6'>
@@ -56,7 +56,7 @@ export default createRoute((c) => {
 
             {/* 関連リンク */}
             <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-yellow-200 mb-4'>
+              <h2 className='text-xl font-bold text-yellow-300 mb-4'>
                 関連リンク
               </h2>
               <div className='grid gap-4'>
@@ -64,7 +64,7 @@ export default createRoute((c) => {
                   href={character.as.official}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center gap-3 text-white hover:text-yellow-200 transition-colors'
+                  className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
                 >
                   <span className='text-white'>🌐</span>
                   <span>公式サイト</span>
@@ -73,7 +73,7 @@ export default createRoute((c) => {
                   href={character.as.wikipedia}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center gap-3 text-white hover:text-yellow-200 transition-colors'
+                  className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
                 >
                   <span className='text-white'>📖</span>
                   <span>Wikipedia</span>
@@ -83,7 +83,7 @@ export default createRoute((c) => {
 
             {/* 配信サービス */}
             <div className='mt-8'>
-              <h2 className='text-xl font-bold text-yellow-200 mb-4'>
+              <h2 className='text-xl font-bold text-yellow-300 mb-4'>
                 視聴できる配信サービス
               </h2>
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -93,7 +93,7 @@ export default createRoute((c) => {
                     href={service.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='flex items-center gap-2 text-white hover:text-yellow-200 transition-colors'
+                    className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'
                   >
                     <span className='text-white'>▶️</span>
                     <span>{service.name}</span>

@@ -48,13 +48,15 @@ export default createRoute(async (c) => {
   );
 
   return c.render(
-    <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg border border-yellow-900/30'>
-      <h1 className='text-3xl font-bold text-center mb-8'>作品登録</h1>
+    <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
+      <h1 className='text-3xl font-bold text-center mb-8 text-white'>
+        作品登録
+      </h1>
       <form method='post' action='/register/work'>
         <WorkForm works={resultList} />
         <button
           type='submit'
-          className='w-full bg-yellow-400 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
+          className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
         >
           次へ
         </button>

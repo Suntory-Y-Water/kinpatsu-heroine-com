@@ -6,7 +6,7 @@ export function Footer() {
           {/* ロゴとサイト説明 */}
           <div className='md:col-span-2'>
             <a href='/' className='flex items-center gap-2 mb-4'>
-              <span className='text-yellow-200 text-xl font-bold'>
+              <span className='text-yellow-300 text-xl font-bold'>
                 金髪ヒロイン.com
               </span>
             </a>

@@ -4,7 +4,7 @@ export function Header() {
       <div className='container mx-auto px-4'>
         <div className='flex justify-between items-center'>
           <a href='/' className='flex items-center gap-2'>
-            <span className='text-yellow-200 text-xl font-bold'>
+            <span className='text-yellow-300 text-xl font-bold'>
               金髪ヒロイン.com
             </span>
           </a>
@@ -15,7 +15,7 @@ export function Header() {
           >
             <a
               href='/register/work'
-              className='bg-yellow-400 text-gray-900 rounded px-4 py-2 font-medium hover:bg-yellow-500 transition-colors w-full md:w-auto text-center'
+              className='bg-yellow-300 text-gray-900 rounded px-4 py-2 font-medium hover:bg-yellow-500 transition-colors w-full md:w-auto text-center'
             >
               新しいヒロインを登録する
             </a>

@@ -8,7 +8,7 @@ const handler: ErrorHandler = (e, c) => {
   c.status(500);
   return c.render(
     <div className='max-w-6xl'>
-      <h1 className='text-4xl font-bold text-yellow-200 mb-8'>
+      <h1 className='text-4xl font-bold text-yellow-300 mb-8'>
         通信エラーが発生しました。
       </h1>
       <p className='text-white'>しばらく経ってから再度アクセスしてください。</p>

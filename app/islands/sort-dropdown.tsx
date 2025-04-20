@@ -45,7 +45,7 @@ export default function SortDropdown({
       <div>
         <button
           type='button'
-          className='inline-flex justify-center w-full rounded-md border border-gray-700 shadow-sm px-4 py-2 bg-gray-800 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-400 transition-colors'
+          className='inline-flex justify-center w-full rounded-md border border-gray-700 shadow-sm px-4 py-2 bg-gray-800 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-300 transition-colors'
           id='options-menu'
           aria-haspopup='true'
           aria-expanded={isOpen}
@@ -84,8 +84,8 @@ export default function SortDropdown({
                 href={`/?sort=${option.key}`} // ページ番号をリセットしてソート
                 className={`block px-4 py-2 text-sm transition-colors ${
                   currentSort === option.key
-                    ? 'bg-yellow-400 text-black'
-                    : 'text-white hover:bg-yellow-900/20 hover:text-yellow-200'
+                    ? 'bg-yellow-300 text-black'
+                    : 'text-white hover:bg-yellow-900/20 hover:text-yellow-300'
                 }`}
                 role='menuitem'
                 onClick={() => setIsOpen(false)}

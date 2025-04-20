@@ -45,7 +45,7 @@ export default function LikeButton({
       className='flex items-center gap-2 hover:cursor-pointer bg-black/40 rounded-full px-4 py-2 border border-yellow-900/30 transition-colors duration-200 group hover:bg-pink-800/70'
       aria-label='いいねする'
     >
-      <span className='transition-colors text-yellow-200 group-hover:text-pink-400'>
+      <span className='transition-colors text-yellow-300 group-hover:text-pink-400'>
         ♥
       </span>
       <span className='text-white'>{displayLikes}</span>
