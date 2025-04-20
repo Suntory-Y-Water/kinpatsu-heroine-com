@@ -20,6 +20,12 @@
       "database_name": "kinpatsu-heroine-com",
       "database_id": "9769343c-fcc7-4bf2-bcbd-8afd1dfdc891",
       "migrations_dir": "./drizzle/migrations/"
+    },
+    {
+      "binding": "DB_PREVIEW",
+      "database_name": "kinpatsu-heroine-com-preview",
+      "database_id": "6e0cdc6d-1efa-4e36-9b75-ba26ef562cb2",
+      "migrations_dir": "./drizzle/migrations/"
     }
   ]
 }

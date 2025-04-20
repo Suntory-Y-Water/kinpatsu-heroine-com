@@ -14,6 +14,7 @@ const characterFormSchema = z.object({
   characterId: z.coerce
     .number()
     .min(1, { message: 'キャラクターIDは必須です' }),
+  characterName: z.string().min(1, { message: 'キャラクター名は必須です' }),
   workId: z.coerce.number().min(1, { message: '作品IDは必須です' }),
   imageUrl: z.string().min(1, { message: '画像URLは必須です' }),
 });
@@ -26,12 +27,14 @@ export const POST = createRoute(
     }
   }),
   async (c) => {
-    const { characterId, workId, imageUrl } = await c.req.valid('form');
+    const { characterId, characterName, workId, imageUrl } =
+      await c.req.valid('form');
 
     // リクエストボディの作成
     const requestBody = {
       workId,
       characterId,
+      characterName,
       imageUrl,
     };
 
@@ -42,7 +45,8 @@ export const POST = createRoute(
       DB: c.env.DB,
       character: requestBody,
     });
-    return c.redirect('/register', 303);
+
+    return c.redirect('/', 303);
   },
 );
 

@@ -34,12 +34,12 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
   return (
     <div>
       <div className='mb-4'>
-        <label htmlFor='characterId' className='block text-white mb-2'>
+        <label htmlFor='characterName' className='block text-white mb-2'>
           キャラクター名
         </label>
         <select
-          id='characterId'
-          name='characterId'
+          id='characterName'
+          name='characterName'
           value={selectedCharacter?.annictId || ''}
           onChange={handleSelectCharacter}
           className='bg-gray-800 border border-gray-700 text-white rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent'
@@ -58,6 +58,12 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
             </option>
           ))}
         </select>
+        {/* 隠しフィールドでキャラクターIDを保持 */}
+        <input
+          type='hidden'
+          name='characterId'
+          value={selectedCharacter?.annictId || ''}
+        />
       </div>
     </div>
   );

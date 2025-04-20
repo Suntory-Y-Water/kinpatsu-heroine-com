@@ -12,6 +12,11 @@ export interface Character {
   characterId: number;
 
   /**
+   * @description キャラクター名
+   */
+  characterName: string;
+
+  /**
    * @description キャラクター画像URL
    */
   imageUrl: string;

@@ -1,14 +1,14 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "96111a1a-9926-49cb-b3c6-f74fa55612b8",
+  "id": "546ee91a-d6c6-4dfd-b00a-7200ba46cabe",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "character_table": {
       "name": "character_table",
       "columns": {
-        "character_id_annict": {
-          "name": "character_id_annict",
+        "character_id": {
+          "name": "character_id",
           "type": "integer",
           "primaryKey": true,
           "notNull": true,
@@ -28,24 +28,24 @@
           "notNull": true,
           "autoincrement": false
         },
-        "like_button_count": {
-          "name": "like_button_count",
+        "like_count": {
+          "name": "like_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
           "default": 0
         },
-        "registration_timestamp": {
-          "name": "registration_timestamp",
+        "registration_date": {
+          "name": "registration_date",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": "CURRENT_TIMESTAMP"
         },
-        "work_id_annict": {
-          "name": "work_id_annict",
+        "work_id": {
+          "name": "work_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -54,12 +54,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "character_table_work_id_annict_work_table_work_id_annict_fk": {
-          "name": "character_table_work_id_annict_work_table_work_id_annict_fk",
+        "character_table_work_id_work_table_work_id_fk": {
+          "name": "character_table_work_id_work_table_work_id_fk",
           "tableFrom": "character_table",
           "tableTo": "work_table",
-          "columnsFrom": ["work_id_annict"],
-          "columnsTo": ["work_id_annict"],
+          "columnsFrom": ["work_id"],
+          "columnsTo": ["work_id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -68,35 +68,11 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "distribution_site_table": {
-      "name": "distribution_site_table",
-      "columns": {
-        "distribution_site_id": {
-          "name": "distribution_site_id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "distribution_site_name": {
-          "name": "distribution_site_name",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "like_history_table": {
       "name": "like_history_table",
       "columns": {
-        "character_id_annict": {
-          "name": "character_id_annict",
+        "character_id": {
+          "name": "character_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -109,8 +85,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "registration_timestamp": {
-          "name": "registration_timestamp",
+        "registration_date": {
+          "name": "registration_date",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -120,40 +96,47 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "like_history_table_character_id_annict_character_table_character_id_annict_fk": {
-          "name": "like_history_table_character_id_annict_character_table_character_id_annict_fk",
+        "like_history_table_character_id_character_table_character_id_fk": {
+          "name": "like_history_table_character_id_character_table_character_id_fk",
           "tableFrom": "like_history_table",
           "tableTo": "character_table",
-          "columnsFrom": ["character_id_annict"],
-          "columnsTo": ["character_id_annict"],
+          "columnsFrom": ["character_id"],
+          "columnsTo": ["character_id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "like_history_table_character_id_annict_cookie_id_pk": {
-          "columns": ["character_id_annict", "cookie_id"],
-          "name": "like_history_table_character_id_annict_cookie_id_pk"
+        "like_history_table_character_id_cookie_id_pk": {
+          "columns": ["character_id", "cookie_id"],
+          "name": "like_history_table_character_id_cookie_id_pk"
         }
       },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "waiting_list_table": {
-      "name": "waiting_list_table",
+    "registration_queue_table": {
+      "name": "registration_queue_table",
       "columns": {
-        "character_id_annict": {
-          "name": "character_id_annict",
+        "character_id": {
+          "name": "character_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "work_id_annict": {
-          "name": "work_id_annict",
+        "work_id": {
+          "name": "work_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "character_name": {
+          "name": "character_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "character_image_url": {
@@ -163,24 +146,24 @@
           "notNull": true,
           "autoincrement": false
         },
-        "registration_timestamp": {
-          "name": "registration_timestamp",
+        "registration_date": {
+          "name": "registration_date",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": "CURRENT_TIMESTAMP"
         },
-        "registered_flag": {
-          "name": "registered_flag",
+        "is_registered": {
+          "name": "is_registered",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": false
         },
-        "deleted_flag": {
-          "name": "deleted_flag",
+        "is_deleted": {
+          "name": "is_deleted",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -191,57 +174,95 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "waiting_list_table_character_id_annict_work_id_annict_pk": {
-          "columns": ["character_id_annict", "work_id_annict"],
-          "name": "waiting_list_table_character_id_annict_work_id_annict_pk"
+        "registration_queue_table_character_id_work_id_pk": {
+          "columns": ["character_id", "work_id"],
+          "name": "registration_queue_table_character_id_work_id_pk"
         }
       },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "work_distribution_site_mapping_table": {
-      "name": "work_distribution_site_mapping_table",
+    "streaming_site_table": {
+      "name": "streaming_site_table",
       "columns": {
-        "work_id_annict": {
-          "name": "work_id_annict",
+        "streaming_site_id": {
+          "name": "streaming_site_id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "streaming_site_name": {
+          "name": "streaming_site_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "icon_url": {
+          "name": "icon_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "work_streaming_site_table": {
+      "name": "work_streaming_site_table",
+      "columns": {
+        "work_id": {
+          "name": "work_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "distribution_site_id": {
-          "name": "distribution_site_id",
-          "type": "integer",
+        "streaming_site_id": {
+          "name": "streaming_site_id",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "streaming_site_url": {
+          "name": "streaming_site_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "work_distribution_site_mapping_table_work_id_annict_work_table_work_id_annict_fk": {
-          "name": "work_distribution_site_mapping_table_work_id_annict_work_table_work_id_annict_fk",
-          "tableFrom": "work_distribution_site_mapping_table",
+        "work_streaming_site_table_work_id_work_table_work_id_fk": {
+          "name": "work_streaming_site_table_work_id_work_table_work_id_fk",
+          "tableFrom": "work_streaming_site_table",
           "tableTo": "work_table",
-          "columnsFrom": ["work_id_annict"],
-          "columnsTo": ["work_id_annict"],
+          "columnsFrom": ["work_id"],
+          "columnsTo": ["work_id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "work_distribution_site_mapping_table_distribution_site_id_distribution_site_table_distribution_site_id_fk": {
-          "name": "work_distribution_site_mapping_table_distribution_site_id_distribution_site_table_distribution_site_id_fk",
-          "tableFrom": "work_distribution_site_mapping_table",
-          "tableTo": "distribution_site_table",
-          "columnsFrom": ["distribution_site_id"],
-          "columnsTo": ["distribution_site_id"],
+        "work_streaming_site_table_streaming_site_id_streaming_site_table_streaming_site_id_fk": {
+          "name": "work_streaming_site_table_streaming_site_id_streaming_site_table_streaming_site_id_fk",
+          "tableFrom": "work_streaming_site_table",
+          "tableTo": "streaming_site_table",
+          "columnsFrom": ["streaming_site_id"],
+          "columnsTo": ["streaming_site_id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "work_distribution_site_mapping_table_work_id_annict_distribution_site_id_pk": {
-          "columns": ["work_id_annict", "distribution_site_id"],
-          "name": "work_distribution_site_mapping_table_work_id_annict_distribution_site_id_pk"
+        "work_streaming_site_table_work_id_streaming_site_id_pk": {
+          "columns": ["work_id", "streaming_site_id"],
+          "name": "work_streaming_site_table_work_id_streaming_site_id_pk"
         }
       },
       "uniqueConstraints": {},
@@ -250,8 +271,8 @@
     "work_table": {
       "name": "work_table",
       "columns": {
-        "work_id_annict": {
-          "name": "work_id_annict",
+        "work_id": {
+          "name": "work_id",
           "type": "integer",
           "primaryKey": true,
           "notNull": true,
@@ -262,13 +283,6 @@
           "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "work_id_anilist": {
-          "name": "work_id_anilist",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "official_site_url": {
