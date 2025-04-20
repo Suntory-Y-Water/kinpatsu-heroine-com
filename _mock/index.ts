@@ -116,3 +116,90 @@ export const MOCK_CHARACTERS_LIST = [
     likes: 3789,
   },
 ];
+
+/**
+ * 登録待ちキャラクター情報の型定義
+ */
+interface RegistrationQueueItem {
+  characterId: number;
+  workId: number;
+  characterName: string;
+  characterImageUrl: string;
+  registrationDate: string;
+  isRegistered: boolean;
+  isDeleted: boolean;
+}
+
+// すべてのモックデータ
+export const allItems: RegistrationQueueItem[] = [
+  {
+    characterId: 1001,
+    workId: 9244,
+    characterName: 'シャーロット・デュノア',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-18T10:30:00Z',
+    isRegistered: false,
+    isDeleted: false,
+  },
+  {
+    characterId: 1002,
+    workId: 9244,
+    characterName: 'ローラ・ボーデヴィッヒ',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-19T09:15:00Z',
+    isRegistered: false,
+    isDeleted: false,
+  },
+  {
+    characterId: 1003,
+    workId: 9245,
+    characterName: 'アリス・カータレット',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-19T14:45:00Z',
+    isRegistered: false,
+    isDeleted: false,
+  },
+  {
+    characterId: 1007,
+    workId: 9249,
+    characterName: 'ダークネス',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-20T15:30:00Z',
+    isRegistered: false,
+    isDeleted: false,
+  },
+  {
+    characterId: 1004,
+    workId: 9246,
+    characterName: 'エミリア',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-15T11:20:00Z',
+    isRegistered: true,
+    isDeleted: false,
+  },
+  {
+    characterId: 1005,
+    workId: 9247,
+    characterName: 'アリス・シンセシス・サーティ',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-16T16:10:00Z',
+    isRegistered: true,
+    isDeleted: false,
+  },
+  {
+    characterId: 1006,
+    workId: 9248,
+    characterName: '不適切なキャラクター',
+    characterImageUrl:
+      'https://arifureta.com/wp3/wp-content/uploads/2024/10/03-63.jpg',
+    registrationDate: '2024-04-17T08:40:00Z',
+    isRegistered: false,
+    isDeleted: true,
+  },
+];
