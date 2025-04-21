@@ -1,14 +1,26 @@
 import { createRoute } from 'honox/factory';
-import { allItems } from '../../../_mock';
+import { container } from '../../../src/container';
+import { D1usecase } from '../../../src/usecases/d1usecase';
+import { TYPES } from '../../../src/types/symbol-types';
 
 /**
  * 表示タブの型定義
  */
 type TabType = 'pending' | 'registered' | 'deleted';
 
-export default createRoute((c) => {
+export default createRoute(async (c) => {
   // クエリパラメータからtabを取得（デフォルトはpending）
   const tab = (c.req.query('tab') as TabType) || 'pending';
+
+  const d1Usecase = container.get<D1usecase>(TYPES.D1Usecase);
+  const result = await d1Usecase.getRegistrationQueueTable(c.env.DB);
+
+  if (result.isErr()) {
+    throw new Error('作品情報の取得に失敗しました');
+  }
+
+  const allItems = result.value;
+  console.log(allItems);
 
   // ステータスに応じてフィルタリング
   const pendingItems = allItems.filter(
@@ -88,7 +100,7 @@ export default createRoute((c) => {
                   {/* 画像 */}
                   <div className='aspect-square'>
                     <img
-                      src={item.characterImageUrl}
+                      src={item.imageUrl}
                       alt={item.characterName}
                       className={
                         'w-full h-full object-cover ' +

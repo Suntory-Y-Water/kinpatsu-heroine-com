@@ -21,3 +21,20 @@ export interface Character {
    */
   imageUrl: string;
 }
+
+export interface RegistrationCharacter extends Character {
+  /**
+   * @description 登録日
+   */
+  registrationDate: string;
+
+  /**
+   * @description 登録済みかどうか
+   */
+  isRegistered: boolean;
+
+  /**
+   * @description 削除済みかどうか
+   */
+  isDeleted: boolean;
+}

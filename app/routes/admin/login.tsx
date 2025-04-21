@@ -2,7 +2,6 @@ import { createRoute } from 'honox/factory';
 import { sign } from 'hono/jwt';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
-import {} from 'node:crypto';
 import { Context } from 'hono';
 
 import { setCookie } from 'hono/cookie';

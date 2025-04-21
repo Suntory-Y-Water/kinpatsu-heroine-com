@@ -52,6 +52,6 @@ export default createRoute(async (c, next) => {
     customLogger('認証に失敗しました');
     customLogger(message);
     deleteCookie(c, 'admin_token');
-    return c.redirect('/admin/login?error=invalid');
+    return c.redirect('/admin/login');
   }
 });

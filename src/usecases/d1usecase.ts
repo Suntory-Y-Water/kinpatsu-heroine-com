@@ -13,4 +13,8 @@ export class D1usecase {
   }): Promise<Character> {
     return await this.D1Repository.createCharacter(p);
   }
+
+  async getRegistrationQueueTable(DB: D1Database) {
+    return await this.D1Repository.getRegistrationQueueTable(DB);
+  }
 }

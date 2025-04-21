@@ -1,12 +1,22 @@
-import type { Character } from '../types/character';
+import type { Character, RegistrationCharacter } from '../types/character';
 import { drizzle } from 'drizzle-orm/d1';
 import { registrationQueueTable } from '../../drizzle/schema';
+import { err, ok, Result } from 'neverthrow';
+import { DatabaseError } from '../types/error';
 
 export interface D1Repository {
   createCharacter(p: {
     DB: D1Database;
     character: Character;
   }): Promise<Character>;
+
+  /**
+   *
+   * @param {D1Database} DB
+   */
+  getRegistrationQueueTable(
+    DB: D1Database,
+  ): Promise<Result<RegistrationCharacter[], DatabaseError>>;
 }
 
 export class D1RepositoryImpl implements D1Repository {
@@ -26,5 +36,28 @@ export class D1RepositoryImpl implements D1Repository {
     });
 
     return p.character;
+  }
+
+  async getRegistrationQueueTable(DB: D1Database) {
+    try {
+      const db = drizzle(DB);
+
+      const result = await db.select().from(registrationQueueTable);
+
+      return ok(
+        result.map((row) => ({
+          characterId: row.character_id,
+          workId: row.work_id,
+          characterName: row.character_name,
+          imageUrl: row.character_image_url,
+          registrationDate: row.registration_date,
+          isRegistered: row.is_registered,
+          isDeleted: row.is_deleted,
+        })),
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return err(new DatabaseError(message, error));
+    }
   }
 }
