@@ -25,6 +25,10 @@
       "correctness": {
         "noUnusedImports": "warn",
         "noUnusedVariables": "warn"
+      },
+      "style": {
+        "useTemplate": "off",
+        "useImportType": "off"
       }
     }
   },
