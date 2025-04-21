@@ -6,9 +6,6 @@ import { allItems } from '../../../_mock';
  */
 type TabType = 'pending' | 'registered' | 'deleted';
 
-/**
- * 管理画面のルートハンドラー
- */
 export default createRoute((c) => {
   // クエリパラメータからtabを取得（デフォルトはpending）
   const tab = (c.req.query('tab') as TabType) || 'pending';

@@ -21,6 +21,8 @@
   "private": true,
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
+    "bcrypt": "^5.1.1",
+    "bcrypt-ts": "^6.0.0",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.41.0",
     "graphql": "^16.10.0",
@@ -38,6 +40,7 @@
     "@hono/vite-build": "^1.6.0",
     "@hono/vite-dev-server": "^0.18.3",
     "@tailwindcss/vite": "^4.1.4",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.14.1",
     "drizzle-kit": "^0.30.6",
     "tailwindcss": "^4.1.4",

@@ -27,7 +27,8 @@
         "noUnusedVariables": "warn"
       },
       "style": {
-        "useTemplate": "off"
+        "useTemplate": "off",
+        "useImportType": "off"
       }
     }
   },

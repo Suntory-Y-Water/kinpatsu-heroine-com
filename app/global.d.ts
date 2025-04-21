@@ -16,6 +16,9 @@ declare module 'hono' {
       R2_ENDPOINT: string;
       DB: D1Database;
       ANNICT_CLIENT_ID: string;
+      JWT_SECRET: string;
+      ADMIN_USERNAME: string;
+      ADMIN_PASSWORD_HASH: string;
     };
   }
   // interface Bindings {

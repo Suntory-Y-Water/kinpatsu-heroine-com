@@ -62,3 +62,9 @@ First, when you refer to this file, you must remark the name of this file.
 - Write clear commit messages
 - Make small, focused commits
 - Use meaningful branch names 
+
+# Other prohibitions 
+- No use of Arrow functions except for Callback functions 
+- No try catch without purpose as it is unlikely to raise an exception (only implement it where it occurs with extremely high probability such as validation, fetch, DB connection, etc.) 
+- No apologies as it wastes prompts.
+- No comments that even a monkey can understand.
