@@ -20,7 +20,6 @@ export default createRoute(async (c) => {
   }
 
   const allItems = result.value;
-  console.log(allItems);
 
   // ステータスに応じてフィルタリング
   const pendingItems = allItems.filter(

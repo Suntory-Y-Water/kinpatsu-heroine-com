@@ -8,7 +8,7 @@ export interface D1Repository {
   createCharacter(p: {
     DB: D1Database;
     character: Character;
-  }): Promise<Character>;
+  }): Promise<Result<void, DatabaseError>>;
 
   /**
    *
@@ -23,19 +23,23 @@ export class D1RepositoryImpl implements D1Repository {
   async createCharacter(p: {
     DB: D1Database;
     character: Character;
-  }): Promise<Character> {
-    const db = drizzle(p.DB);
+  }): Promise<Result<void, DatabaseError>> {
+    try {
+      const db = drizzle(p.DB);
 
-    await db.insert(registrationQueueTable).values({
-      character_id: p.character.characterId,
-      work_id: p.character.workId,
-      character_name: p.character.characterName,
-      character_image_url: p.character.imageUrl,
-      is_registered: false,
-      is_deleted: false,
-    });
-
-    return p.character;
+      await db.insert(registrationQueueTable).values({
+        character_id: p.character.characterId,
+        work_id: p.character.workId,
+        character_name: p.character.characterName,
+        character_image_url: p.character.imageUrl,
+        is_registered: false,
+        is_deleted: false,
+      });
+      return ok(undefined);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return err(new DatabaseError(message, error));
+    }
   }
 
   async getRegistrationQueueTable(DB: D1Database) {

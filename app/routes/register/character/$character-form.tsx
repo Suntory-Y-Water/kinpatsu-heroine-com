@@ -19,15 +19,15 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
 
   function handleSelectCharacter(e: Event) {
     const select = e.target as HTMLSelectElement;
-    const characterId = Number(select.value);
+    const characterName = select.value;
 
-    if (!characterId) {
+    if (characterName === '') {
       setSelectedCharacter(null);
       return;
     }
 
     setSelectedCharacter(
-      characters.find((c) => c.annictId === characterId) || null,
+      characters.find((c) => c.name === characterName) || null,
     );
   }
 
@@ -40,7 +40,7 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
         <select
           id='characterName'
           name='characterName'
-          value={selectedCharacter?.annictId || ''}
+          value={selectedCharacter?.name || ''}
           onChange={handleSelectCharacter}
           className='bg-gray-800 border border-gray-700 text-white rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent'
           required
@@ -50,8 +50,8 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
           </option>
           {characters.map((character) => (
             <option
-              key={character.annictId}
-              value={character.annictId}
+              key={character.name}
+              value={character.name}
               className='bg-gray-800 text-white'
             >
               {character.name}

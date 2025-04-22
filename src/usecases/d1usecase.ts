@@ -2,6 +2,8 @@ import { inject, injectable } from 'inversify';
 import type { D1Repository } from '../repositories/d1repository';
 import type { Character } from '../types/character';
 import { TYPES } from '../types/symbol-types';
+import { Result } from 'neverthrow';
+import { DatabaseError } from '../types/error';
 
 @injectable()
 export class D1usecase {
@@ -10,7 +12,7 @@ export class D1usecase {
   async createCharacter(p: {
     DB: D1Database;
     character: Character;
-  }): Promise<Character> {
+  }): Promise<Result<void, DatabaseError>> {
     return await this.D1Repository.createCharacter(p);
   }
 
