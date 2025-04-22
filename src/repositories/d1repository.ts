@@ -3,6 +3,8 @@ import { drizzle } from 'drizzle-orm/d1';
 import { registrationQueueTable } from '../../drizzle/schema';
 import { err, ok, Result } from 'neverthrow';
 import { DatabaseError } from '../types/error';
+import { and, eq } from 'drizzle-orm';
+import { customLogger } from '../../app/routes/_middleware';
 
 export interface D1Repository {
   createCharacter(p: {
@@ -17,6 +19,16 @@ export interface D1Repository {
   getRegistrationQueueTable(
     DB: D1Database,
   ): Promise<Result<RegistrationCharacter[], DatabaseError>>;
+
+  updateDeleteFlag({
+    DB,
+    characterId,
+    workId,
+  }: {
+    DB: D1Database;
+    characterId: number;
+    workId: number;
+  }): Promise<Result<void, DatabaseError>>;
 }
 
 export class D1RepositoryImpl implements D1Repository {
@@ -60,6 +72,38 @@ export class D1RepositoryImpl implements D1Repository {
         })),
       );
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return err(new DatabaseError(message, error));
+    }
+  }
+
+  async updateDeleteFlag({
+    DB,
+    characterId,
+    workId,
+  }: {
+    DB: D1Database;
+    characterId: number;
+    workId: number;
+  }): Promise<Result<void, DatabaseError>> {
+    try {
+      const db = drizzle(DB);
+
+      await db
+        .update(registrationQueueTable)
+        .set({
+          is_deleted: true,
+        })
+        .where(
+          and(
+            eq(registrationQueueTable.character_id, characterId),
+            eq(registrationQueueTable.work_id, workId),
+          ),
+        );
+
+      return ok(undefined);
+    } catch (error) {
+      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }

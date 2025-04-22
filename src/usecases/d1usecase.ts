@@ -19,4 +19,20 @@ export class D1usecase {
   async getRegistrationQueueTable(DB: D1Database) {
     return await this.D1Repository.getRegistrationQueueTable(DB);
   }
+
+  async updateDeleteFlag({
+    DB,
+    characterId,
+    workId,
+  }: {
+    DB: D1Database;
+    characterId: number;
+    workId: number;
+  }): Promise<Result<void, DatabaseError>> {
+    return await this.D1Repository.updateDeleteFlag({
+      DB,
+      characterId,
+      workId,
+    });
+  }
 }
