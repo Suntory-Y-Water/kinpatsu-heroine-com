@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { Context } from 'hono';
 
 import { setCookie } from 'hono/cookie';
-import { customLogger } from '../_middleware';
 
 import { compare } from 'bcrypt-ts';
 
@@ -37,8 +36,6 @@ export const POST = createRoute(zValidator('form', loginSchema), async (c) => {
     return await createAndSetToken(c, username);
   } catch (error) {
     const message = error instanceof Error ? error.message : '不明なエラー';
-    customLogger('認証に失敗しました');
-    customLogger(message);
     return c.redirect('/admin/login?error=system');
   }
 });
@@ -56,7 +53,6 @@ async function verifyPassword(
   try {
     return await compare(password, hashedPassword);
   } catch (error) {
-    customLogger(`パスワード検証エラー ${error}`);
     return false;
   }
 }

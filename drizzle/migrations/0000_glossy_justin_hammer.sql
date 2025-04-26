@@ -30,7 +30,7 @@ CREATE TABLE `registration_queue_table` (
 CREATE TABLE `streaming_site_table` (
 	`streaming_site_id` text(255) PRIMARY KEY NOT NULL,
 	`streaming_site_name` text(255) NOT NULL,
-	`icon_url` text(2083)
+	`streaming_site_url` text(2083) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `work_streaming_site_table` (

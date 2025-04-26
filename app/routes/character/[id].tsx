@@ -2,7 +2,7 @@ import { createRoute } from 'honox/factory';
 import { container } from '../../../src/container';
 import { D1usecase } from '../../../src/usecases/d1usecase';
 import { TYPES } from '../../../src/types/symbol-types';
-import { customLogger } from '../_middleware';
+
 import LikeButton from './$like-button';
 
 export default createRoute(async (c) => {
@@ -10,13 +10,22 @@ export default createRoute(async (c) => {
 
   const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
 
-  customLogger('キャラクター詳細情報取得開始');
+  const { logger } = c.var;
+  logger.info({
+    method: 'getCharacterDetail',
+    message: 'キャラクター詳細情報取得開始',
+  });
+
   const result = await d1usecase.getCharacterDetail({
     DB: c.env.DB,
     characterId: Number(id),
   });
 
   if (result.isErr()) {
+    logger.error({
+      method: 'getCharacterDetail',
+      message: 'キャラクター情報取得に失敗しました',
+    });
     throw new Error('DBからキャラクター情報を取得できませんでした');
   }
 
@@ -104,7 +113,7 @@ export default createRoute(async (c) => {
                 {character.streamingSiteInfo.map((service) => (
                   <a
                     key={service.streamingSiteId}
-                    href={String(service.streamingSiteId)}
+                    href={service.streamingSiteUrl}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'

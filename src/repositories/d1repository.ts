@@ -18,7 +18,6 @@ import {
 import { err, ok, Result } from 'neverthrow';
 import { DatabaseError } from '../types/error';
 import { and, eq } from 'drizzle-orm';
-import { customLogger } from '../../app/routes/_middleware';
 import { StreamingSiteInfo } from '../types/annict';
 import { sql } from 'drizzle-orm';
 
@@ -182,7 +181,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(undefined);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -214,7 +212,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(undefined);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -249,7 +246,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(undefined);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -281,7 +277,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(undefined);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -300,9 +295,9 @@ export class D1RepositoryImpl implements D1Repository {
         await db
           .insert(streamingSiteTable)
           .values({
-            streaming_site_id: site.streamingSiteId.hostname,
+            streaming_site_id: site.streamingSiteId,
             streaming_site_name: site.streamingSiteName,
-            icon_url: site.iconUrl || '',
+            streaming_site_url: site.streamingSiteUrl,
           })
           .onConflictDoNothing({
             target: streamingSiteTable.streaming_site_id,
@@ -311,7 +306,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(undefined);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -344,7 +338,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(undefined);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -384,7 +377,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(result);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }
@@ -430,8 +422,7 @@ export class D1RepositoryImpl implements D1Repository {
         .select({
           streamingSiteId: streamingSiteTable.streaming_site_id,
           streamingSiteName: streamingSiteTable.streaming_site_name,
-          iconUrl: streamingSiteTable.icon_url,
-          streamingSiteUrl: workStreamingSiteTable.streaming_site_url,
+          streamingSiteUrl: streamingSiteTable.streaming_site_url,
         })
         .from(workStreamingSiteTable)
         .leftJoin(
@@ -445,10 +436,9 @@ export class D1RepositoryImpl implements D1Repository {
 
       // 配信サイト情報をStreamingSiteInfo型に整形
       const streamingSiteInfo = streamingSiteResult.map((site) => ({
-        streamingSiteId: new URL(`https://${site.streamingSiteId}`), // ドメイン名からURLを作成
+        streamingSiteId: site.streamingSiteId || '',
         streamingSiteName: site.streamingSiteName || '',
-        iconUrl: site.iconUrl || '',
-        url: site.streamingSiteUrl || '',
+        streamingSiteUrl: site.streamingSiteUrl || '',
       }));
 
       // CharacterDetail型に整形
@@ -468,7 +458,6 @@ export class D1RepositoryImpl implements D1Repository {
 
       return ok(result);
     } catch (error) {
-      customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';
       return err(new DatabaseError(message, error));
     }

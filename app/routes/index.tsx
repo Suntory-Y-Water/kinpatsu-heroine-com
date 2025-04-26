@@ -5,10 +5,11 @@ import SortDropdown, { type SortOption } from '../islands/sort-dropdown';
 import { container } from '../../src/container';
 import { D1usecase } from '../../src/usecases/d1usecase';
 import { TYPES } from '../../src/types/symbol-types';
-import { customLogger } from './_middleware';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
+
+// TODO: jsあるので動かない
 const sortOptions: SortOption[] = [
   { key: 'newest', label: '新着順' },
   { key: 'likes_desc', label: 'いいね順' },
@@ -18,6 +19,7 @@ const sortOptions: SortOption[] = [
 const ITEMS_PER_PAGE = 4;
 
 export default createRoute(async (c) => {
+  const { logger } = c.var;
   const pageQuery = c.req.query('page');
   const pageNum = Number.parseInt(pageQuery || '1', 10) || 1;
 
@@ -30,12 +32,20 @@ export default createRoute(async (c) => {
 
   const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
 
-  customLogger('キャラクター登録情報取得開始');
+  logger.info({
+    method: 'getAllCharacters',
+    message: 'キャラクター情報取得開始',
+  });
+
   const result = await d1usecase.getAllCharacters({
     DB: c.env.DB,
   });
 
   if (result.isErr()) {
+    logger.error({
+      method: 'getAllCharacters',
+      message: 'キャラクター情報取得に失敗しました',
+    });
     throw new Error('DBからキャラクター情報を取得できませんでした');
   }
 
@@ -49,6 +59,11 @@ export default createRoute(async (c) => {
   const characters = paginatedResult.items;
   const currentPage = paginatedResult.currentPage;
   const totalPages = paginatedResult.totalPages;
+
+  logger.info({
+    method: 'getAllCharacters',
+    message: 'キャラクター情報取得完了',
+  });
 
   return c.render(
     <div className='space-y-8 pt-16 md:pt-0'>

@@ -14,6 +14,6 @@ export default defineConfig({
     build(),
   ],
   ssr: {
-    external: ['cheerio'],
+    external: ['cheerio', 'hono-pino'],
   },
 });
