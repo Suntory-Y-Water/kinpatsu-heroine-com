@@ -2,7 +2,7 @@ import { useState } from 'hono/jsx';
 
 interface LikeButtonProps {
   initialLikes: number;
-  characterId: string;
+  characterId: number;
 }
 
 export default function LikeButton({

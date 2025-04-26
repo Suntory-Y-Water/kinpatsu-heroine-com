@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import type { D1Repository } from '../repositories/d1repository';
 import type {
+  CharacterDetail,
   CharacterInfo,
   CharacterList,
   WorkInfo,
@@ -105,5 +106,15 @@ export class D1usecase {
     DB: D1Database;
   }): Promise<Result<CharacterList[], DatabaseError>> {
     return await this.D1Repository.getAllCharacters({ DB });
+  }
+
+  async getCharacterDetail({
+    DB,
+    characterId,
+  }: {
+    DB: D1Database;
+    characterId: number;
+  }): Promise<Result<CharacterDetail, DatabaseError>> {
+    return await this.D1Repository.getCharacterById({ DB, characterId });
   }
 }

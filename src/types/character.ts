@@ -1,3 +1,5 @@
+import { StreamingSiteInfo } from './annict';
+
 /**
  * @description キャラクター情報
  */
@@ -49,7 +51,7 @@ export interface RegistrationCharacter extends Character, Work {
 
 export interface CharacterInfo extends Character, Work {}
 
-export interface WorkInfo extends Work {
+interface WorkInfoUrls {
   /**
    * @description 公式サイトURL
    */
@@ -60,6 +62,8 @@ export interface WorkInfo extends Work {
    */
   wikipediaUrl: string;
 }
+
+export interface WorkInfo extends Work, WorkInfoUrls {}
 
 export interface WorkStreamingSiteInfo {
   /**
@@ -89,4 +93,22 @@ export interface CharacterList extends Character {
    * @description いいね数
    */
   likes: number;
+}
+
+export interface CharacterDetail extends Character, Work {
+  /**
+   * @description いいね数
+   */
+  likes: number;
+
+  /**
+   * @description 公式サイトURL
+   * @description Wikipedia URL
+   */
+  infoUrl: WorkInfoUrls;
+
+  /**
+   * @description 配信サイト情報
+   */
+  streamingSiteInfo: StreamingSiteInfo[];
 }
