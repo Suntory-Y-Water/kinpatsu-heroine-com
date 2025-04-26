@@ -2,7 +2,10 @@ import { createRoute } from 'honox/factory';
 import { CharacterCard } from '../components/character/character-card';
 import { paginateItems } from '../lib/pagination';
 import SortDropdown, { type SortOption } from '../islands/sort-dropdown';
-import { MOCK_CHARACTERS_LIST } from '../../_mock';
+import { container } from '../../src/container';
+import { D1usecase } from '../../src/usecases/d1usecase';
+import { TYPES } from '../../src/types/symbol-types';
+import { customLogger } from './_middleware';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
@@ -14,7 +17,7 @@ const sortOptions: SortOption[] = [
 // 最大表示件数
 const ITEMS_PER_PAGE = 4;
 
-export default createRoute((c) => {
+export default createRoute(async (c) => {
   const pageQuery = c.req.query('page');
   const pageNum = Number.parseInt(pageQuery || '1', 10) || 1;
 
@@ -25,8 +28,18 @@ export default createRoute((c) => {
     ? sortQuery
     : DEFAULT_SORT_ORDER;
 
-  // TODO: 本来はDBからデータ取得
-  const allCharacters = [...MOCK_CHARACTERS_LIST];
+  const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
+
+  customLogger('キャラクター登録情報取得開始');
+  const result = await d1usecase.getAllCharacters({
+    DB: c.env.DB,
+  });
+
+  if (result.isErr()) {
+    throw new Error('DBからキャラクター情報を取得できませんでした');
+  }
+
+  const allCharacters = result.value;
 
   if (currentSort === 'likes_desc') {
     allCharacters.sort((a, b) => b.likes - a.likes);
@@ -46,7 +59,7 @@ export default createRoute((c) => {
       {/* キャラクターグリッド */}
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto'>
         {characters.map((character) => (
-          <CharacterCard key={character.id} {...character} />
+          <CharacterCard key={character.characterId} {...character} />
         ))}
       </div>
 

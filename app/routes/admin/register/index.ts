@@ -9,6 +9,7 @@ import { D1usecase } from '../../../../src/usecases/d1usecase';
 import { TYPES } from '../../../../src/types/symbol-types';
 import { AnnictUsecase } from '../../../../src/usecases/annict-usecase';
 import { ParseUsecase } from '../../../../src/usecases/parse-usecase';
+import { customLogger } from '../../_middleware';
 
 const formSchema = z.object({
   characterId: z.coerce
@@ -49,23 +50,8 @@ export const POST = createRoute(
 
     const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
 
-    // キャラクター情報の登録
-    const createCharacterResult = await d1usecase.createRegistrationCharacter({
-      DB: c.env.DB,
-      character: {
-        characterId,
-        characterName,
-        workId,
-        workName,
-        imageUrl,
-      },
-    });
-
-    if (createCharacterResult.isErr()) {
-      throw new Error(createCharacterResult.error.message);
-    }
-
-    // 作品情報の登録
+    customLogger('作品情報の登録開始');
+    // 作品情報の登録 - 先に実行してworkの外部キー参照を確保
     const createWorkResult = await d1usecase.createWork({
       DB: c.env.DB,
       work: {
@@ -81,7 +67,58 @@ export const POST = createRoute(
       throw new Error(createWorkResult.error.message);
     }
 
+    customLogger('キャラクター情報の登録開始');
+    // キャラクター情報の登録 - 作品登録後に実行
+    const createCharacterResult = await d1usecase.createCharacter({
+      DB: c.env.DB,
+      character: {
+        characterId,
+        characterName,
+        workId,
+        workName,
+        imageUrl,
+      },
+    });
+
+    if (createCharacterResult.isErr()) {
+      throw new Error(createCharacterResult.error.message);
+    }
+
+    customLogger('配信サイト情報の登録開始');
+
     // TODO: 配信サイトテーブルの登録
+    const createStreamingSiteResult = await d1usecase.createStreamingSite({
+      DB: c.env.DB,
+      streamingSite: annictPageInfo.streamingServices.map((service) => ({
+        // 配信サイトのドメイン名をIDとして使用する
+        streamingSiteId: new URL(service.url),
+        streamingSiteName: service.name,
+        iconUrl: '', // TODO: アイコン画像が取れないので空文字を入れる
+      })),
+    });
+
+    if (createStreamingSiteResult.isErr()) {
+      throw new Error(createStreamingSiteResult.error.message);
+    }
+
+    customLogger('作品_配信サイト紐付けテーブルの登録開始');
+
+    // 作品_配信サイト紐付けテーブルの登録
+    const createWorkStreamingSiteResult =
+      await d1usecase.createWorkStreamingSite({
+        DB: c.env.DB,
+        workStreamingSite: annictPageInfo.streamingServices.map((service) => ({
+          workId,
+          streamingSiteId: new URL(service.url).hostname,
+          streamingSiteUrl: service.url,
+        })),
+      });
+
+    if (createWorkStreamingSiteResult.isErr()) {
+      throw new Error(createWorkStreamingSiteResult.error.message);
+    }
+
+    customLogger('登録済みリストへ更新開始');
 
     // 登録済みリストへ更新
     const updateResult = await d1usecase.updateRegisterFlag({

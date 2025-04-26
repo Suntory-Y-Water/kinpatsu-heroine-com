@@ -1,18 +1,25 @@
 import type {
   CharacterInfo,
+  CharacterList,
   RegistrationCharacter,
   WorkInfo,
+  WorkStreamingSiteInfo,
 } from '../types/character';
 import { drizzle } from 'drizzle-orm/d1';
 import {
   characterTable,
   registrationQueueTable,
+  streamingSiteTable,
+  workStreamingSiteTable,
   workTable,
+  likeHistoryTable,
 } from '../../drizzle/schema';
 import { err, ok, Result } from 'neverthrow';
 import { DatabaseError } from '../types/error';
 import { and, eq } from 'drizzle-orm';
 import { customLogger } from '../../app/routes/_middleware';
+import { StreamingSiteInfo } from '../types/annict';
+import { sql } from 'drizzle-orm';
 
 export interface D1Repository {
   createRegistrationCharacter(p: {
@@ -63,6 +70,33 @@ export interface D1Repository {
     DB: D1Database;
     work: WorkInfo;
   }): Promise<Result<void, DatabaseError>>;
+
+  createStreamingSite({
+    DB,
+    streamingSite,
+  }: {
+    DB: D1Database;
+    streamingSite: StreamingSiteInfo[];
+  }): Promise<Result<void, DatabaseError>>;
+
+  /**
+   * 作品_配信サイト紐付けテーブルの作成
+   * @param {D1Database} DB D1Database
+   * @param {WorkStreamingSiteInfo[]} workStreamingSite 作品_配信サイト紐付けテーブルの構造体
+   */
+  createWorkStreamingSite({
+    DB,
+    workStreamingSite,
+  }: {
+    DB: D1Database;
+    workStreamingSite: WorkStreamingSiteInfo[];
+  }): Promise<Result<void, DatabaseError>>;
+
+  getAllCharacters({
+    DB,
+  }: {
+    DB: D1Database;
+  }): Promise<Result<CharacterList[], DatabaseError>>;
 }
 
 export class D1RepositoryImpl implements D1Repository {
@@ -187,14 +221,22 @@ export class D1RepositoryImpl implements D1Repository {
     try {
       const db = drizzle(DB);
 
-      await db.insert(characterTable).values({
-        character_id: character.characterId,
-        character_name: character.characterName,
-        character_image_url: character.imageUrl,
-        like_count: 0,
-        work_id: character.workId,
-        registration_date: new Date().toISOString(),
-      });
+      await db
+        .insert(characterTable)
+        .values({
+          character_id: character.characterId,
+          character_name: character.characterName,
+          character_image_url: character.imageUrl,
+          work_id: character.workId,
+        })
+        .onConflictDoUpdate({
+          target: characterTable.character_id,
+          set: {
+            character_name: character.characterName,
+            character_image_url: character.imageUrl,
+            work_id: character.workId,
+          },
+        });
 
       return ok(undefined);
     } catch (error) {
@@ -211,14 +253,127 @@ export class D1RepositoryImpl implements D1Repository {
     try {
       const db = drizzle(DB);
 
-      await db.insert(workTable).values({
-        work_id: work.workId,
-        work_name: work.workName,
-        official_site_url: work.officialSiteUrl,
-        wikipedia_url: work.wikipediaUrl,
-      });
+      await db
+        .insert(workTable)
+        .values({
+          work_id: work.workId,
+          work_name: work.workName,
+          official_site_url: work.officialSiteUrl,
+          wikipedia_url: work.wikipediaUrl,
+        })
+        .onConflictDoUpdate({
+          target: workTable.work_id,
+          set: {
+            work_name: work.workName,
+            official_site_url: work.officialSiteUrl,
+            wikipedia_url: work.wikipediaUrl,
+          },
+        });
 
       return ok(undefined);
+    } catch (error) {
+      customLogger(error as string);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return err(new DatabaseError(message, error));
+    }
+  }
+
+  async createStreamingSite({
+    DB,
+    streamingSite,
+  }: { DB: D1Database; streamingSite: StreamingSiteInfo[] }): Promise<
+    Result<void, DatabaseError>
+  > {
+    try {
+      const db = drizzle(DB);
+
+      for (const site of streamingSite) {
+        await db
+          .insert(streamingSiteTable)
+          .values({
+            streaming_site_id: site.streamingSiteId.hostname,
+            streaming_site_name: site.streamingSiteName,
+            icon_url: site.iconUrl || '',
+          })
+          .onConflictDoNothing({
+            target: streamingSiteTable.streaming_site_id,
+          });
+      }
+
+      return ok(undefined);
+    } catch (error) {
+      customLogger(error as string);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return err(new DatabaseError(message, error));
+    }
+  }
+
+  async createWorkStreamingSite({
+    DB,
+    workStreamingSite,
+  }: { DB: D1Database; workStreamingSite: WorkStreamingSiteInfo[] }): Promise<
+    Result<void, DatabaseError>
+  > {
+    try {
+      const db = drizzle(DB);
+
+      for (const site of workStreamingSite) {
+        await db
+          .insert(workStreamingSiteTable)
+          .values({
+            work_id: site.workId,
+            streaming_site_id: site.streamingSiteId,
+            streaming_site_url: site.streamingSiteUrl,
+          })
+          .onConflictDoNothing({
+            target: [
+              workStreamingSiteTable.work_id,
+              workStreamingSiteTable.streaming_site_id,
+            ],
+          });
+      }
+
+      return ok(undefined);
+    } catch (error) {
+      customLogger(error as string);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return err(new DatabaseError(message, error));
+    }
+  }
+
+  async getAllCharacters({
+    DB,
+  }: {
+    DB: D1Database;
+  }): Promise<Result<CharacterList[], DatabaseError>> {
+    try {
+      const db = drizzle(DB);
+
+      const rawResult = await db
+        .select({
+          characterId: characterTable.character_id,
+          characterName: characterTable.character_name,
+          imageUrl: characterTable.character_image_url,
+          workName: workTable.work_name,
+          likes: sql`COUNT(${likeHistoryTable.character_id})`.as('likes'),
+        })
+        .from(characterTable)
+        .leftJoin(workTable, eq(characterTable.work_id, workTable.work_id))
+        .leftJoin(
+          likeHistoryTable,
+          eq(characterTable.character_id, likeHistoryTable.character_id),
+        )
+        .groupBy(characterTable.character_id);
+
+      const result: CharacterList[] = rawResult.map((row) => ({
+        characterId: row.characterId,
+        characterName: row.characterName,
+        imageUrl: row.imageUrl,
+        workName: row.workName || '',
+        likes: Number(row.likes) || 0,
+      }));
+
+      return ok(result);
     } catch (error) {
       customLogger(error as string);
       const message = error instanceof Error ? error.message : 'Unknown error';

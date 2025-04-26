@@ -1,9 +1,15 @@
 import { inject, injectable } from 'inversify';
 import type { D1Repository } from '../repositories/d1repository';
-import type { CharacterInfo, WorkInfo } from '../types/character';
+import type {
+  CharacterInfo,
+  CharacterList,
+  WorkInfo,
+  WorkStreamingSiteInfo,
+} from '../types/character';
 import { TYPES } from '../types/symbol-types';
 import { Result } from 'neverthrow';
 import { DatabaseError } from '../types/error';
+import { StreamingSiteInfo } from '../types/annict';
 
 @injectable()
 export class D1usecase {
@@ -70,5 +76,34 @@ export class D1usecase {
     work,
   }: { DB: D1Database; work: WorkInfo }): Promise<Result<void, DatabaseError>> {
     return await this.D1Repository.createWork({ DB, work });
+  }
+
+  async createStreamingSite({
+    DB,
+    streamingSite,
+  }: { DB: D1Database; streamingSite: StreamingSiteInfo[] }): Promise<
+    Result<void, DatabaseError>
+  > {
+    return await this.D1Repository.createStreamingSite({ DB, streamingSite });
+  }
+
+  async createWorkStreamingSite({
+    DB,
+    workStreamingSite,
+  }: { DB: D1Database; workStreamingSite: WorkStreamingSiteInfo[] }): Promise<
+    Result<void, DatabaseError>
+  > {
+    return await this.D1Repository.createWorkStreamingSite({
+      DB,
+      workStreamingSite,
+    });
+  }
+
+  async getAllCharacters({
+    DB,
+  }: {
+    DB: D1Database;
+  }): Promise<Result<CharacterList[], DatabaseError>> {
+    return await this.D1Repository.getAllCharacters({ DB });
   }
 }

@@ -69,6 +69,12 @@ export interface AnnictPageInfo {
   streamingServices: StreamingService[];
 }
 
+export interface StreamingSiteInfo {
+  streamingSiteId: URL;
+  streamingSiteName: string;
+  iconUrl: string | null;
+}
+
 // ----DTO----
 
 export interface AnnictWorksDTO {

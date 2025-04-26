@@ -60,3 +60,33 @@ export interface WorkInfo extends Work {
    */
   wikipediaUrl: string;
 }
+
+export interface WorkStreamingSiteInfo {
+  /**
+   * @description 作品ID
+   */
+  workId: number;
+
+  /**
+   * @description 配信サイトID
+   */
+  streamingSiteId: string;
+
+  /**
+   * @description 配信サイトURL
+   */
+  streamingSiteUrl: string;
+}
+
+// 画面に表示するキャラクター一覧の型
+export interface CharacterList extends Character {
+  /**
+   * @description 作品名
+   */
+  workName: string;
+
+  /**
+   * @description いいね数
+   */
+  likes: number;
+}
