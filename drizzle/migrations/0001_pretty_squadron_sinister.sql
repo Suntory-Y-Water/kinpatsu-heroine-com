@@ -1,0 +1,1 @@
+ALTER TABLE `registration_queue_table` ADD `work_name` text(255) NOT NULL DEFAULT '';

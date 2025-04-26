@@ -1,4 +1,3 @@
-// scripts/migrate.ts
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 import fs from 'node:fs';

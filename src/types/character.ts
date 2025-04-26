@@ -3,10 +3,6 @@
  */
 export interface Character {
   /**
-   * @description 作品ID
-   */
-  workId: number;
-  /**
    * @description キャラクターID
    */
   characterId: number;
@@ -22,7 +18,19 @@ export interface Character {
   imageUrl: string;
 }
 
-export interface RegistrationCharacter extends Character {
+export interface Work {
+  /**
+   * @description 作品ID
+   */
+  workId: number;
+
+  /**
+   * @description 作品名
+   */
+  workName: string;
+}
+
+export interface RegistrationCharacter extends Character, Work {
   /**
    * @description 登録日
    */
@@ -37,4 +45,18 @@ export interface RegistrationCharacter extends Character {
    * @description 削除済みかどうか
    */
   isDeleted: boolean;
+}
+
+export interface CharacterInfo extends Character, Work {}
+
+export interface WorkInfo extends Work {
+  /**
+   * @description 公式サイトURL
+   */
+  officialSiteUrl: string;
+
+  /**
+   * @description Wikipedia URL
+   */
+  wikipediaUrl: string;
 }

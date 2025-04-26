@@ -19,7 +19,7 @@ export const POST = createRoute(
   zValidator('form', formSchema, (result, c) => {
     if (!result.success) {
       console.error(result.error);
-      return c.redirect('/register/work');
+      return c.redirect('/admin');
     }
   }),
   async (c) => {

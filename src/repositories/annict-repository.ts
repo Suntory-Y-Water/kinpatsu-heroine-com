@@ -4,7 +4,7 @@ import { err, ok } from 'neverthrow';
 import type { Result } from 'neverthrow';
 import type { AnnictId } from '../domain/value_object/annict';
 import type { AnnictWorkCharacters, AnnictWorks } from '../types/annict';
-import { DatabaseError } from '../types/error';
+import { AnnictPageNotFoundError, DatabaseError } from '../types/error';
 
 export interface AnnictRepository {
   /**
@@ -21,6 +21,13 @@ export interface AnnictRepository {
     clientId: string;
     id: AnnictId;
   }): Promise<Result<AnnictWorkCharacters, DatabaseError>>;
+
+  /**
+   * @description 指定したAnnictのページ情報を取得する
+   */
+  fetchAnnictPage(
+    url: string,
+  ): Promise<Result<Response, AnnictPageNotFoundError>>;
 }
 
 @injectable()
@@ -152,6 +159,27 @@ export class AnnictRepositoryImpl implements AnnictRepository {
       const message = error instanceof Error ? error.message : 'Unknown error';
       console.error(`Error occurred while fetching works: ${message}`);
       return err(new DatabaseError(message));
+    }
+  }
+
+  async fetchAnnictPage(
+    url: string,
+  ): Promise<Result<Response, AnnictPageNotFoundError>> {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        return err(
+          new AnnictPageNotFoundError(
+            `Failed to fetch page: ${response.statusText}`,
+          ),
+        );
+      }
+
+      return ok(response);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      console.error(`Error occurred while fetching page: ${message}`);
+      return err(new AnnictPageNotFoundError(message));
     }
   }
 }

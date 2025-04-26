@@ -132,6 +132,21 @@ export default createRoute(async (c) => {
                         value={item.characterId}
                       />
                       <input type='hidden' name='workId' value={item.workId} />
+                      <input
+                        type='hidden'
+                        name='characterName'
+                        value={item.characterName}
+                      />
+                      <input
+                        type='hidden'
+                        name='workName'
+                        value={item.workName}
+                      />
+                      <input
+                        type='hidden'
+                        name='imageUrl'
+                        value={item.imageUrl}
+                      />
                       <button
                         type='submit'
                         className='w-full py-2 bg-black/80 text-yellow-300 font-medium rounded-bl-lg hover:bg-gray-700 hover:text-yellow-200 cursor-pointer transition-colors'

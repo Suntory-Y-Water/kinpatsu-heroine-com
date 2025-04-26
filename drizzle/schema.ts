@@ -68,6 +68,7 @@ export const registrationQueueTable = sqliteTable(
     character_id: integer('character_id').notNull(),
     work_id: integer('work_id').notNull(),
     character_name: text('character_name', { length: 255 }).notNull(),
+    work_name: text('work_name', { length: 255 }).notNull(),
     character_image_url: text('character_image_url', {
       length: 2083,
     }).notNull(),
