@@ -1,14 +1,25 @@
 import { createRoute } from 'honox/factory';
-import { allItems } from '../../../_mock';
+import { container } from '../../../src/container';
+import { D1usecase } from '../../../src/usecases/d1usecase';
+import { TYPES } from '../../../src/types/symbol-types';
 
 /**
  * 表示タブの型定義
  */
 type TabType = 'pending' | 'registered' | 'deleted';
 
-export default createRoute((c) => {
+export default createRoute(async (c) => {
   // クエリパラメータからtabを取得（デフォルトはpending）
   const tab = (c.req.query('tab') as TabType) || 'pending';
+
+  const d1Usecase = container.get<D1usecase>(TYPES.D1Usecase);
+  const result = await d1Usecase.getRegistrationQueueTable(c.env.DB);
+
+  if (result.isErr()) {
+    throw new Error('作品情報の取得に失敗しました');
+  }
+
+  const allItems = result.value;
 
   // ステータスに応じてフィルタリング
   const pendingItems = allItems.filter(
@@ -88,7 +99,7 @@ export default createRoute((c) => {
                   {/* 画像 */}
                   <div className='aspect-square'>
                     <img
-                      src={item.characterImageUrl}
+                      src={item.imageUrl}
                       alt={item.characterName}
                       className={
                         'w-full h-full object-cover ' +
@@ -121,6 +132,21 @@ export default createRoute((c) => {
                         value={item.characterId}
                       />
                       <input type='hidden' name='workId' value={item.workId} />
+                      <input
+                        type='hidden'
+                        name='characterName'
+                        value={item.characterName}
+                      />
+                      <input
+                        type='hidden'
+                        name='workName'
+                        value={item.workName}
+                      />
+                      <input
+                        type='hidden'
+                        name='imageUrl'
+                        value={item.imageUrl}
+                      />
                       <button
                         type='submit'
                         className='w-full py-2 bg-black/80 text-yellow-300 font-medium rounded-bl-lg hover:bg-gray-700 hover:text-yellow-200 cursor-pointer transition-colors'

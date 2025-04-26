@@ -1,11 +1,26 @@
 import { createRoute } from 'honox/factory';
-import { MOCK_CHARACTERS } from '../../../_mock';
+import { container } from '../../../src/container';
+import { D1usecase } from '../../../src/usecases/d1usecase';
+import { TYPES } from '../../../src/types/symbol-types';
+import { customLogger } from '../_middleware';
 import LikeButton from './$like-button';
 
-export default createRoute((c) => {
+export default createRoute(async (c) => {
   const id = c.req.param('id');
-  // 実際のアプリケーションではIDを使用してデータを取得します
-  const character = MOCK_CHARACTERS[id];
+
+  const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
+
+  customLogger('キャラクター詳細情報取得開始');
+  const result = await d1usecase.getCharacterDetail({
+    DB: c.env.DB,
+    characterId: Number(id),
+  });
+
+  if (result.isErr()) {
+    throw new Error('DBからキャラクター情報を取得できませんでした');
+  }
+
+  const character = result.value;
 
   if (!character) {
     return c.notFound();
@@ -27,8 +42,8 @@ export default createRoute((c) => {
           {/* 画像セクション */}
           <div className='md:w-1/2 relative'>
             <img
-              src={character.image}
-              alt={character.name}
+              src={character.imageUrl}
+              alt={character.characterName}
               className='w-full aspect-[4/5] object-cover md:h-[500px]'
             />
             <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:bg-gradient-to-r md:from-black/30 md:to-transparent' />
@@ -39,20 +54,19 @@ export default createRoute((c) => {
             <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-0'>
               <div>
                 <h1 className='text-2xl md:text-3xl font-bold text-yellow-300 mb-2'>
-                  {character.name}
+                  {character.characterName}
                 </h1>
                 <p className='text-lg md:text-xl text-yellow-50/50 mb-6'>
-                  {character.animeName}
+                  {character.workName}
                 </p>
               </div>
               <div className='self-start'>
-                <LikeButton initialLikes={character.likes} characterId={id} />
+                <LikeButton
+                  initialLikes={character.likes}
+                  characterId={character.characterId}
+                />
               </div>
             </div>
-
-            <p className='text-white mb-8 leading-relaxed'>
-              {character.description}
-            </p>
 
             {/* 関連リンク */}
             <div className='space-y-4'>
@@ -61,7 +75,7 @@ export default createRoute((c) => {
               </h2>
               <div className='grid gap-4'>
                 <a
-                  href={character.as.official}
+                  href={character.infoUrl.officialSiteUrl}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
@@ -70,7 +84,7 @@ export default createRoute((c) => {
                   <span>公式サイト</span>
                 </a>
                 <a
-                  href={character.as.wikipedia}
+                  href={character.infoUrl.wikipediaUrl}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
@@ -87,16 +101,16 @@ export default createRoute((c) => {
                 視聴できる配信サービス
               </h2>
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                {character.streamingServices.map((service) => (
+                {character.streamingSiteInfo.map((service) => (
                   <a
-                    key={service.name}
-                    href={service.url}
+                    key={service.streamingSiteId}
+                    href={String(service.streamingSiteId)}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'
                   >
                     <span className='text-white'>▶️</span>
-                    <span>{service.name}</span>
+                    <span>{service.streamingSiteName}</span>
                   </a>
                 ))}
               </div>

@@ -2,7 +2,6 @@ CREATE TABLE `character_table` (
 	`character_id` integer PRIMARY KEY NOT NULL,
 	`character_name` text(255) NOT NULL,
 	`character_image_url` text(2083) NOT NULL,
-	`like_count` integer DEFAULT 0,
 	`registration_date` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	`work_id` integer NOT NULL,
 	FOREIGN KEY (`work_id`) REFERENCES `work_table`(`work_id`) ON UPDATE no action ON DELETE no action
@@ -20,6 +19,7 @@ CREATE TABLE `registration_queue_table` (
 	`character_id` integer NOT NULL,
 	`work_id` integer NOT NULL,
 	`character_name` text(255) NOT NULL,
+	`work_name` text(255) DEFAULT '' NOT NULL,
 	`character_image_url` text(2083) NOT NULL,
 	`registration_date` text DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	`is_registered` integer DEFAULT false NOT NULL,

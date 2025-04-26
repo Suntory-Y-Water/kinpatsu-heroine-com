@@ -10,6 +10,7 @@ import { TYPES } from './types/symbol-types';
 import { AnnictUsecase } from './usecases/annict-usecase';
 import { D1usecase } from './usecases/d1usecase';
 import { R2usecase } from './usecases/r2usecase';
+import { ParseUsecase } from './usecases/parse-usecase';
 
 const container = new Container();
 
@@ -25,5 +26,6 @@ container
 container.bind<R2usecase>(TYPES.R2Usecase).to(R2usecase);
 container.bind<D1usecase>(TYPES.D1Usecase).to(D1usecase);
 container.bind<AnnictUsecase>(TYPES.AnnictUsecase).to(AnnictUsecase);
+container.bind<ParseUsecase>(TYPES.ParseUsecase).to(ParseUsecase);
 
 export { container };

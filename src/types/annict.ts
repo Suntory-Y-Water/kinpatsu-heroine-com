@@ -52,6 +52,29 @@ interface Character {
   readonly name: string;
 }
 
+/**
+ * 配信サイト情報を表す型定義
+ */
+interface StreamingService {
+  name: string | null;
+  url: string | null;
+}
+
+/**
+ * アニメページの解析結果を表す型定義
+ */
+export interface AnnictPageInfo {
+  wikipediaUrl: string | null;
+  officialSiteUrl: string | null;
+  streamingServices: StreamingService[];
+}
+
+export interface StreamingSiteInfo {
+  streamingSiteId: URL;
+  streamingSiteName: string;
+  iconUrl: string | null;
+}
+
 // ----DTO----
 
 export interface AnnictWorksDTO {

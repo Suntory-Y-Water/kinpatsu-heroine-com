@@ -4,7 +4,7 @@ import type { AnnictId } from '../domain/value_object/annict';
 
 import type { AnnictRepository } from '../repositories/annict-repository';
 import type { AnnictWorkCharacters, AnnictWorksDTO } from '../types/annict';
-import type { DatabaseError } from '../types/error';
+import type { AnnictPageNotFoundError, DatabaseError } from '../types/error';
 import { TYPES } from '../types/symbol-types';
 
 @injectable()
@@ -64,5 +64,15 @@ export class AnnictUsecase {
     };
     // 作品IDを元にキー情報と画面に表示するキャラクター名を返却する
     return ok(value);
+  }
+
+  async fetchAnnictPage(
+    url: string,
+  ): Promise<Result<Response, AnnictPageNotFoundError>> {
+    const result = await this.annictRepository.fetchAnnictPage(url);
+    if (result.isErr()) {
+      return err(result.error);
+    }
+    return ok(result.value);
   }
 }

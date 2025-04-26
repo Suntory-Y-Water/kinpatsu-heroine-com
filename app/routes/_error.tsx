@@ -5,6 +5,7 @@ const handler: ErrorHandler = (e, c) => {
     return e.getResponse();
   }
   console.error(e.message);
+  console.error(e.stack);
   c.status(500);
   return c.render(
     <div className='max-w-6xl'>

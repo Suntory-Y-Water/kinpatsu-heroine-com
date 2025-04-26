@@ -7,4 +7,5 @@ export const TYPES = {
   R2Usecase: Symbol.for('R2Usecase'),
   D1Usecase: Symbol.for('D1Usecase'),
   AnnictUsecase: Symbol.for('AnnictUsecase'),
+  ParseUsecase: Symbol.for('ParseUsecase'),
 };

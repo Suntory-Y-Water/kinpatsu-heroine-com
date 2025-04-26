@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "546ee91a-d6c6-4dfd-b00a-7200ba46cabe",
+  "id": "c293434e-d779-40a6-896e-ec754654c2b8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "character_table": {
@@ -28,14 +28,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "like_count": {
-          "name": "like_count",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": 0
-        },
         "registration_date": {
           "name": "registration_date",
           "type": "text",
@@ -58,8 +50,12 @@
           "name": "character_table_work_id_work_table_work_id_fk",
           "tableFrom": "character_table",
           "tableTo": "work_table",
-          "columnsFrom": ["work_id"],
-          "columnsTo": ["work_id"],
+          "columnsFrom": [
+            "work_id"
+          ],
+          "columnsTo": [
+            "work_id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -100,15 +96,22 @@
           "name": "like_history_table_character_id_character_table_character_id_fk",
           "tableFrom": "like_history_table",
           "tableTo": "character_table",
-          "columnsFrom": ["character_id"],
-          "columnsTo": ["character_id"],
+          "columnsFrom": [
+            "character_id"
+          ],
+          "columnsTo": [
+            "character_id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "like_history_table_character_id_cookie_id_pk": {
-          "columns": ["character_id", "cookie_id"],
+          "columns": [
+            "character_id",
+            "cookie_id"
+          ],
           "name": "like_history_table_character_id_cookie_id_pk"
         }
       },
@@ -138,6 +141,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "work_name": {
+          "name": "work_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "''"
         },
         "character_image_url": {
           "name": "character_image_url",
@@ -175,7 +186,10 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {
         "registration_queue_table_character_id_work_id_pk": {
-          "columns": ["character_id", "work_id"],
+          "columns": [
+            "character_id",
+            "work_id"
+          ],
           "name": "registration_queue_table_character_id_work_id_pk"
         }
       },
@@ -244,8 +258,12 @@
           "name": "work_streaming_site_table_work_id_work_table_work_id_fk",
           "tableFrom": "work_streaming_site_table",
           "tableTo": "work_table",
-          "columnsFrom": ["work_id"],
-          "columnsTo": ["work_id"],
+          "columnsFrom": [
+            "work_id"
+          ],
+          "columnsTo": [
+            "work_id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -253,15 +271,22 @@
           "name": "work_streaming_site_table_streaming_site_id_streaming_site_table_streaming_site_id_fk",
           "tableFrom": "work_streaming_site_table",
           "tableTo": "streaming_site_table",
-          "columnsFrom": ["streaming_site_id"],
-          "columnsTo": ["streaming_site_id"],
+          "columnsFrom": [
+            "streaming_site_id"
+          ],
+          "columnsTo": [
+            "streaming_site_id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "work_streaming_site_table_work_id_streaming_site_id_pk": {
-          "columns": ["work_id", "streaming_site_id"],
+          "columns": [
+            "work_id",
+            "streaming_site_id"
+          ],
           "name": "work_streaming_site_table_work_id_streaming_site_id_pk"
         }
       },

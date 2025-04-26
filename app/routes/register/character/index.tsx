@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import ImageUploader from '../$image-uploader';
 import type { D1usecase } from '../../../../src/usecases/d1usecase';
+import { ErrorMessage } from '../../../islands/error-message';
 
 const characterFormSchema = z.object({
   characterId: z.coerce
@@ -16,6 +17,7 @@ const characterFormSchema = z.object({
     .min(1, { message: 'キャラクターIDは必須です' }),
   characterName: z.string().min(1, { message: 'キャラクター名は必須です' }),
   workId: z.coerce.number().min(1, { message: '作品IDは必須です' }),
+  workName: z.string().min(1, { message: '作品名は必須です' }),
   imageUrl: z.string().min(1, { message: '画像URLは必須です' }),
 });
 
@@ -27,7 +29,7 @@ export const POST = createRoute(
     }
   }),
   async (c) => {
-    const { characterId, characterName, workId, imageUrl } =
+    const { characterId, characterName, workId, workName, imageUrl } =
       await c.req.valid('form');
 
     // リクエストボディの作成
@@ -35,16 +37,21 @@ export const POST = createRoute(
       workId,
       characterId,
       characterName,
+      workName,
       imageUrl,
     };
 
     // キャラクター登録
     const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
 
-    await d1usecase.createCharacter({
+    const result = await d1usecase.createRegistrationCharacter({
       DB: c.env.DB,
       character: requestBody,
     });
+
+    if (result.isErr()) {
+      <ErrorMessage error={result.error} />;
+    }
 
     return c.redirect('/', 303);
   },
@@ -88,6 +95,7 @@ export default createRoute(async (c) => {
       <form method='post' action='/register/character'>
         {/*  API実行用の隠しフォーム */}
         <input type='hidden' name='workId' value={workId} />
+        <input type='hidden' name='workName' value={workName} />
         <CharacterForm characters={characterData} />
         <ImageUploader />
         <button

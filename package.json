@@ -23,6 +23,7 @@
     "@hono/zod-validator": "^0.4.3",
     "bcrypt": "^5.1.1",
     "bcrypt-ts": "^6.0.0",
+    "cheerio": "^1.0.0",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.41.0",
     "graphql": "^16.10.0",
@@ -36,7 +37,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/workers-types": "^4.20250420.0",
+    "@cloudflare/workers-types": "^4.20250423.0",
     "@hono/vite-build": "^1.6.0",
     "@hono/vite-dev-server": "^0.18.3",
     "@tailwindcss/vite": "^4.1.4",
@@ -46,6 +47,6 @@
     "tailwindcss": "^4.1.4",
     "tsx": "^4.19.3",
     "vite": "^6.3.2",
-    "wrangler": "^4.12.0"
+    "wrangler": "^4.13.0"
   }
 }
