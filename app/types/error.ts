@@ -22,9 +22,9 @@ export class DataNotFoundError extends Error {
   }
 }
 
-export class AnnictPageNotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'AnnictPageNotFoundError';
+    this.name = 'NotFoundError';
   }
 }

@@ -1,15 +1,12 @@
 import { createRoute } from 'honox/factory';
-import { createAnnictId } from '../../../../src/domain/value_object/annict';
-import { container } from '../../../../src/container';
-import type { AnnictUsecase } from '../../../../src/usecases/annict-usecase';
-import { TYPES } from '../../../../src/types/symbol-types';
 import CharacterForm from './$character-form';
 
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
+import { getWorkCharactersById } from '@/lib/api';
+import { createAnnictId } from '@/utils/annict';
+import { createRegistrationCharacter } from '@/lib/db';
 import ImageUploader from '../$image-uploader';
-import type { D1usecase } from '../../../../src/usecases/d1usecase';
-import { ErrorMessage } from '../../../islands/error-message';
 
 const characterFormSchema = z.object({
   characterId: z.coerce
@@ -42,15 +39,13 @@ export const POST = createRoute(
     };
 
     // キャラクター登録
-    const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
-
-    const result = await d1usecase.createRegistrationCharacter({
+    const result = await createRegistrationCharacter({
       DB: c.env.DB,
       character: requestBody,
     });
 
     if (result.isErr()) {
-      <ErrorMessage error={result.error} />;
+      throw new Error(result.error.message);
     }
 
     return c.redirect('/', 303);
@@ -66,8 +61,7 @@ export default createRoute(async (c) => {
     throw new Error(annictIdResult.error.message);
   }
 
-  const annictUsecase = container.get<AnnictUsecase>(TYPES.AnnictUsecase);
-  const result = await annictUsecase.getWorkCharactersById({
+  const result = await getWorkCharactersById({
     clientId: c.env.ANNICT_CLIENT_ID,
     id: annictIdResult.value,
   });

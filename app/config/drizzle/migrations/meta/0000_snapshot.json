@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c293434e-d779-40a6-896e-ec754654c2b8",
+  "id": "3b33471b-0264-4545-a4df-fca784b3ae37",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "character_table": {
@@ -213,11 +213,11 @@
           "notNull": true,
           "autoincrement": false
         },
-        "icon_url": {
-          "name": "icon_url",
+        "streaming_site_url": {
+          "name": "streaming_site_url",
           "type": "text(2083)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },

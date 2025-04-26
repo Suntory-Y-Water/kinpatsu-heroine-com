@@ -9,8 +9,10 @@
     "types": ["vite/client", "@cloudflare/workers-types/2023-07-01"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["app/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

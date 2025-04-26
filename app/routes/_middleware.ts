@@ -1,11 +1,16 @@
-import { logger } from 'hono/logger';
 import { createRoute } from 'honox/factory';
+import { pinoLogger, type PinoLogger } from 'hono-pino';
 
-export function customLogger(message: string, ...rest: string[]) {
-  const timestamp = new Date().toLocaleString('ja-JP', {
-    timeZone: 'Asia/Tokyo',
-  });
-  console.log(`[${timestamp}] ${message}`, ...rest);
+export default createRoute(
+  pinoLogger({
+    pino: {
+      level: 'info',
+    },
+  }),
+);
+
+declare module 'hono' {
+  interface ContextVariableMap {
+    logger: PinoLogger;
+  }
 }
-
-export default createRoute(logger(customLogger));

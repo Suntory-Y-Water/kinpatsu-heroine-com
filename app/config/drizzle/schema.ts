@@ -16,7 +16,7 @@ export const workTable = sqliteTable('work_table', {
 export const streamingSiteTable = sqliteTable('streaming_site_table', {
   streaming_site_id: text('streaming_site_id', { length: 255 }).primaryKey(), // ドメイン名をIDとして使用
   streaming_site_name: text('streaming_site_name', { length: 255 }).notNull(),
-  icon_url: text('icon_url', { length: 2083 }),
+  streaming_site_url: text('streaming_site_url', { length: 2083 }).notNull(),
 });
 
 export const workStreamingSiteTable = sqliteTable(

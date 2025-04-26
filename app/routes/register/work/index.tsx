@@ -1,11 +1,8 @@
 import { createRoute } from 'honox/factory';
-import { container } from '../../../../src/container';
-import type { AnnictUsecase } from '../../../../src/usecases/annict-usecase';
-import { TYPES } from '../../../../src/types/symbol-types';
 import WorkForm from './$work-form';
-
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
+import { getWorks } from '@/lib/api';
 
 const workFormSchema = z.object({
   workId: z.string().min(1, { message: '作品IDは必須です' }),
@@ -32,8 +29,7 @@ export const POST = createRoute(
 export default createRoute(async (c) => {
   // キャラクター登録画面から、現在登録していない作品を取得します。
   // annictから作品情報を取得
-  const annictUsecase = container.get<AnnictUsecase>(TYPES.AnnictUsecase);
-  const result = await annictUsecase.getWorks({
+  const result = await getWorks({
     clientId: c.env.ANNICT_CLIENT_ID,
   });
 
@@ -41,11 +37,10 @@ export default createRoute(async (c) => {
     throw new Error('作品情報の取得に失敗しました');
   }
 
-  // 登録しているキャラクター情報を取得
-  // TODO: テスト用でid=9244だけを取得
-  const resultList = result.value.annictInfo.filter(
-    (work) => work.annictId === 9244,
-  );
+  const resultList = result.value.data.searchWorks.nodes.map((node) => ({
+    annictId: node.annictId,
+    title: node.title,
+  }));
 
   return c.render(
     <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>

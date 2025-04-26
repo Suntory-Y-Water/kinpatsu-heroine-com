@@ -70,9 +70,9 @@ export interface AnnictPageInfo {
 }
 
 export interface StreamingSiteInfo {
-  streamingSiteId: URL;
+  streamingSiteId: string;
   streamingSiteName: string;
-  iconUrl: string | null;
+  streamingSiteUrl: string;
 }
 
 // ----DTO----
