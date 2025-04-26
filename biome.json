@@ -13,10 +13,10 @@
     "attributePosition": "auto",
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100
+    "lineWidth": 80
   },
   "organizeImports": {
-    "enabled": true
+    "enabled": false
   },
   "linter": {
     "enabled": true,
@@ -25,6 +25,10 @@
       "correctness": {
         "noUnusedImports": "warn",
         "noUnusedVariables": "warn"
+      },
+      "style": {
+        "useTemplate": "off",
+        "useImportType": "off"
       }
     }
   },
@@ -34,6 +38,9 @@
       "jsxQuoteStyle": "single",
       "semicolons": "always",
       "trailingCommas": "all"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   }
 }

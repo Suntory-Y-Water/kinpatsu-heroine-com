@@ -13,4 +13,7 @@ export default defineConfig({
     tailwindcss(),
     build(),
   ],
+  ssr: {
+    external: ['cheerio'],
+  },
 });

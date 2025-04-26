@@ -1,0 +1,345 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "c293434e-d779-40a6-896e-ec754654c2b8",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "character_table": {
+      "name": "character_table",
+      "columns": {
+        "character_id": {
+          "name": "character_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "character_name": {
+          "name": "character_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "character_image_url": {
+          "name": "character_image_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "registration_date": {
+          "name": "registration_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "work_id": {
+          "name": "work_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "character_table_work_id_work_table_work_id_fk": {
+          "name": "character_table_work_id_work_table_work_id_fk",
+          "tableFrom": "character_table",
+          "tableTo": "work_table",
+          "columnsFrom": [
+            "work_id"
+          ],
+          "columnsTo": [
+            "work_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "like_history_table": {
+      "name": "like_history_table",
+      "columns": {
+        "character_id": {
+          "name": "character_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cookie_id": {
+          "name": "cookie_id",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "registration_date": {
+          "name": "registration_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "like_history_table_character_id_character_table_character_id_fk": {
+          "name": "like_history_table_character_id_character_table_character_id_fk",
+          "tableFrom": "like_history_table",
+          "tableTo": "character_table",
+          "columnsFrom": [
+            "character_id"
+          ],
+          "columnsTo": [
+            "character_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "like_history_table_character_id_cookie_id_pk": {
+          "columns": [
+            "character_id",
+            "cookie_id"
+          ],
+          "name": "like_history_table_character_id_cookie_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "registration_queue_table": {
+      "name": "registration_queue_table",
+      "columns": {
+        "character_id": {
+          "name": "character_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "work_id": {
+          "name": "work_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "character_name": {
+          "name": "character_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "work_name": {
+          "name": "work_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "''"
+        },
+        "character_image_url": {
+          "name": "character_image_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "registration_date": {
+          "name": "registration_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "is_registered": {
+          "name": "is_registered",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "is_deleted": {
+          "name": "is_deleted",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "registration_queue_table_character_id_work_id_pk": {
+          "columns": [
+            "character_id",
+            "work_id"
+          ],
+          "name": "registration_queue_table_character_id_work_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "streaming_site_table": {
+      "name": "streaming_site_table",
+      "columns": {
+        "streaming_site_id": {
+          "name": "streaming_site_id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "streaming_site_name": {
+          "name": "streaming_site_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "icon_url": {
+          "name": "icon_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "work_streaming_site_table": {
+      "name": "work_streaming_site_table",
+      "columns": {
+        "work_id": {
+          "name": "work_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "streaming_site_id": {
+          "name": "streaming_site_id",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "streaming_site_url": {
+          "name": "streaming_site_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "work_streaming_site_table_work_id_work_table_work_id_fk": {
+          "name": "work_streaming_site_table_work_id_work_table_work_id_fk",
+          "tableFrom": "work_streaming_site_table",
+          "tableTo": "work_table",
+          "columnsFrom": [
+            "work_id"
+          ],
+          "columnsTo": [
+            "work_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "work_streaming_site_table_streaming_site_id_streaming_site_table_streaming_site_id_fk": {
+          "name": "work_streaming_site_table_streaming_site_id_streaming_site_table_streaming_site_id_fk",
+          "tableFrom": "work_streaming_site_table",
+          "tableTo": "streaming_site_table",
+          "columnsFrom": [
+            "streaming_site_id"
+          ],
+          "columnsTo": [
+            "streaming_site_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "work_streaming_site_table_work_id_streaming_site_id_pk": {
+          "columns": [
+            "work_id",
+            "streaming_site_id"
+          ],
+          "name": "work_streaming_site_table_work_id_streaming_site_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "work_table": {
+      "name": "work_table",
+      "columns": {
+        "work_id": {
+          "name": "work_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "work_name": {
+          "name": "work_name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "official_site_url": {
+          "name": "official_site_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "wikipedia_url": {
+          "name": "wikipedia_url",
+          "type": "text(2083)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
