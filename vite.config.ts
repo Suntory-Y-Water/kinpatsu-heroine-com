@@ -3,6 +3,7 @@ import adapter from '@hono/vite-dev-server/cloudflare';
 import tailwindcss from '@tailwindcss/vite';
 import honox from 'honox/vite';
 import { defineConfig } from 'vite';
+import path from 'node:path';
 
 export default defineConfig({
   plugins: [
@@ -13,6 +14,11 @@ export default defineConfig({
     tailwindcss(),
     build(),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './app'),
+    },
+  },
   ssr: {
     external: ['cheerio', 'hono-pino'],
   },

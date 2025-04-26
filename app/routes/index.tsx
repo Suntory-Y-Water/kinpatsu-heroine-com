@@ -2,9 +2,7 @@ import { createRoute } from 'honox/factory';
 import { CharacterCard } from '../components/character/character-card';
 import { paginateItems } from '../lib/pagination';
 import SortDropdown, { type SortOption } from '../islands/sort-dropdown';
-import { container } from '../../src/container';
-import { D1usecase } from '../../src/usecases/d1usecase';
-import { TYPES } from '../../src/types/symbol-types';
+import { getAllCharacters } from '@/lib/db';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
@@ -30,14 +28,7 @@ export default createRoute(async (c) => {
     ? sortQuery
     : DEFAULT_SORT_ORDER;
 
-  const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
-
-  logger.info({
-    method: 'getAllCharacters',
-    message: 'キャラクター情報取得開始',
-  });
-
-  const result = await d1usecase.getAllCharacters({
+  const result = await getAllCharacters({
     DB: c.env.DB,
   });
 
@@ -59,11 +50,6 @@ export default createRoute(async (c) => {
   const characters = paginatedResult.items;
   const currentPage = paginatedResult.currentPage;
   const totalPages = paginatedResult.totalPages;
-
-  logger.info({
-    method: 'getAllCharacters',
-    message: 'キャラクター情報取得完了',
-  });
 
   return c.render(
     <div className='space-y-8 pt-16 md:pt-0'>

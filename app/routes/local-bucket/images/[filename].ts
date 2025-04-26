@@ -1,3 +1,4 @@
+// ※ローカル時の画像表示用エンドポイント
 import { createRoute } from 'honox/factory';
 
 function getContentType(filename: string): string {

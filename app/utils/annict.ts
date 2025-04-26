@@ -1,5 +1,5 @@
 import { err, ok } from 'neverthrow';
-import { ValidationError } from '../../types/error';
+import { ValidationError } from '../types/error';
 import type { Result } from 'neverthrow';
 
 const annictIdBrand = Symbol();

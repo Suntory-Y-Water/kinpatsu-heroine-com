@@ -1,7 +1,5 @@
+import { getRegistrationQueueTable } from '@/lib/db';
 import { createRoute } from 'honox/factory';
-import { container } from '../../../src/container';
-import { D1usecase } from '../../../src/usecases/d1usecase';
-import { TYPES } from '../../../src/types/symbol-types';
 
 /**
  * 表示タブの型定義
@@ -12,8 +10,7 @@ export default createRoute(async (c) => {
   // クエリパラメータからtabを取得（デフォルトはpending）
   const tab = (c.req.query('tab') as TabType) || 'pending';
 
-  const d1Usecase = container.get<D1usecase>(TYPES.D1Usecase);
-  const result = await d1Usecase.getRegistrationQueueTable(c.env.DB);
+  const result = await getRegistrationQueueTable(c.env.DB);
 
   if (result.isErr()) {
     throw new Error('作品情報の取得に失敗しました');

@@ -1,29 +1,21 @@
 import { createRoute } from 'honox/factory';
-import { container } from '../../../src/container';
-import { D1usecase } from '../../../src/usecases/d1usecase';
-import { TYPES } from '../../../src/types/symbol-types';
 
 import LikeButton from './$like-button';
+import { getCharacterById } from '@/lib/db';
 
 export default createRoute(async (c) => {
   const id = c.req.param('id');
 
-  const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
-
   const { logger } = c.var;
-  logger.info({
-    method: 'getCharacterDetail',
-    message: 'キャラクター詳細情報取得開始',
-  });
 
-  const result = await d1usecase.getCharacterDetail({
+  const result = await getCharacterById({
     DB: c.env.DB,
     characterId: Number(id),
   });
 
   if (result.isErr()) {
     logger.error({
-      method: 'getCharacterDetail',
+      method: 'getCharacterById',
       message: 'キャラクター情報取得に失敗しました',
     });
     throw new Error('DBからキャラクター情報を取得できませんでした');
