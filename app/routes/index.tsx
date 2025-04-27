@@ -1,8 +1,9 @@
 import { createRoute } from 'honox/factory';
 import { CharacterCard } from '../components/character/character-card';
 import { paginateItems } from '../lib/pagination';
-import SortDropdown, { type SortOption } from '../islands/sort-dropdown';
+
 import { getAllCharacters } from '@/lib/db';
+import { SortOption, SortSelector } from '@/islands/SortSelector';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
@@ -54,7 +55,7 @@ export default createRoute(async (c) => {
   return c.render(
     <div className='space-y-8 pt-16 md:pt-0'>
       <div className='flex justify-end'>
-        <SortDropdown currentSort={currentSort} options={sortOptions} />
+        <SortSelector currentSort={currentSort} options={sortOptions} />
       </div>
 
       {/* キャラクターグリッド */}

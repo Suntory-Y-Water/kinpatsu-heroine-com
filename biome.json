@@ -28,7 +28,8 @@
       },
       "style": {
         "useTemplate": "off",
-        "useImportType": "off"
+        "useImportType": "off",
+        "noUnusedTemplateLiteral": "off"
       }
     }
   },
