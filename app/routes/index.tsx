@@ -15,7 +15,7 @@ const sortOptions: SortOption[] = [
 ];
 
 // 最大表示件数
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 
 export default createRoute(async (c) => {
   const { logger } = c.var;

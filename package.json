@@ -16,7 +16,8 @@
     "db:local": "tsx scripts/migrate.ts local latest",
     "db:preview": "tsx scripts/migrate.ts preview latest --remote",
     "db:prod": "tsx scripts/migrate.ts production latest --remote",
-    "db:all": "pnpm run db:local && pnpm run db:preview && pnpm run db:prod"
+    "db:all": "pnpm run db:local && pnpm run db:preview && pnpm run db:prod",
+    "db:generate-inserts": "tsx scripts/generate-insert-sql.ts"
   },
   "private": true,
   "dependencies": {

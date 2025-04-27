@@ -1,0 +1,594 @@
+[
+  {
+    "results": [
+      {
+        "character_id": 1344,
+        "character_name": "雪小路野ばら",
+        "character_image_url": "http://localhost:5173/local-bucket/images/162-1344-b8fd64e3-ed3a-4b31-948c-6c5692864be9.jpeg",
+        "registration_date": "2025-04-27 06:32:54",
+        "work_id": 162
+      },
+      {
+        "character_id": 1417,
+        "character_name": "アナ・コッポラ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/170-1417-f007c220-b432-48ac-a6ff-f83cd3401892.jpeg",
+        "registration_date": "2025-04-27 06:32:30",
+        "work_id": 170
+      },
+      {
+        "character_id": 4107,
+        "character_name": "九条カレン",
+        "character_image_url": "http://localhost:5173/local-bucket/images/491-4107-c68dc041-ff53-4390-b7d6-19e26f51c321.jpeg",
+        "registration_date": "2025-04-27 06:31:46",
+        "work_id": 491
+      },
+      {
+        "character_id": 4258,
+        "character_name": "ソーニャ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/514-4258-ea66b5cb-7e7b-46d9-a550-23520ddf1148.jpeg",
+        "registration_date": "2025-04-27 06:32:45",
+        "work_id": 514
+      },
+      {
+        "character_id": 4435,
+        "character_name": "ベアトリス",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4636-4435-d403616f-b159-40a8-8dfb-e5ada0fcd36b.jpeg",
+        "registration_date": "2025-04-27 06:31:27",
+        "work_id": 4636
+      },
+      {
+        "character_id": 4496,
+        "character_name": "大空寺あゆ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/541-4496-b733aa9b-8789-4fa9-8526-99324333b412.jpeg",
+        "registration_date": "2025-04-27 06:32:42",
+        "work_id": 541
+      },
+      {
+        "character_id": 4785,
+        "character_name": "ルイス・ハレヴィ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/564-4785-91d263e6-d6d0-4069-87b6-9c17069fa0fe.jpeg",
+        "registration_date": "2025-04-27 06:32:22",
+        "work_id": 564
+      },
+      {
+        "character_id": 4823,
+        "character_name": "カガリ・ユラ・アスハ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/567-4823-015b9354-2c5a-4ec2-8977-346a2b15ab2c.jpeg",
+        "registration_date": "2025-04-27 06:31:03",
+        "work_id": 567
+      },
+      {
+        "character_id": 5333,
+        "character_name": "メーテル",
+        "character_image_url": "http://localhost:5173/local-bucket/images/6992-5333-af12488c-be75-49bd-baa1-d0327fd1b72f.jpeg",
+        "registration_date": "2025-04-27 06:31:06",
+        "work_id": 6992
+      },
+      {
+        "character_id": 5638,
+        "character_name": "ヒルダ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1944-5638-0e22231d-b495-447d-ad03-4ad46b6f0f12.jpeg",
+        "registration_date": "2025-04-27 06:32:24",
+        "work_id": 1944
+      },
+      {
+        "character_id": 6067,
+        "character_name": "琴吹紬",
+        "character_image_url": "http://localhost:5173/local-bucket/images/668-6067-0f756d90-af8e-4bc0-b175-ca17cdf3b31c.jpeg",
+        "registration_date": "2025-04-27 06:31:14",
+        "work_id": 668
+      },
+      {
+        "character_id": 7041,
+        "character_name": "椎名ましろ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/804-7041-bcf64701-3164-4d40-8617-2b59ef6d7888.jpeg",
+        "registration_date": "2025-04-27 06:31:15",
+        "work_id": 804
+      },
+      {
+        "character_id": 8509,
+        "character_name": "クリスタ・レンズ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/997-8509-a9d04ed7-30dd-4586-8fe8-2bab2fc91bb2.jpeg",
+        "registration_date": "2025-04-27 06:30:52",
+        "work_id": 997
+      },
+      {
+        "character_id": 8882,
+        "character_name": "藍羽浅葱",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1032-8882-5fa8a7e4-ab76-4eed-bd24-2e5c98c5f701.jpeg",
+        "registration_date": "2025-04-27 06:31:21",
+        "work_id": 1032
+      },
+      {
+        "character_id": 8886,
+        "character_name": "アスタルテ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1139-8886-318dee4b-709f-420f-9706-6ef7c0a0ba39.jpeg",
+        "registration_date": "2025-04-27 06:32:32",
+        "work_id": 1139
+      },
+      {
+        "character_id": 9234,
+        "character_name": "月海",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1082-9234-9827acc8-6252-4f0e-9ce0-91b03f7fa628.jpeg",
+        "registration_date": "2025-04-27 06:32:29",
+        "work_id": 1082
+      },
+      {
+        "character_id": 9489,
+        "character_name": "暁切歌",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4374-9489-03445a3c-51f0-492b-9214-43bf10c4d52c.jpeg",
+        "registration_date": "2025-04-27 06:31:30",
+        "work_id": 4374
+      },
+      {
+        "character_id": 9617,
+        "character_name": "萩村スズ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1127-9617-166a1dcf-5096-49b3-b98a-595d5e3d96d2.jpeg",
+        "registration_date": "2025-04-27 06:32:58",
+        "work_id": 1127
+      },
+      {
+        "character_id": 9768,
+        "character_name": "アリア",
+        "character_image_url": "http://localhost:5173/local-bucket/images/12818-9768-0bfb7a37-5895-4a24-9b0f-311cb54d82fb.jpeg",
+        "registration_date": "2025-04-27 06:32:28",
+        "work_id": 12818
+      },
+      {
+        "character_id": 9799,
+        "character_name": "サーシャ(アレクサンドル＝ニコラエビッチ＝ヘル)",
+        "character_image_url": "http://localhost:5173/local-bucket/images/7795-9799-e8bbae73-a4a1-4ef4-bc69-3d680b957168.jpeg",
+        "registration_date": "2025-04-27 06:31:25",
+        "work_id": 7795
+      },
+      {
+        "character_id": 11158,
+        "character_name": "凸守早苗",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1276-11158-e62f549e-dc2f-4a14-91c6-a1e6402bf4ea.jpeg",
+        "registration_date": "2025-04-27 06:31:51",
+        "work_id": 1276
+      },
+      {
+        "character_id": 12551,
+        "character_name": "高須泰子",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1432-12551-6c7a6c5c-bd4e-4f91-886f-2b162e5ce51b.jpeg",
+        "registration_date": "2025-04-27 06:31:54",
+        "work_id": 1432
+      },
+      {
+        "character_id": 13334,
+        "character_name": "桐崎千棘",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1528-13334-6eab40bb-91a9-4838-b321-7a145effda04.jpeg",
+        "registration_date": "2025-04-27 06:31:04",
+        "work_id": 1528
+      },
+      {
+        "character_id": 13769,
+        "character_name": "加賀山楓",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1570-13769-46a103ee-960d-44af-95f5-ce679055be47.jpeg",
+        "registration_date": "2025-04-27 06:31:32",
+        "work_id": 1570
+      },
+      {
+        "character_id": 13888,
+        "character_name": "クラピカ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/12247-13888-ac789558-0412-4d04-9c9d-e04c09d119c3.jpeg",
+        "registration_date": "2025-04-27 06:32:59",
+        "work_id": 12247
+      },
+      {
+        "character_id": 14316,
+        "character_name": "三千院ナギ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4529-14316-c56ab1f9-3d84-422a-8d8b-8605bcbd7c2e.jpeg",
+        "registration_date": "2025-04-27 06:31:01",
+        "work_id": 4529
+      },
+      {
+        "character_id": 15085,
+        "character_name": "ウィンリィ・ロックベル",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1744-15085-9349c34e-054f-45c3-ae19-7a76bfd3a7c8.jpeg",
+        "registration_date": "2025-04-27 06:30:57",
+        "work_id": 1744
+      },
+      {
+        "character_id": 15087,
+        "character_name": "リザ・ホークアイ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1744-15087-e46df8f5-3cf3-4481-94cb-7f7626064a50.jpeg",
+        "registration_date": "2025-04-27 06:32:51",
+        "work_id": 1744
+      },
+      {
+        "character_id": 15564,
+        "character_name": "ジャンヌ・ダルク",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5101-15564-c1c5e1af-3300-47ad-b49b-c599a3e027ce.jpeg",
+        "registration_date": "2025-04-27 06:31:07",
+        "work_id": 5101
+      },
+      {
+        "character_id": 15590,
+        "character_name": "月野うさぎ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1823-15590-811f159f-d64d-45a4-bc8c-f0b9f53620bb.jpeg",
+        "registration_date": "2025-04-27 06:30:54",
+        "work_id": 1823
+      },
+      {
+        "character_id": 15594,
+        "character_name": "愛野美奈子",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1823-15594-99976cec-5343-4f77-b96d-2c8fe17cdaf0.jpeg",
+        "registration_date": "2025-04-27 06:31:18",
+        "work_id": 1823
+      },
+      {
+        "character_id": 16981,
+        "character_name": "オスカル・フランソワ・ド・ジャルジェ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1952-16981-8b9b5675-4e25-4a16-908c-aebdbe91836b.jpeg",
+        "registration_date": "2025-04-27 06:32:20",
+        "work_id": 1952
+      },
+      {
+        "character_id": 17345,
+        "character_name": "柏崎星奈",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1997-17345-930d4e76-6397-48b4-8584-9ef5457bda3a.jpeg",
+        "registration_date": "2025-04-27 06:30:55",
+        "work_id": 1997
+      },
+      {
+        "character_id": 17348,
+        "character_name": "羽瀬川小鳩",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1997-17348-a9721402-c2e2-4c7d-b691-0d17a46f1936.jpeg",
+        "registration_date": "2025-04-27 06:31:40",
+        "work_id": 1997
+      },
+      {
+        "character_id": 18287,
+        "character_name": "フェイト・テスタロッサ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4159-18287-6e1362da-1517-45d5-874c-f5021505700a.jpeg",
+        "registration_date": "2025-04-27 06:30:56",
+        "work_id": 4159
+      },
+      {
+        "character_id": 18289,
+        "character_name": "アリサ・バニングス",
+        "character_image_url": "http://localhost:5173/local-bucket/images/2112-18289-9d963154-3c25-4fcc-b212-be5d63782f63.jpeg",
+        "registration_date": "2025-04-27 06:32:38",
+        "work_id": 2112
+      },
+      {
+        "character_id": 18307,
+        "character_name": "シャマル",
+        "character_image_url": "http://localhost:5173/local-bucket/images/2113-18307-2d5d37f0-c3cb-48dc-84c7-d828e712a332.jpeg",
+        "registration_date": "2025-04-27 06:32:08",
+        "work_id": 2113
+      },
+      {
+        "character_id": 19407,
+        "character_name": "三浦優美子",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4244-19407-e0b81437-4ea4-4cea-b843-8ff8705b3461.jpeg",
+        "registration_date": "2025-04-27 06:32:34",
+        "work_id": 4244
+      },
+      {
+        "character_id": 24296,
+        "character_name": "シャロ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/3994-24296-69b7d826-5654-4eb1-add6-2837a3a8b7ec.jpeg",
+        "registration_date": "2025-04-27 06:30:53",
+        "work_id": 3994
+      },
+      {
+        "character_id": 24819,
+        "character_name": "緑風ふわり",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5214-24819-8a5e76f0-a322-400c-80d0-f5e2c50a2817.jpeg",
+        "registration_date": "2025-04-27 06:32:15",
+        "work_id": 5214
+      },
+      {
+        "character_id": 25249,
+        "character_name": "イリーナ・イェラビッチ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4542-25249-8efe9685-8554-4f90-9af2-178796949078.jpeg",
+        "registration_date": "2025-04-27 06:30:55",
+        "work_id": 4542
+      },
+      {
+        "character_id": 25266,
+        "character_name": "中村莉桜",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4542-25266-242c3272-743d-47cf-ba8a-f07de53dd29a.jpeg",
+        "registration_date": "2025-04-27 06:31:21",
+        "work_id": 4542
+      },
+      {
+        "character_id": 25379,
+        "character_name": "高町ヴィヴィオ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4159-25379-0d917bd8-af13-4948-b141-79c8a7c3c9ac.jpeg",
+        "registration_date": "2025-04-27 06:31:01",
+        "work_id": 4159
+      },
+      {
+        "character_id": 25407,
+        "character_name": "宮園かをり",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4164-25407-a6fee170-6354-4972-ac01-87ade939b0cb.jpeg",
+        "registration_date": "2025-04-27 06:31:20",
+        "work_id": 4164
+      },
+      {
+        "character_id": 26139,
+        "character_name": "アイズ・ヴァレンシュタイン",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4247-26139-9cc229eb-d79f-4f5d-82df-81aad51c50ab.jpeg",
+        "registration_date": "2025-04-27 06:31:00",
+        "work_id": 4247
+      },
+      {
+        "character_id": 26183,
+        "character_name": "水戸郁魅",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4253-26183-2343b0fb-4f68-431f-abf7-1ebc905b18e0.jpeg",
+        "registration_date": "2025-04-27 06:32:47",
+        "work_id": 4253
+      },
+      {
+        "character_id": 26333,
+        "character_name": "澤村・スペンサー・英梨々",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4266-26333-7035be2e-8113-44cf-825c-3104f49bf35e.jpeg",
+        "registration_date": "2025-04-27 06:31:05",
+        "work_id": 4266
+      },
+      {
+        "character_id": 26478,
+        "character_name": "白石うらら",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4413-26478-713a1194-59d1-4206-aa62-218a83804dc3.jpeg",
+        "registration_date": "2025-04-27 06:32:46",
+        "work_id": 4413
+      },
+      {
+        "character_id": 26595,
+        "character_name": "土間うまる",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4303-26595-755262f7-f8bf-4fa4-a5a5-a61ea4428253.jpeg",
+        "registration_date": "2025-04-27 06:31:16",
+        "work_id": 4303
+      },
+      {
+        "character_id": 27429,
+        "character_name": "クレマンティーヌ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4440-27429-cd907f38-7577-46d3-bd55-ea718f04e99b.jpeg",
+        "registration_date": "2025-04-27 06:32:18",
+        "work_id": 4440
+      },
+      {
+        "character_id": 27572,
+        "character_name": "ミリンダ＝ブランティーニ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4462-27572-cf42c9eb-37aa-4fd8-afcb-7cac8ba4194c.jpeg",
+        "registration_date": "2025-04-27 06:32:11",
+        "work_id": 4462
+      },
+      {
+        "character_id": 27932,
+        "character_name": "ギャル子",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4544-27932-3dcec6d2-26bc-445f-b165-34cf06a3d901.jpeg",
+        "registration_date": "2025-04-27 06:32:17",
+        "work_id": 4544
+      },
+      {
+        "character_id": 27955,
+        "character_name": "アイリスディーナ・ベルンハルト",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4549-27955-d4d63e80-f6a7-415f-86fd-d3bd862796b1.png",
+        "registration_date": "2025-04-27 06:32:35",
+        "work_id": 4549
+      },
+      {
+        "character_id": 28141,
+        "character_name": "川神舞",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4567-28141-02177607-abb0-40b3-afb9-4b48bcb3fcf5.jpeg",
+        "registration_date": "2025-04-27 06:31:10",
+        "work_id": 4567
+      },
+      {
+        "character_id": 28251,
+        "character_name": "高坂桐乃",
+        "character_image_url": "http://localhost:5173/local-bucket/images/338-28251-52f5e2a5-9b78-4e7e-ba8a-0e83bfe41a31.jpeg",
+        "registration_date": "2025-04-27 06:30:58",
+        "work_id": 338
+      },
+      {
+        "character_id": 28317,
+        "character_name": "フェルト",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4636-28317-2cfc53dc-7e26-4431-8a46-b61c6aff0f2a.jpeg",
+        "registration_date": "2025-04-27 06:31:24",
+        "work_id": 4636
+      },
+      {
+        "character_id": 28345,
+        "character_name": "樋口一葉",
+        "character_image_url": "http://localhost:5173/local-bucket/images/10647-28345-9e23e172-8c3d-4f69-bd0d-89c90c3763ef.jpeg",
+        "registration_date": "2025-04-27 06:32:43",
+        "work_id": 10647
+      },
+      {
+        "character_id": 30008,
+        "character_name": "山田エルフ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4714-30008-f1621e21-4f33-4a61-acb8-cfad22ab4216.jpeg",
+        "registration_date": "2025-04-27 06:31:19",
+        "work_id": 4714
+      },
+      {
+        "character_id": 30317,
+        "character_name": "柊真雪",
+        "character_image_url": "http://localhost:5173/local-bucket/images/4981-30317-6de18ffa-5d6c-4302-96b1-2af9177b4684.jpeg",
+        "registration_date": "2025-04-27 06:31:25",
+        "work_id": 4981
+      },
+      {
+        "character_id": 30713,
+        "character_name": "夢川ゆい",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5214-30713-bef32712-c0e6-4f35-a35d-f1ebd7bd3dd8.jpeg",
+        "registration_date": "2025-04-27 06:32:45",
+        "work_id": 5214
+      },
+      {
+        "character_id": 30931,
+        "character_name": "八女ゆかな",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5198-30931-5da65989-9c51-4df9-bfeb-8b5809ae38fc.jpeg",
+        "registration_date": "2025-04-27 06:31:42",
+        "work_id": 5198
+      },
+      {
+        "character_id": 30949,
+        "character_name": "天道花憐",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5242-30949-80a97146-9b32-41e8-87f9-efaf0826a504.jpeg",
+        "registration_date": "2025-04-27 06:30:59",
+        "work_id": 5242
+      },
+      {
+        "character_id": 31302,
+        "character_name": "ヴァイオレット・エヴァーガーデン",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5362-31302-0ad70751-7af5-4b14-b243-400a84c179dd.jpeg",
+        "registration_date": "2025-04-27 06:30:51",
+        "work_id": 5362
+      },
+      {
+        "character_id": 32109,
+        "character_name": "シャルロット・イゾアール",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5556-32109-febbc4f6-736e-487b-95aa-93d17ab77da7.jpeg",
+        "registration_date": "2025-04-27 06:31:28",
+        "work_id": 5556
+      },
+      {
+        "character_id": 32165,
+        "character_name": "ケイ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/424-32165-a69e8908-5877-458c-a8cb-dc42f550b12d.jpeg",
+        "registration_date": "2025-04-27 06:32:57",
+        "work_id": 424
+      },
+      {
+        "character_id": 32208,
+        "character_name": "テレサ・ワーグナー",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5544-32208-5e40e961-df7b-4fa3-9d07-42ac1e9fd601.jpeg",
+        "registration_date": "2025-04-27 06:32:48",
+        "work_id": 5544
+      },
+      {
+        "character_id": 32498,
+        "character_name": "相卜命",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5594-32498-afc3f7fc-faca-4c41-bb87-932c2b1cdd3b.jpeg",
+        "registration_date": "2025-04-27 06:32:07",
+        "work_id": 5594
+      },
+      {
+        "character_id": 32499,
+        "character_name": "梨歩田依舞",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5594-32499-6b81d5ac-8eab-4d64-a20c-a2f902d5eac2.jpeg",
+        "registration_date": "2025-04-27 06:31:49",
+        "work_id": 5594
+      },
+      {
+        "character_id": 33298,
+        "character_name": "コニー・クリステンセン",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5733-33298-7223e785-36d4-4c94-8ac4-112af49804b8.jpeg",
+        "registration_date": "2025-04-27 06:31:30",
+        "work_id": 5733
+      },
+      {
+        "character_id": 33401,
+        "character_name": "春原彩花",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5602-33401-ad1f8cf2-150d-406d-8d54-d6fd11f232ed.jpeg",
+        "registration_date": "2025-04-27 06:32:49",
+        "work_id": 5602
+      },
+      {
+        "character_id": 33690,
+        "character_name": "女神官",
+        "character_image_url": "http://localhost:5173/local-bucket/images/6077-33690-18017936-fec0-4760-aeb1-074165bcf61a.jpeg",
+        "registration_date": "2025-04-27 06:31:39",
+        "work_id": 6077
+      },
+      {
+        "character_id": 34486,
+        "character_name": "フィーロ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/6219-34486-14e09aef-02e3-41f2-b432-c117d9719335.jpeg",
+        "registration_date": "2025-04-27 06:31:41",
+        "work_id": 6219
+      },
+      {
+        "character_id": 35166,
+        "character_name": "鬼島ほまれ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/6529-35166-302add04-583c-4b8b-9e3f-8841637dcc70.jpeg",
+        "registration_date": "2025-04-27 06:31:45",
+        "work_id": 6529
+      },
+      {
+        "character_id": 35171,
+        "character_name": "紗倉ひびき",
+        "character_image_url": "http://localhost:5173/local-bucket/images/6463-35171-91c45ce4-b7f8-4dfd-92e7-dbff00cffbbc.jpeg",
+        "registration_date": "2025-04-27 06:31:22",
+        "work_id": 6463
+      },
+      {
+        "character_id": 35229,
+        "character_name": "コハク",
+        "character_image_url": "http://localhost:5173/local-bucket/images/6358-35229-1db7f65d-845a-4327-9120-2e07e73c5f2b.jpeg",
+        "registration_date": "2025-04-27 06:31:23",
+        "work_id": 6358
+      },
+      {
+        "character_id": 35391,
+        "character_name": "ユエ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/5627-35391-bdf25521-ee55-4e9f-b4a9-4874fc53b2e8.jpeg",
+        "registration_date": "2025-04-27 06:31:02",
+        "work_id": 5627
+      },
+      {
+        "character_id": 40289,
+        "character_name": "喜多川海夢",
+        "character_image_url": "http://localhost:5173/local-bucket/images/8365-40289-e2709b77-1591-4982-98f1-bebbe832f852.jpeg",
+        "registration_date": "2025-04-27 06:32:33",
+        "work_id": 8365
+      },
+      {
+        "character_id": 40442,
+        "character_name": "小舟潮",
+        "character_image_url": "http://localhost:5173/local-bucket/images/8782-40442-abe3d164-fc35-44d8-b49c-4156eea38176.jpeg",
+        "registration_date": "2025-04-27 06:32:31",
+        "work_id": 8782
+      },
+      {
+        "character_id": 42679,
+        "character_name": "月丘ルーシー",
+        "character_image_url": "http://localhost:5173/local-bucket/images/9216-42679-7c493fb5-ef94-427f-9eb4-a7c34458e18c.jpeg",
+        "registration_date": "2025-04-27 06:32:13",
+        "work_id": 9216
+      },
+      {
+        "character_id": 43933,
+        "character_name": "MEMちょ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/9696-43933-dd95ff2a-db95-4e60-924c-6e266350eb8a.jpeg",
+        "registration_date": "2025-04-27 06:31:08",
+        "work_id": 9696
+      },
+      {
+        "character_id": 46917,
+        "character_name": "アリス",
+        "character_image_url": "http://localhost:5173/local-bucket/images/80-46917-b567a8d3-1ebd-40b7-83ed-7ba637c92030.jpeg",
+        "registration_date": "2025-04-27 06:32:20",
+        "work_id": 80
+      },
+      {
+        "character_id": 47377,
+        "character_name": "虎視虎子",
+        "character_image_url": "http://localhost:5173/local-bucket/images/12799-47377-6f67ed69-f09e-42ca-9085-05f0e99c421b.jpeg",
+        "registration_date": "2025-04-27 06:32:10",
+        "work_id": 12799
+      },
+      {
+        "character_id": 47723,
+        "character_name": "レジーナ",
+        "character_image_url": "http://localhost:5173/local-bucket/images/1452-47723-d975adb8-0961-413f-bb21-78b665014300.jpeg",
+        "registration_date": "2025-04-27 06:32:44",
+        "work_id": 1452
+      },
+      {
+        "character_id": 48279,
+        "character_name": "喜咲アリア",
+        "character_image_url": "http://localhost:5173/local-bucket/images/10235-48279-ebf3546b-1039-4b36-9988-d7d06acfd3b9.jpeg",
+        "registration_date": "2025-04-27 06:31:57",
+        "work_id": 10235
+      }
+    ]
+  }
+]

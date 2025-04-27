@@ -29,7 +29,11 @@
       "style": {
         "useTemplate": "off",
         "useImportType": "off",
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "useNodejsImportProtocol": "off"
+      },
+      "complexity": {
+        "noForEach": "off"
       }
     }
   },
