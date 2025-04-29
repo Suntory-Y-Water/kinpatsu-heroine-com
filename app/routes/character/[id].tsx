@@ -2,6 +2,8 @@ import { createRoute } from 'honox/factory';
 
 import LikeButton from './$like-button';
 import { getCharacterById } from '@/lib/db';
+import { getCookie } from 'hono/cookie';
+import { getLikeCharacterById } from '@/lib/db/getLikeCharacterById';
 
 export default createRoute(async (c) => {
   const id = c.req.param('id');
@@ -26,6 +28,17 @@ export default createRoute(async (c) => {
   if (!character) {
     return c.notFound();
   }
+
+  // いいね数を取得するためにCookieIDを取得
+  const cookieId = getCookie(c, 'visitor_id');
+
+  const isLikedResult = await getLikeCharacterById({
+    DB: c.env.DB,
+    characterId: Number(id),
+    cookieId: cookieId ?? '', // Cookieが設定されていない場合は空文字を設定
+  });
+
+  const isLiked = isLikedResult.isOk() ? isLikedResult.value : false;
 
   return c.render(
     <div className='max-w-6xl mx-auto'>
@@ -65,6 +78,7 @@ export default createRoute(async (c) => {
                 <LikeButton
                   initialLikes={character.likes}
                   characterId={character.characterId}
+                  isLiked={isLiked}
                 />
               </div>
             </div>
