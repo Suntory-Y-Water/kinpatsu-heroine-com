@@ -173,8 +173,8 @@ export default createRoute(async (c) => {
     return c.json({ error: 'Failed to initialize Annict client.' }, 500);
   }
 
-  // --- data/dml.json 読み込み ---
-  const dmlPath = path.join(process.cwd(), 'data', 'dml.json');
+  // --- data/initializer.json 読み込み ---
+  const dmlPath = path.join(process.cwd(), 'data', 'initializer.json');
   let dmlJsonData: DmlData[];
   try {
     // 注意: Honox/HonoのNode.js互換モードが有効である必要あり

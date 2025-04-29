@@ -1,13 +1,11 @@
 import { drizzle } from 'drizzle-orm/d1';
 import {
-  characterTable,
-  workTable,
+  registrationQueueTable,
   likeHistoryTable,
 } from '@/config/drizzle/schema';
 import { err, ok, Result } from 'neverthrow';
 import { DatabaseError } from '@/types/error';
-import { eq } from 'drizzle-orm';
-import { sql } from 'drizzle-orm';
+import { eq, count } from 'drizzle-orm';
 import type { CharacterList } from '@/types/character';
 
 export async function getAllCharacters({
@@ -20,26 +18,31 @@ export async function getAllCharacters({
 
     const rawResult = await db
       .select({
-        characterId: characterTable.character_id,
-        characterName: characterTable.character_name,
-        imageUrl: characterTable.character_image_url,
-        workName: workTable.work_name,
-        likes: sql`COUNT(${likeHistoryTable.character_id})`.as('likes'),
+        characterId: registrationQueueTable.character_id,
+        characterName: registrationQueueTable.character_name,
+        imageUrl: registrationQueueTable.character_image_url,
+        workName: registrationQueueTable.work_name,
+        likes: count(likeHistoryTable.character_id).as('likes'),
       })
-      .from(characterTable)
-      .leftJoin(workTable, eq(characterTable.work_id, workTable.work_id))
+      .from(registrationQueueTable)
       .leftJoin(
         likeHistoryTable,
-        eq(characterTable.character_id, likeHistoryTable.character_id),
+        eq(registrationQueueTable.character_id, likeHistoryTable.character_id),
       )
-      .groupBy(characterTable.character_id);
+      .where(eq(registrationQueueTable.is_deleted, false))
+      .groupBy(
+        registrationQueueTable.character_id,
+        registrationQueueTable.character_name,
+        registrationQueueTable.character_image_url,
+        registrationQueueTable.work_name,
+      );
 
     const result: CharacterList[] = rawResult.map((row) => ({
       characterId: row.characterId,
       characterName: row.characterName,
       imageUrl: row.imageUrl,
       workName: row.workName || '',
-      likes: Number(row.likes) || 0,
+      likes: row.likes || 0,
     }));
 
     return ok(result);

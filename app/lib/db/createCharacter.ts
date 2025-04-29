@@ -18,15 +18,11 @@ export async function createCharacter({
       .insert(characterTable)
       .values({
         character_id: character.characterId,
-        character_name: character.characterName,
-        character_image_url: character.imageUrl,
         work_id: character.workId,
       })
       .onConflictDoUpdate({
         target: characterTable.character_id,
         set: {
-          character_name: character.characterName,
-          character_image_url: character.imageUrl,
           work_id: character.workId,
         },
       });

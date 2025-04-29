@@ -8,13 +8,12 @@ import {
 
 export const workTable = sqliteTable('work_table', {
   work_id: integer('work_id').primaryKey(),
-  work_name: text('work_name', { length: 255 }).notNull(),
   official_site_url: text('official_site_url', { length: 2083 }),
   wikipedia_url: text('wikipedia_url', { length: 2083 }),
 });
 
 export const streamingSiteTable = sqliteTable('streaming_site_table', {
-  streaming_site_id: text('streaming_site_id', { length: 255 }).primaryKey(), // ドメイン名をIDとして使用
+  streaming_site_id: text('streaming_site_id', { length: 255 }).primaryKey(),
   streaming_site_name: text('streaming_site_name', { length: 255 }).notNull(),
   streaming_site_url: text('streaming_site_url', { length: 2083 }).notNull(),
 });
@@ -37,8 +36,6 @@ export const workStreamingSiteTable = sqliteTable(
 
 export const characterTable = sqliteTable('character_table', {
   character_id: integer('character_id').primaryKey(),
-  character_name: text('character_name', { length: 255 }).notNull(),
-  character_image_url: text('character_image_url', { length: 2083 }).notNull(),
   registration_date: text('registration_date')
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),

@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/d1';
 import {
-  characterTable,
+  registrationQueueTable,
   workTable,
   streamingSiteTable,
   workStreamingSiteTable,
@@ -8,8 +8,7 @@ import {
 } from '@/config/drizzle/schema';
 import { err, ok, Result } from 'neverthrow';
 import { DatabaseError } from '@/types/error';
-import { eq } from 'drizzle-orm';
-import { sql } from 'drizzle-orm';
+import { eq, count, and } from 'drizzle-orm';
 import type { CharacterDetail } from '@/types/character';
 
 export async function getCharacterById({
@@ -22,32 +21,48 @@ export async function getCharacterById({
   try {
     const db = drizzle(DB);
 
-    // キャラクター基本情報と作品情報を取得
     const characterResult = await db
       .select({
-        characterId: characterTable.character_id,
-        characterName: characterTable.character_name,
-        imageUrl: characterTable.character_image_url,
-        workId: characterTable.work_id,
-        workName: workTable.work_name,
+        characterId: registrationQueueTable.character_id,
+        characterName: registrationQueueTable.character_name,
+        imageUrl: registrationQueueTable.character_image_url,
+        workId: registrationQueueTable.work_id,
+        workName: registrationQueueTable.work_name,
         officialSiteUrl: workTable.official_site_url,
         wikipediaUrl: workTable.wikipedia_url,
-        likes: sql`COUNT(${likeHistoryTable.character_id})`.as('likes'),
+        likes: count(likeHistoryTable.character_id).as('likes'),
       })
-      .from(characterTable)
-      .leftJoin(workTable, eq(characterTable.work_id, workTable.work_id))
+      .from(registrationQueueTable)
+      .leftJoin(
+        workTable,
+        eq(registrationQueueTable.work_id, workTable.work_id),
+      )
       .leftJoin(
         likeHistoryTable,
-        eq(characterTable.character_id, likeHistoryTable.character_id),
+        eq(registrationQueueTable.character_id, likeHistoryTable.character_id),
       )
-      .where(eq(characterTable.character_id, characterId))
-      .groupBy(characterTable.character_id);
+      .where(
+        and(
+          eq(registrationQueueTable.character_id, characterId),
+          eq(registrationQueueTable.is_deleted, false),
+        ),
+      )
+      .groupBy(
+        registrationQueueTable.character_id,
+        registrationQueueTable.character_name,
+        registrationQueueTable.character_image_url,
+        registrationQueueTable.work_id,
+        registrationQueueTable.work_name,
+        workTable.official_site_url,
+        workTable.wikipedia_url,
+      );
 
     if (characterResult.length === 0) {
-      return err(new DatabaseError('Character not found'));
+      return err(new DatabaseError('Character not found or deleted'));
     }
 
-    // 配信サイト情報を取得
+    const characterData = characterResult[0];
+
     const streamingSiteResult = await db
       .select({
         streamingSiteId: streamingSiteTable.streaming_site_id,
@@ -62,26 +77,24 @@ export async function getCharacterById({
           streamingSiteTable.streaming_site_id,
         ),
       )
-      .where(eq(workStreamingSiteTable.work_id, characterResult[0].workId));
+      .where(eq(workStreamingSiteTable.work_id, characterData.workId));
 
-    // 配信サイト情報をStreamingSiteInfo型に整形
     const streamingSiteInfo = streamingSiteResult.map((site) => ({
       streamingSiteId: site.streamingSiteId || '',
       streamingSiteName: site.streamingSiteName || '',
       streamingSiteUrl: site.streamingSiteUrl || '',
     }));
 
-    // CharacterDetail型に整形
     const result: CharacterDetail = {
-      characterId: characterResult[0].characterId,
-      characterName: characterResult[0].characterName,
-      imageUrl: characterResult[0].imageUrl,
-      workId: characterResult[0].workId,
-      workName: characterResult[0].workName || '',
-      likes: Number(characterResult[0].likes) || 0,
+      characterId: characterData.characterId,
+      characterName: characterData.characterName,
+      imageUrl: characterData.imageUrl,
+      workId: characterData.workId,
+      workName: characterData.workName || '',
+      likes: characterData.likes || 0,
       infoUrl: {
-        officialSiteUrl: characterResult[0].officialSiteUrl || '',
-        wikipediaUrl: characterResult[0].wikipediaUrl || '',
+        officialSiteUrl: characterData.officialSiteUrl || '',
+        wikipediaUrl: characterData.wikipediaUrl || '',
       },
       streamingSiteInfo,
     };

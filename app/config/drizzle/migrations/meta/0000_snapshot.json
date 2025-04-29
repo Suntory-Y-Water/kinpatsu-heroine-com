@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "3b33471b-0264-4545-a4df-fca784b3ae37",
+  "id": "609c8468-43ad-4f6f-920a-522ce1b2dd8a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "character_table": {
@@ -11,20 +11,6 @@
           "name": "character_id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "character_name": {
-          "name": "character_name",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "character_image_url": {
-          "name": "character_image_url",
-          "type": "text(2083)",
-          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -300,13 +286,6 @@
           "name": "work_id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "work_name": {
-          "name": "work_name",
-          "type": "text(255)",
-          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
