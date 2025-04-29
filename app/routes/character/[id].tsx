@@ -18,9 +18,9 @@ export default createRoute(async (c) => {
   if (result.isErr()) {
     logger.error({
       method: 'getCharacterById',
-      message: 'キャラクター情報取得に失敗しました',
+      message: 'DBからキャラクター情報を取得できませんでした',
     });
-    throw new Error('DBからキャラクター情報を取得できませんでした');
+    return c.notFound();
   }
 
   const character = result.value;

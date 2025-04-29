@@ -67,7 +67,7 @@ export async function getCharacterById({
       .select({
         streamingSiteId: streamingSiteTable.streaming_site_id,
         streamingSiteName: streamingSiteTable.streaming_site_name,
-        streamingSiteUrl: streamingSiteTable.streaming_site_url,
+        streamingSiteUrl: workStreamingSiteTable.streaming_site_url,
       })
       .from(workStreamingSiteTable)
       .leftJoin(

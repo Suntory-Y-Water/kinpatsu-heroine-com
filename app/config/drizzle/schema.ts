@@ -15,7 +15,6 @@ export const workTable = sqliteTable('work_table', {
 export const streamingSiteTable = sqliteTable('streaming_site_table', {
   streaming_site_id: text('streaming_site_id', { length: 255 }).primaryKey(),
   streaming_site_name: text('streaming_site_name', { length: 255 }).notNull(),
-  streaming_site_url: text('streaming_site_url', { length: 2083 }).notNull(),
 });
 
 export const workStreamingSiteTable = sqliteTable(

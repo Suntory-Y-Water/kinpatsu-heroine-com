@@ -5,7 +5,7 @@ import {
 } from '@/config/drizzle/schema';
 import { err, ok, Result } from 'neverthrow';
 import { DatabaseError } from '@/types/error';
-import { eq, count } from 'drizzle-orm';
+import { eq, count, and } from 'drizzle-orm';
 import type { CharacterList } from '@/types/character';
 
 export async function getAllCharacters({
@@ -29,7 +29,12 @@ export async function getAllCharacters({
         likeHistoryTable,
         eq(registrationQueueTable.character_id, likeHistoryTable.character_id),
       )
-      .where(eq(registrationQueueTable.is_deleted, false))
+      .where(
+        and(
+          eq(registrationQueueTable.is_deleted, false),
+          eq(registrationQueueTable.is_registered, true),
+        ),
+      )
       .groupBy(
         registrationQueueTable.character_id,
         registrationQueueTable.character_name,
