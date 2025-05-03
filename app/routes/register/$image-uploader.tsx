@@ -1,4 +1,4 @@
-import { useState } from 'hono/jsx';
+import { useState, useEffect } from 'hono/jsx';
 
 export default function ImageUploader() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -42,6 +42,23 @@ export default function ImageUploader() {
       alert('画像のアップロードに失敗しました。再度お試しください。');
     }
   };
+  function validateForm() {
+    const submitButton = document.getElementById(
+      'submitButton',
+    ) as HTMLButtonElement | null;
+    const characterName = document.querySelector(
+      'select[name="characterName"]',
+    ) as HTMLSelectElement | null;
+
+    if (!submitButton || !characterName) return;
+
+    const isValid = characterName.value !== '' && imageUrl !== '';
+    submitButton.disabled = !isValid;
+  }
+
+  useEffect(() => {
+    validateForm();
+  }, [imageUrl]);
 
   return (
     <div className='mb-4'>

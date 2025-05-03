@@ -15,7 +15,7 @@ function getContentType(filename: string): string {
 
 export const GET = createRoute(async (c) => {
   const filename = c.req.param('filename');
-  const file = await c.env.R2_BUCKET.get(`/images/${filename}`);
+  const file = await c.env.R2_BUCKET.get(`images/${filename}`);
 
   if (!file) {
     return c.notFound();
