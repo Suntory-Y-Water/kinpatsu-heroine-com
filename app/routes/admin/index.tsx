@@ -53,7 +53,7 @@ export default createRoute(async (c) => {
 
   return c.render(
     <div className='bg-gray-900 text-white'>
-      <div className='container mx-auto px-4 py-8'>
+      <div className='container mx-auto px-4 py-4'>
         <h1 className='text-3xl font-bold text-yellow-300 mb-8'>管理画面</h1>
 
         <StatusMessage status={status} message={message} />

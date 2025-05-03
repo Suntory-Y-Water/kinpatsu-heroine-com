@@ -63,7 +63,7 @@ export default createRoute(async (c) => {
   const totalPages = paginatedResult.totalPages;
 
   return c.render(
-    <div className='space-y-8 pt-16 md:pt-0'>
+    <div className='space-y-8'>
       <div className='flex justify-end'>
         <SortSelector currentSort={currentSort} options={sortOptions} />
       </div>

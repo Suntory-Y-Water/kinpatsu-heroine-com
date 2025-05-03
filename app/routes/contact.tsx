@@ -3,7 +3,7 @@ import { createRoute } from 'honox/factory';
 export default createRoute((c) => {
   return c.render(
     <div className='bg-gray-900 text-white'>
-      <div className='container mx-auto px-4 py-8'>
+      <div className='container mx-auto px-4 py-4'>
         <h1 className='text-3xl font-bold text-center mb-4'>お問い合わせ</h1>
         <div className='max-w-2xl mx-auto'>
           <p className='mb-8 text-lg leading-relaxed'>

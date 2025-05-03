@@ -51,7 +51,7 @@ export default createRoute(async (c) => {
         <span>キャラクター一覧に戻る</span>
       </a>
 
-      <div className='bg-gradient-to-b  rounded-xl overflow-hidden shadow-2xl border border-yellow-900/30'>
+      <div className='bg-gradient-to-b rounded-xl overflow-hidden shadow-2xl border border-yellow-900/30'>
         <div className='md:flex'>
           {/* 画像セクション */}
           <div className='md:w-1/2 relative'>
@@ -65,16 +65,18 @@ export default createRoute(async (c) => {
 
           {/* 情報セクション */}
           <div className='md:w-1/2 p-6 md:p-8 relative'>
-            <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-0'>
+            <div className='flex flex-col gap-4'>
               <div>
                 <h1 className='text-2xl md:text-3xl font-bold text-yellow-300 mb-2'>
                   {character.characterName}
                 </h1>
-                <p className='text-lg md:text-xl text-yellow-50/50 mb-6'>
+                <p className='text-lg md:text-xl text-yellow-50/50 mb-4'>
                   {character.workName}
                 </p>
               </div>
-              <div className='self-start'>
+
+              {/* いいねボタン - モバイルで左寄せ */}
+              <div className=''>
                 <LikeButton
                   initialLikes={character.likes}
                   characterId={character.characterId}
@@ -86,7 +88,7 @@ export default createRoute(async (c) => {
             {/* 関連リンク */}
             {(character.infoUrl.officialSiteUrl ||
               character.infoUrl.wikipediaUrl) && (
-              <div className='space-y-4'>
+              <div className='space-y-4 mt-8'>
                 <h2 className='text-xl font-bold text-yellow-300 mb-4'>
                   関連リンク
                 </h2>
