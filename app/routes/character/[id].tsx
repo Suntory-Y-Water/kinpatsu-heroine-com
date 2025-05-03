@@ -84,52 +84,61 @@ export default createRoute(async (c) => {
             </div>
 
             {/* 関連リンク */}
-            <div className='space-y-4'>
-              <h2 className='text-xl font-bold text-yellow-300 mb-4'>
-                関連リンク
-              </h2>
-              <div className='grid gap-4'>
-                <a
-                  href={character.infoUrl.officialSiteUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
-                >
-                  <span className='text-white'>🌐</span>
-                  <span>公式サイト</span>
-                </a>
-                <a
-                  href={character.infoUrl.wikipediaUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
-                >
-                  <span className='text-white'>📖</span>
-                  <span>Wikipedia</span>
-                </a>
+            {(character.infoUrl.officialSiteUrl ||
+              character.infoUrl.wikipediaUrl) && (
+              <div className='space-y-4'>
+                <h2 className='text-xl font-bold text-yellow-300 mb-4'>
+                  関連リンク
+                </h2>
+                <div className='grid gap-4'>
+                  {character.infoUrl.officialSiteUrl && (
+                    <a
+                      href={character.infoUrl.officialSiteUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
+                    >
+                      <span className='text-white'>🌐</span>
+                      <span>公式サイト</span>
+                    </a>
+                  )}
+                  {character.infoUrl.wikipediaUrl && (
+                    <a
+                      href={character.infoUrl.wikipediaUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
+                    >
+                      <span className='text-white'>📖</span>
+                      <span>Wikipedia</span>
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* 配信サービス */}
-            <div className='mt-8'>
-              <h2 className='text-xl font-bold text-yellow-300 mb-4'>
-                視聴できる配信サービス
-              </h2>
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                {character.streamingSiteInfo.map((service) => (
-                  <a
-                    key={service.streamingSiteId}
-                    href={service.streamingSiteUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'
-                  >
-                    <span className='text-white'>▶️</span>
-                    <span>{service.streamingSiteName}</span>
-                  </a>
-                ))}
+            {character.streamingSiteInfo.length > 0 && (
+              <div className='mt-8'>
+                <h2 className='text-xl font-bold text-yellow-300 mb-4'>
+                  視聴できる配信サービス
+                </h2>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                  {character.streamingSiteInfo.map((service) => (
+                    <a
+                      key={service.streamingSiteId}
+                      href={service.streamingSiteUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'
+                    >
+                      <span className='text-white'>▶️</span>
+                      <span>{service.streamingSiteName}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
