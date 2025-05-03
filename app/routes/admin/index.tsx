@@ -155,6 +155,7 @@ export default createRoute(async (c) => {
                       action='/admin/delete'
                       method='post'
                       className='flex-1'
+                      onsubmit="return confirm('本当に削除しますか？');"
                     >
                       <input
                         type='hidden'

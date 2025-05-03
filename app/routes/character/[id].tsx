@@ -1,7 +1,7 @@
 import { createRoute } from 'honox/factory';
 
 import LikeButton from './$like-button';
-import { getCharacterById } from '@/lib/db';
+import { getRegistrationCharacterById } from '@/lib/db';
 import { getCookie } from 'hono/cookie';
 import { getLikeCharacterById } from '@/lib/db/getLikeCharacterById';
 
@@ -10,14 +10,14 @@ export default createRoute(async (c) => {
 
   const { logger } = c.var;
 
-  const result = await getCharacterById({
+  const result = await getRegistrationCharacterById({
     DB: c.env.DB,
     characterId: Number(id),
   });
 
   if (result.isErr()) {
     logger.error({
-      method: 'getCharacterById',
+      method: 'getRegistrationCharacterById',
       message: 'DBからキャラクター情報を取得できませんでした',
     });
     return c.notFound();
