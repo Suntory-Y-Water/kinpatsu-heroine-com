@@ -1,3 +1,4 @@
+import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
 
 export default createRoute((c) => {
@@ -21,5 +22,27 @@ export default createRoute((c) => {
         </div>
       </div>
     </div>,
+    {
+      title: 'このサイトについて',
+      description:
+        '金髪ヒロイン.comは、アニメや漫画、ゲームなどに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
+      openGraph: {
+        title: 'このサイトについて',
+        description:
+          '金髪ヒロイン.comは、アニメや漫画、ゲームなどに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/about' }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: 'このサイトについて',
+        description:
+          '金髪ヒロイン.comは、アニメや漫画、ゲームなどに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/about' }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });

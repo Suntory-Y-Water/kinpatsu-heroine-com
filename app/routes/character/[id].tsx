@@ -1,5 +1,5 @@
 import { createRoute } from 'honox/factory';
-
+import { absoluteUrl } from '@/lib/utils';
 import LikeButton from './$like-button';
 import { getRegistrationCharacterById } from '@/lib/db';
 import { getCookie } from 'hono/cookie';
@@ -145,5 +145,30 @@ export default createRoute(async (c) => {
         </div>
       </div>
     </div>,
+    {
+      title: `${character.characterName}`,
+      description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
+      openGraph: {
+        title: `${character.characterName}`,
+        description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
+        url: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: `/character/${id}`,
+        }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: `${character.characterName}`,
+        description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
+        url: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: `/character/${id}`,
+        }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });

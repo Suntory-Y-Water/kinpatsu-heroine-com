@@ -1,3 +1,4 @@
+import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
 import { PolicyLayout } from '../components/PolicyLayout';
 
@@ -46,5 +47,27 @@ export default createRoute((c) => {
         （プライバシーポリシーの内容は適宜変更される可能性があります。最新の情報をご確認ください。）
       </p>
     </PolicyLayout>,
+    {
+      title: 'プライバシーポリシー',
+      description:
+        '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
+      openGraph: {
+        title: 'プライバシーポリシー',
+        description:
+          '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/privacy' }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: 'プライバシーポリシー',
+        description:
+          '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/privacy' }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });
