@@ -8,16 +8,12 @@ export function Header() {
               金髪ヒロイン.com
             </span>
           </a>
-          <div
-            className={
-              'flex md:flex flex-col md:flex-row absolute md:relative top-16 md:top-auto left-0 right-0 md:left-auto md:right-auto bg-gray-900 md:bg-transparent p-4 md:p-0 z-50 md:z-auto items-center gap-4 border-b md:border-b-0 border-yellow-900/30 md:border-transparent'
-            }
-          >
+          <div>
             <a
               href='/register/work'
-              className='bg-yellow-300 text-gray-900 rounded px-4 py-2 font-medium hover:bg-yellow-500 transition-colors w-full md:w-auto text-center'
+              className='bg-yellow-300 text-gray-900 rounded px-3 md:px-4 py-2 font-medium hover:bg-yellow-500 transition-colors text-sm md:text-base'
             >
-              新しいヒロインを登録する
+              ヒロインを登録する
             </a>
           </div>
         </div>

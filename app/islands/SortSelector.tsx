@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'hono/jsx';
+
 export interface SortOption {
   key: string;
   label: string;
@@ -9,8 +11,15 @@ interface SortSelectorProps {
 }
 
 export function SortSelector({ currentSort, options }: SortSelectorProps) {
+  const [selectedSort, setSelectedSort] = useState(currentSort);
+
+  useEffect(() => {
+    setSelectedSort(currentSort);
+  }, [currentSort]);
+
   function handleChange(e: Event) {
-    const form = (e.target as HTMLSelectElement).form;
+    const select = e.target as HTMLSelectElement;
+    const form = select.form;
     if (form) {
       form.submit();
     }
@@ -21,7 +30,7 @@ export function SortSelector({ currentSort, options }: SortSelectorProps) {
       <div className='relative inline-block text-left'>
         <select
           name='sort'
-          defaultValue={currentSort}
+          value={selectedSort}
           onChange={handleChange}
           className='inline-flex justify-center w-full rounded-md border border-gray-700 shadow-sm px-6 py-2 bg-gray-800 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-300 transition-colors appearance-none'
         >

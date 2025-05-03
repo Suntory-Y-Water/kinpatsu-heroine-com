@@ -4,7 +4,7 @@ import { pinoLogger, type PinoLogger } from 'hono-pino';
 export default createRoute(
   pinoLogger({
     pino: {
-      level: 'info',
+      level: 'warn',
     },
   }),
 );
