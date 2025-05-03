@@ -28,7 +28,12 @@
       },
       "style": {
         "useTemplate": "off",
-        "useImportType": "off"
+        "useImportType": "off",
+        "noUnusedTemplateLiteral": "off",
+        "useNodejsImportProtocol": "off"
+      },
+      "complexity": {
+        "noForEach": "off"
       }
     }
   },

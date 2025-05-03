@@ -3,7 +3,6 @@ import { useState } from 'hono/jsx';
 export default function ImageUploader() {
   const [preview, setPreview] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
-  const [isUploading, setIsUploading] = useState(false);
 
   // ファイル選択時の処理
   const handleFileChange = async (e: Event) => {
@@ -22,8 +21,6 @@ export default function ImageUploader() {
     };
     reader.readAsDataURL(file);
 
-    // 画像のアップロード処理
-    setIsUploading(true);
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -40,11 +37,9 @@ export default function ImageUploader() {
       setImageUrl(result.url);
     } catch (error) {
       if (error instanceof Error) {
-        console.error('画像アップロードエラー:', error.message);
+        console.error(`画像アップロードエラー:${error.message}`);
       }
       alert('画像のアップロードに失敗しました。再度お試しください。');
-    } finally {
-      setIsUploading(false);
     }
   };
 
@@ -58,17 +53,17 @@ export default function ImageUploader() {
       </label>
       <div className='flex flex-col items-start'>
         <label
-          className={`bg-white border border-gray-400 font-semibold rounded py-2 px-4 text-gray-700 cursor-pointer hover:bg-gray-100 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`bg-white border border-gray-400 font-semibold rounded py-2 px-4 text-gray-700 cursor-pointer hover:bg-gray-100`}
         >
-          {isUploading ? '画像をアップロード中...' : '画像を選択する'}
           <input
             type='file'
             className='hidden'
             accept='image/*'
             onChange={handleFileChange}
-            disabled={isUploading}
           />
+          画像を選択する
         </label>
+
         {preview && (
           <div className='mt-2'>
             <img

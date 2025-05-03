@@ -18,8 +18,7 @@ async function isValidToken(c: Context): Promise<boolean> {
   try {
     await verify(token, c.env.JWT_SECRET);
     return true;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : '不明なエラー';
+  } catch (_error) {
     return false;
   }
 }
@@ -44,9 +43,8 @@ export default createRoute(async (c, next) => {
   try {
     // JWT認証ミドルウェアを実行
     await jwtAuth(c, next);
-  } catch (error) {
+  } catch (_error) {
     // JWT認証に失敗した場合の処理
-    const message = error instanceof Error ? error.message : '不明なエラー';
     deleteCookie(c, 'admin_token');
     return c.redirect('/admin/login');
   }

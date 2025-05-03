@@ -15,14 +15,12 @@ export async function createWork({
       .insert(workTable)
       .values({
         work_id: work.workId,
-        work_name: work.workName,
         official_site_url: work.officialSiteUrl,
         wikipedia_url: work.wikipediaUrl,
       })
       .onConflictDoUpdate({
         target: workTable.work_id,
         set: {
-          work_name: work.workName,
           official_site_url: work.officialSiteUrl,
           wikipedia_url: work.wikipediaUrl,
         },

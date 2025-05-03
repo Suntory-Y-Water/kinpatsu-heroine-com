@@ -3,6 +3,7 @@ import { ValidationError } from '@/types/error';
 import { createRoute } from 'honox/factory';
 
 export const POST = createRoute(async (c) => {
+  const { logger } = c.var;
   const body = await c.req.parseBody();
 
   if (typeof body.file === 'string') {
@@ -11,7 +12,7 @@ export const POST = createRoute(async (c) => {
   const file = body.file;
 
   // rename file
-  const fileName = `/images/${crypto.randomUUID()}_${file.name}`;
+  const fileName = `images/${crypto.randomUUID()}_${file.name}`;
 
   // arrayBuffer to file
   const arrayBuffer = await file.arrayBuffer();
@@ -21,6 +22,10 @@ export const POST = createRoute(async (c) => {
     file: file,
     fileName: fileName,
     arrayBuffer: arrayBuffer,
+  });
+
+  logger.info({
+    message: `upload image file to ${c.env.R2_ENDPOINT}${result.key}`,
   });
 
   return c.json({

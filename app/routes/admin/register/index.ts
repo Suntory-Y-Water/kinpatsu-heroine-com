@@ -27,19 +27,33 @@ const formSchema = z.object({
 export const POST = createRoute(
   zValidator('form', formSchema, (result, c) => {
     if (!result.success) {
-      console.error(result.error);
-      return c.redirect('/admin');
+      const { logger } = c.var;
+      logger.error({
+        method: 'registerCharacter',
+        message: 'キャラクターの登録に失敗しました',
+        error: result.error,
+      });
+      const message = encodeURIComponent('キャラクターの登録に失敗しました。');
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
   }),
   async (c) => {
+    const { logger } = c.var;
     const { characterId, workId, characterName, workName, imageUrl } =
       await c.req.valid('form');
 
     // 配信サイト情報、wikipedia、公式サイト情報取得のためのhtmlを取得
     const response = await fetchRequest(`https://annict.com/works/${workId}`);
 
+    const message = encodeURIComponent('キャラクターの登録に失敗しました。');
+
     if (response.isErr()) {
-      throw new Error(response.error.message);
+      logger.error({
+        method: 'fetchRequest',
+        message: '配信サイト情報、wikipedia、公式サイト情報取得に失敗しました',
+        error: response.error,
+      });
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
 
     // ドメイン層から処理実装
@@ -59,7 +73,12 @@ export const POST = createRoute(
     });
 
     if (createWorkResult.isErr()) {
-      throw new Error(createWorkResult.error.message);
+      logger.error({
+        method: 'createWork',
+        message: '作品情報の登録に失敗しました',
+        error: createWorkResult.error,
+      });
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
 
     // キャラクター情報の登録 - 作品登録後に実行
@@ -75,7 +94,12 @@ export const POST = createRoute(
     });
 
     if (createCharacterResult.isErr()) {
-      throw new Error(createCharacterResult.error.message);
+      logger.error({
+        method: 'createCharacter',
+        message: 'キャラクター情報の登録に失敗しました',
+        error: createCharacterResult.error,
+      });
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
 
     const createStreamingSiteResult = await createStreamingSite({
@@ -88,7 +112,12 @@ export const POST = createRoute(
     });
 
     if (createStreamingSiteResult.isErr()) {
-      throw new Error(createStreamingSiteResult.error.message);
+      logger.error({
+        method: 'createStreamingSite',
+        message: '配信サイト情報の登録に失敗しました',
+        error: createStreamingSiteResult.error,
+      });
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
 
     // 作品_配信サイト紐付けテーブルの登録
@@ -102,7 +131,12 @@ export const POST = createRoute(
     });
 
     if (createWorkStreamingSiteResult.isErr()) {
-      throw new Error(createWorkStreamingSiteResult.error.message);
+      logger.error({
+        method: 'createWorkStreamingSite',
+        message: '作品_配信サイト紐付けテーブルの登録に失敗しました',
+        error: createWorkStreamingSiteResult.error,
+      });
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
 
     // 登録済みリストへ更新
@@ -113,9 +147,17 @@ export const POST = createRoute(
     });
 
     if (updateResult.isErr()) {
-      throw new Error(updateResult.error.message);
+      logger.error({
+        method: 'updateRegisterFlag',
+        message: '登録済みリストへ更新に失敗しました',
+        error: updateResult.error,
+      });
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
 
-    return c.redirect('/admin');
+    const successMessage = encodeURIComponent(
+      'キャラクターの登録に成功しました。',
+    );
+    return c.redirect(`/admin?status=success&message=${successMessage}`);
   },
 );

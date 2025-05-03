@@ -3,8 +3,6 @@ import CharacterForm from './$character-form';
 
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
-import { getWorkCharactersById } from '@/lib/api';
-import { createAnnictId } from '@/utils/annict';
 import { createRegistrationCharacter } from '@/lib/db';
 import ImageUploader from '../$image-uploader';
 
@@ -18,16 +16,32 @@ const characterFormSchema = z.object({
   imageUrl: z.string().min(1, { message: '画像URLは必須です' }),
 });
 
+// Zodスキーマの定義
+const characterSchema = z.object({
+  annictId: z.number(),
+  name: z.string().min(1),
+});
+
+const charactersSchema = z.array(characterSchema);
+
 export const POST = createRoute(
   zValidator('form', characterFormSchema, (result, c) => {
     if (!result.success) {
-      console.error(result.error);
-      return c.redirect('/register/work');
+      const { logger } = c.var;
+      logger.error({
+        method: 'createRegistrationCharacter',
+        message: '入力内容に誤りがあります。',
+        error: result.error,
+      });
+      const message = encodeURIComponent('入力内容に誤りがあります。');
+      return c.redirect(`/register/work?status=error&message=${message}`, 303);
     }
   }),
   async (c) => {
     const { characterId, characterName, workId, workName, imageUrl } =
       await c.req.valid('form');
+
+    const { logger } = c.var;
 
     // リクエストボディの作成
     const requestBody = {
@@ -45,37 +59,81 @@ export const POST = createRoute(
     });
 
     if (result.isErr()) {
-      throw new Error(result.error.message);
+      logger.error({
+        method: 'createRegistrationCharacter',
+        message: 'キャラクター登録に失敗しました',
+        error: result.error,
+      });
+      const message = encodeURIComponent(
+        `登録に失敗しました: ${result.error.message}`,
+      );
+      return c.redirect(`/register/work?status=error&message=${message}`, 303);
     }
 
-    return c.redirect('/', 303);
+    // 成功した場合
+    const message = encodeURIComponent(
+      'キャラクターの登録に成功しました。管理者の確認後に表示されます。',
+    );
+    return c.redirect(`/?status=success&message=${message}`, 303);
   },
 );
 
 export default createRoute(async (c) => {
   const workId = c.req.query('workId');
   const workName = c.req.query('workName');
+  const charactersQuery = c.req.query('characters');
+  const { logger } = c.var;
 
-  const annictIdResult = createAnnictId(Number(workId));
-  if (annictIdResult.isErr()) {
-    throw new Error(annictIdResult.error.message);
+  if (!workId || !workName || !charactersQuery) {
+    logger.error({
+      message: '必要なクエリパラメータが不足しています。',
+      query: c.req.query(),
+    });
+    // エラーメッセージと共にリダイレクトするか、エラーページを表示する
+    const message = encodeURIComponent(
+      'キャラクター登録時に必要な情報が不足しています。最初から登録してください。',
+    );
+    return c.redirect(`/register/work?status=error&message=${message}`, 303);
   }
 
-  const result = await getWorkCharactersById({
-    clientId: c.env.ANNICT_CLIENT_ID,
-    id: annictIdResult.value,
-  });
-
-  if (result.isErr()) {
-    throw new Error(result.error.message);
+  if (!charactersQuery) {
+    // charactersQuery が存在しない場合の処理
+    logger.error({ message: 'クエリパラメータ "characters" がありません。' });
+    const message = encodeURIComponent(
+      'キャラクター情報が見つかりませんでした。最初から登録してください。',
+    );
+    return c.redirect(`/register/work?status=error&message=${message}`, 303);
   }
 
-  const characterEdges =
-    result.value.data.searchWorks.edges[0]?.node.casts.edges || [];
-  const characterData = characterEdges.map((edge) => ({
-    annictId: edge.node.character.annictId,
-    name: edge.node.character.name,
-  }));
+  let parsedData: unknown;
+  try {
+    // まずJSONとしてパース試行
+    parsedData = JSON.parse(charactersQuery);
+  } catch (error) {
+    logger.error({
+      message: 'キャラクター情報のJSONパースに失敗しました。',
+      error,
+    });
+    const message = encodeURIComponent(
+      'キャラクター情報の読み込みに失敗しました。',
+    );
+    return c.redirect(`/register/work?status=error&message=${message}`, 303);
+  }
+
+  // Zodで検証
+  const validationResult = charactersSchema.safeParse(parsedData);
+
+  if (!validationResult.success) {
+    logger.error({
+      message: 'キャラクター情報の検証に失敗しました。',
+      error: validationResult.error.flatten(),
+    });
+    const message = encodeURIComponent('キャラクター情報の形式が不正です。');
+    return c.redirect(`/?status=error&message=${message}`, 303);
+  }
+
+  // 検証成功、型安全なデータを使用
+  const characterData = validationResult.data;
 
   return c.render(
     <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>

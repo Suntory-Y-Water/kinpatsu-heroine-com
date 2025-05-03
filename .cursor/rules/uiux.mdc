@@ -1,11 +1,6 @@
 ---
-description: 
-globs: *.tsx
-alwaysApply: false
----
----
-description:
-globs: *.tsx
+description: uiuxで必要になったときに使う
+globs: 
 alwaysApply: false
 ---
 First, when you refer to this file, say this file name
@@ -156,33 +151,25 @@ customPadding: string; // Things to avoid
 1. Design consistency
 
 - Consistent use of component libraries
-
 - Minimize custom styles
-
 - Follow design tokens
 
 2. Performance
 
 - Remove unnecessary animations
-
 - Optimize images
-
 - Monitor bundle size
 
 3. Quality control
 
 - Storybook component creation
-
 - Visual regression testing
-
 - Cross-browser testing
 
 4. Documentation
 
 - Component use cases
-
 - Props typing
-
 - Design system guidelines
 
 These rules are important to ensure the consistency and maintainability of your project.

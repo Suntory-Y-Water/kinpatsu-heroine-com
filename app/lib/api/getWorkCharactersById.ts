@@ -2,7 +2,6 @@ import { err, ok, Result } from 'neverthrow';
 import { gql, request } from 'graphql-request';
 import { AnnictWorkCharacters } from '@/types/annict';
 import { DatabaseError } from '@/types/error';
-import { AnnictId } from '@/utils/annict';
 import { getRequestHeaders } from '@/utils/getRequestHeaders';
 
 export async function getWorkCharactersById({
@@ -10,7 +9,7 @@ export async function getWorkCharactersById({
   id,
 }: {
   clientId: string;
-  id: AnnictId;
+  id: number;
 }): Promise<Result<AnnictWorkCharacters, DatabaseError>> {
   try {
     const query = gql`
@@ -52,7 +51,7 @@ export async function getWorkCharactersById({
     }>(
       'https://api.annict.com/graphql',
       query,
-      { ids: [id.val] },
+      { ids: [id] },
       getRequestHeaders(clientId),
     );
 

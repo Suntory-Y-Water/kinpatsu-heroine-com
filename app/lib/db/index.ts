@@ -7,4 +7,4 @@ export * from './createWork';
 export * from './createStreamingSite';
 export * from './createWorkStreamingSite';
 export * from './getAllCharacters';
-export * from './getCharacterById';
+export * from './getRegistrationCharacterById';

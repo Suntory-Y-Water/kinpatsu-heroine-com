@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "kinpatsu-hiroin-com",
+  "name": "kinpatsu-heroine-com",
   "main": "./dist/index.js",
   "compatibility_date": "2025-03-03",
   "compatibility_flags": ["nodejs_compat"],
@@ -18,14 +18,11 @@
     {
       "binding": "DB",
       "database_name": "kinpatsu-heroine-com",
-      "database_id": "9769343c-fcc7-4bf2-bcbd-8afd1dfdc891",
-      "migrations_dir": "./drizzle/migrations/"
-    },
-    {
-      "binding": "DB_PREVIEW",
-      "database_name": "kinpatsu-heroine-com-preview",
-      "database_id": "6e0cdc6d-1efa-4e36-9b75-ba26ef562cb2",
+      "database_id": "7bf200e2-7a47-4760-976c-75d1ecdd1437",
       "migrations_dir": "./drizzle/migrations/"
     }
-  ]
+  ],
+  "observability": {
+    "enabled": true
+  }
 }

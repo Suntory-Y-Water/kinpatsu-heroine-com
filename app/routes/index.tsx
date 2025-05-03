@@ -1,20 +1,21 @@
 import { createRoute } from 'honox/factory';
 import { CharacterCard } from '../components/character/character-card';
 import { paginateItems } from '../lib/pagination';
-import SortDropdown, { type SortOption } from '../islands/sort-dropdown';
+
 import { getAllCharacters } from '@/lib/db';
+import { SortOption, SortSelector } from '@/islands/SortSelector';
+import { StatusMessage } from '@/components/character/StatusMessage';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
 
-// TODO: jsあるので動かない
 const sortOptions: SortOption[] = [
   { key: 'newest', label: '新着順' },
   { key: 'likes_desc', label: 'いいね順' },
 ];
 
 // 最大表示件数
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 
 export default createRoute(async (c) => {
   const { logger } = c.var;
@@ -27,6 +28,15 @@ export default createRoute(async (c) => {
   )
     ? sortQuery
     : DEFAULT_SORT_ORDER;
+
+  // クエリパラメータからステータスとメッセージを取得
+  const status = c.req.query('status') as
+    | 'error'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | undefined;
+  const message = c.req.query('message');
 
   const result = await getAllCharacters({
     DB: c.env.DB,
@@ -54,8 +64,10 @@ export default createRoute(async (c) => {
   return c.render(
     <div className='space-y-8 pt-16 md:pt-0'>
       <div className='flex justify-end'>
-        <SortDropdown currentSort={currentSort} options={sortOptions} />
+        <SortSelector currentSort={currentSort} options={sortOptions} />
       </div>
+
+      <StatusMessage status={status} message={message} />
 
       {/* キャラクターグリッド */}
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto'>
