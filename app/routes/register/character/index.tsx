@@ -34,7 +34,7 @@ export const POST = createRoute(
         error: result.error,
       });
       const message = encodeURIComponent('入力内容に誤りがあります。');
-      return c.redirect(`/?status=error&message=${message}`, 303);
+      return c.redirect(`/register/work?status=error&message=${message}`, 303);
     }
   }),
   async (c) => {
@@ -67,11 +67,13 @@ export const POST = createRoute(
       const message = encodeURIComponent(
         `登録に失敗しました: ${result.error.message}`,
       );
-      return c.redirect(`/?status=error&message=${message}`, 303);
+      return c.redirect(`/register/work?status=error&message=${message}`, 303);
     }
 
     // 成功した場合
-    const message = encodeURIComponent('登録に成功しました。');
+    const message = encodeURIComponent(
+      'キャラクターの登録に成功しました。管理者の確認後に表示されます。',
+    );
     return c.redirect(`/?status=success&message=${message}`, 303);
   },
 );
@@ -89,18 +91,18 @@ export default createRoute(async (c) => {
     });
     // エラーメッセージと共にリダイレクトするか、エラーページを表示する
     const message = encodeURIComponent(
-      'キャラクター登録画面の表示に必要な情報が不足しています。',
+      'キャラクター登録時に必要な情報が不足しています。最初から登録してください。',
     );
-    return c.redirect(`/?status=error&message=${message}`, 303);
+    return c.redirect(`/register/work?status=error&message=${message}`, 303);
   }
 
   if (!charactersQuery) {
     // charactersQuery が存在しない場合の処理
     logger.error({ message: 'クエリパラメータ "characters" がありません。' });
     const message = encodeURIComponent(
-      'キャラクター情報が見つかりませんでした。',
+      'キャラクター情報が見つかりませんでした。最初から登録してください。',
     );
-    return c.redirect(`/?status=error&message=${message}`, 303);
+    return c.redirect(`/register/work?status=error&message=${message}`, 303);
   }
 
   let parsedData: unknown;
@@ -110,13 +112,12 @@ export default createRoute(async (c) => {
   } catch (error) {
     logger.error({
       message: 'キャラクター情報のJSONパースに失敗しました。',
-      charactersQuery,
       error,
     });
     const message = encodeURIComponent(
       'キャラクター情報の読み込みに失敗しました。',
     );
-    return c.redirect(`/?status=error&message=${message}`, 303);
+    return c.redirect(`/register/work?status=error&message=${message}`, 303);
   }
 
   // Zodで検証
@@ -125,7 +126,6 @@ export default createRoute(async (c) => {
   if (!validationResult.success) {
     logger.error({
       message: 'キャラクター情報の検証に失敗しました。',
-      charactersQuery,
       error: validationResult.error.flatten(),
     });
     const message = encodeURIComponent('キャラクター情報の形式が不正です。');

@@ -14,8 +14,14 @@ const formSchema = z.object({
 export const POST = createRoute(
   zValidator('form', formSchema, (result, c) => {
     if (!result.success) {
-      console.error(result.error);
-      return c.redirect('/admin');
+      const { logger } = c.var;
+      logger.error({
+        method: 'updateDeleteFlag',
+        message: 'キャラクターの削除に失敗しました',
+        error: result.error,
+      });
+      const message = encodeURIComponent('キャラクターの削除に失敗しました。');
+      return c.redirect(`/admin?status=error&message=${message}`);
     }
   }),
   async (c) => {
@@ -27,6 +33,7 @@ export const POST = createRoute(
       workId,
     });
 
-    return c.redirect('/admin');
+    const message = encodeURIComponent('キャラクターの削除に成功しました。');
+    return c.redirect(`/admin?status=success&message=${message}`);
   },
 );

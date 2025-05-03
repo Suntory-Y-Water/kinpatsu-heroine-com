@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { getWorkCharactersById, getWorks } from '@/lib/api';
 import { getCharacterById } from '@/lib/db/getCharacterById';
+import { StatusMessage } from '@/components/character/StatusMessage';
 
 const workFormSchema = z.object({
   workId: z.coerce.number().min(1, { message: '作品IDは必須です' }),
@@ -100,6 +101,15 @@ export const POST = createRoute(
 );
 
 export default createRoute(async (c) => {
+  // クエリパラメータからステータスとメッセージを取得
+  const status = c.req.query('status') as
+    | 'error'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | undefined;
+  const message = c.req.query('message');
+
   // キャラクター登録画面から、現在登録していない作品を取得します。
   // annictから作品情報を取得
   const result = await getWorks({
@@ -120,6 +130,7 @@ export default createRoute(async (c) => {
       <h1 className='text-3xl font-bold text-center mb-8 text-white'>
         作品登録
       </h1>
+      <StatusMessage status={status} message={message} />
       <form method='post' action='/register/work'>
         <WorkForm works={resultList} />
         <button

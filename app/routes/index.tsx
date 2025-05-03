@@ -4,11 +4,11 @@ import { paginateItems } from '../lib/pagination';
 
 import { getAllCharacters } from '@/lib/db';
 import { SortOption, SortSelector } from '@/islands/SortSelector';
+import { StatusMessage } from '@/components/character/StatusMessage';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
 
-// TODO: jsあるので動かない
 const sortOptions: SortOption[] = [
   { key: 'newest', label: '新着順' },
   { key: 'likes_desc', label: 'いいね順' },
@@ -28,6 +28,15 @@ export default createRoute(async (c) => {
   )
     ? sortQuery
     : DEFAULT_SORT_ORDER;
+
+  // クエリパラメータからステータスとメッセージを取得
+  const status = c.req.query('status') as
+    | 'error'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | undefined;
+  const message = c.req.query('message');
 
   const result = await getAllCharacters({
     DB: c.env.DB,
@@ -57,6 +66,8 @@ export default createRoute(async (c) => {
       <div className='flex justify-end'>
         <SortSelector currentSort={currentSort} options={sortOptions} />
       </div>
+
+      <StatusMessage status={status} message={message} />
 
       {/* キャラクターグリッド */}
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto'>
