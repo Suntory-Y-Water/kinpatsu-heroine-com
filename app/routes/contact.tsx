@@ -14,8 +14,6 @@ export default createRoute((c) => {
             {/* TODO: Embed Google Form here */}
             <p className='text-center text-yellow-50/50'>
               現在、お問い合わせフォームを準備中です。
-              <br />
-              (ここにGoogleフォームが埋め込まれます)
             </p>
           </div>
         </div>
