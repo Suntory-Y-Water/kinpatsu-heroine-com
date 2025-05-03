@@ -10,8 +10,8 @@ if (!accountId || !databaseId || !token) {
 }
 
 export default {
-  schema: './drizzle/schema.ts',
-  out: './drizzle/migrations',
+  schema: './app/config/drizzle/schema.ts',
+  out: './app/config/drizzle/migrations',
   driver: 'd1-http',
   dialect: 'sqlite',
   dbCredentials: {

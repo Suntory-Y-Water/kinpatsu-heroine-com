@@ -1,23 +1,26 @@
 import { createRoute } from 'honox/factory';
-import { container } from '../../../src/container';
-import { D1usecase } from '../../../src/usecases/d1usecase';
-import { TYPES } from '../../../src/types/symbol-types';
-import { customLogger } from '../_middleware';
+
 import LikeButton from './$like-button';
+import { getRegistrationCharacterById } from '@/lib/db';
+import { getCookie } from 'hono/cookie';
+import { getLikeCharacterById } from '@/lib/db/getLikeCharacterById';
 
 export default createRoute(async (c) => {
   const id = c.req.param('id');
 
-  const d1usecase = container.get<D1usecase>(TYPES.D1Usecase);
+  const { logger } = c.var;
 
-  customLogger('キャラクター詳細情報取得開始');
-  const result = await d1usecase.getCharacterDetail({
+  const result = await getRegistrationCharacterById({
     DB: c.env.DB,
     characterId: Number(id),
   });
 
   if (result.isErr()) {
-    throw new Error('DBからキャラクター情報を取得できませんでした');
+    logger.error({
+      method: 'getRegistrationCharacterById',
+      message: 'DBからキャラクター情報を取得できませんでした',
+    });
+    return c.notFound();
   }
 
   const character = result.value;
@@ -25,6 +28,17 @@ export default createRoute(async (c) => {
   if (!character) {
     return c.notFound();
   }
+
+  // いいね数を取得するためにCookieIDを取得
+  const cookieId = getCookie(c, 'visitor_id');
+
+  const isLikedResult = await getLikeCharacterById({
+    DB: c.env.DB,
+    characterId: Number(id),
+    cookieId: cookieId ?? '', // Cookieが設定されていない場合は空文字を設定
+  });
+
+  const isLiked = isLikedResult.isOk() ? isLikedResult.value : false;
 
   return c.render(
     <div className='max-w-6xl mx-auto'>
@@ -64,6 +78,7 @@ export default createRoute(async (c) => {
                 <LikeButton
                   initialLikes={character.likes}
                   characterId={character.characterId}
+                  isLiked={isLiked}
                 />
               </div>
             </div>
@@ -104,7 +119,7 @@ export default createRoute(async (c) => {
                 {character.streamingSiteInfo.map((service) => (
                   <a
                     key={service.streamingSiteId}
-                    href={String(service.streamingSiteId)}
+                    href={service.streamingSiteUrl}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'

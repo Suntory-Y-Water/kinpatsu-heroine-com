@@ -5,9 +5,9 @@ import { z } from 'zod';
 import { Context } from 'hono';
 
 import { setCookie } from 'hono/cookie';
-import { customLogger } from '../_middleware';
 
 import { compare } from 'bcrypt-ts';
+import { StatusMessage } from '@/components/character/StatusMessage';
 
 const loginSchema = z.object({
   username: z.string().min(1, { message: 'ユーザー名は必須です' }),
@@ -16,6 +16,7 @@ const loginSchema = z.object({
 
 // ログイン処理
 export const POST = createRoute(zValidator('form', loginSchema), async (c) => {
+  const { logger } = c.var;
   try {
     const { username, password } = await c.req.valid('form');
 
@@ -23,22 +24,26 @@ export const POST = createRoute(zValidator('form', loginSchema), async (c) => {
     const ADMIN_USERNAME = c.env.ADMIN_USERNAME;
     const ADMIN_PASSWORD_HASH = c.env.ADMIN_PASSWORD_HASH;
 
+    const message = encodeURIComponent(
+      'ユーザー名、またはパスワードが間違っています。',
+    );
+
     // ユーザー名とパスワードの検証
     if (username !== ADMIN_USERNAME) {
-      return c.redirect('/admin/login?error=invalid');
+      return c.redirect(`/admin/login?status=error&message=${message}`);
     }
-
     const passwordMatches = await verifyPassword(password, ADMIN_PASSWORD_HASH);
     if (!passwordMatches) {
-      return c.redirect('/admin/login?error=invalid');
+      return c.redirect(`/admin/login?status=error&message=${message}`);
     }
 
     // 認証成功：JWTトークンを生成して管理画面へリダイレクト
     return await createAndSetToken(c, username);
   } catch (error) {
-    const message = error instanceof Error ? error.message : '不明なエラー';
-    customLogger('認証に失敗しました');
-    customLogger(message);
+    logger.error({
+      message: 'ログインに失敗しました',
+      error,
+    });
     return c.redirect('/admin/login?error=system');
   }
 });
@@ -55,8 +60,7 @@ async function verifyPassword(
 ): Promise<boolean> {
   try {
     return await compare(password, hashedPassword);
-  } catch (error) {
-    customLogger(`パスワード検証エラー ${error}`);
+  } catch (_error) {
     return false;
   }
 }
@@ -86,9 +90,14 @@ async function createAndSetToken(c: Context, username: string) {
 
 // ログインフォーム画面表示
 export default createRoute((c) => {
-  // エラーメッセージが存在する場合に表示
-  const error = c.req.query('error');
-  const errorMessage = error ? 'ログインに失敗しました。' : '';
+  // クエリパラメータからステータスとメッセージを取得
+  const status = c.req.query('status') as
+    | 'error'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | undefined;
+  const message = c.req.query('message');
 
   return c.render(
     <div className='max-w-md mx-auto my-10 bg-gray-800 p-6 rounded-lg shadow-lg'>
@@ -96,11 +105,7 @@ export default createRoute((c) => {
         管理者ログイン
       </h1>
       <form method='post' action='/admin/login'>
-        {error && (
-          <div className='mb-4 p-3 bg-red-900/30 border border-red-500 text-red-300 rounded'>
-            {errorMessage}
-          </div>
-        )}
+        <StatusMessage status={status} message={message} />
 
         <div className='mb-4'>
           <label htmlFor='username' className='block text-white mb-2'>

@@ -1,7 +1,7 @@
 ---
 description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 # Tech stack: HonoX project
 
@@ -147,53 +147,3 @@ HonoX is based on the concept of "simple and fast meta-framework" and is built o
 - Middleware is defined in `_middleware.ts` and can be applied to each directory
 - Render functions use `c.render()` and return JSX
 - Routes with dynamic parameters are defined with the naming convention `[paramName].tsx`
-
-# How to use TypeScript
-
-- Use interface to define object structures
-- Use type for primitive types and union types
-- Use interface to define types for Props
-- Use generic types for reusable processes (e.g. function useFetch<T>())
-
-# Comment policy
-
-- Do not add excessive comments to obvious code
-- Add comments to processes that are difficult to understand
-- Use block comments at the beginning of components, etc.
-
-Example:
-// Component that displays user information
-
-# UI implementation and styling
-
-- Use TailwindCSS and shadcn/ui for UI implementation
-- Customization is done with className and cn() function
-- Use Tailwind utility classes for styling, do not use raw CSS
-- Responsiveness is mobile-first
-- Framer Motion is used only for the minimum necessary purposes
-
-# Performance optimization
-
-- Use server side rendering as the basis, and minimize the use of island components
-- Use client components (island components) such as "use client" as minimal as possible, and limit them to state management and side effects
-- Wrap client components in Suspense and set fallbacks
-- Use useMemo / useCallback appropriately to prevent unnecessary re-rendering
-- Specify width/height for images and perform lazy loading
-
-# Web vitals optimization
-
-- Be aware of LCP / CLS / FID and ensure UX quality
-
-# Accessibility
-
-- aria-* Set attributes appropriately and consider keyboard operation and focus control
-
-- Indicate labels, roles, states, etc.
-
-# Best practices
-
-- Be prepared to explain the reasons for technology selection
-
-- Keep the responsibilities of components and logic clear
-
-- Follow the best practices in the official documentation

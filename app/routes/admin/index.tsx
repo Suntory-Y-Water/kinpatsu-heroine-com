@@ -1,7 +1,6 @@
+import { StatusMessage } from '@/components/character/StatusMessage';
+import { getRegistrationQueueTable } from '@/lib/db';
 import { createRoute } from 'honox/factory';
-import { container } from '../../../src/container';
-import { D1usecase } from '../../../src/usecases/d1usecase';
-import { TYPES } from '../../../src/types/symbol-types';
 
 /**
  * 表示タブの型定義
@@ -9,11 +8,19 @@ import { TYPES } from '../../../src/types/symbol-types';
 type TabType = 'pending' | 'registered' | 'deleted';
 
 export default createRoute(async (c) => {
+  // クエリパラメータからステータスとメッセージを取得
+  const status = c.req.query('status') as
+    | 'error'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | undefined;
+  const message = c.req.query('message');
+
   // クエリパラメータからtabを取得（デフォルトはpending）
   const tab = (c.req.query('tab') as TabType) || 'pending';
 
-  const d1Usecase = container.get<D1usecase>(TYPES.D1Usecase);
-  const result = await d1Usecase.getRegistrationQueueTable(c.env.DB);
+  const result = await getRegistrationQueueTable(c.env.DB);
 
   if (result.isErr()) {
     throw new Error('作品情報の取得に失敗しました');
@@ -48,6 +55,8 @@ export default createRoute(async (c) => {
     <div className='bg-gray-900 text-white'>
       <div className='container mx-auto px-4 py-8'>
         <h1 className='text-3xl font-bold text-yellow-300 mb-8'>管理画面</h1>
+
+        <StatusMessage status={status} message={message} />
 
         {/* タブナビゲーション */}
         <div className='flex border-b border-yellow-900/30 mb-6'>
@@ -158,6 +167,7 @@ export default createRoute(async (c) => {
                       action='/admin/delete'
                       method='post'
                       className='flex-1'
+                      onsubmit="return confirm('本当に削除しますか？');"
                     >
                       <input
                         type='hidden'

@@ -11,7 +11,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // マイグレーションディレクトリのパス
-const MIGRATIONS_DIR = path.resolve(__dirname, '../drizzle/migrations');
+const MIGRATIONS_DIR = path.resolve(
+  __dirname,
+  '../app/config/drizzle/migrations',
+);
 
 // メタデータファイルを除外したSQLファイルのみを取得
 function getMigrationFiles() {
