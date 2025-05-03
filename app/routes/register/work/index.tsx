@@ -5,6 +5,7 @@ import { zValidator } from '@hono/zod-validator';
 import { getWorkCharactersById, getWorks } from '@/lib/api';
 import { getCharacterById } from '@/lib/db/getCharacterById';
 import { StatusMessage } from '@/components/character/StatusMessage';
+import { cache } from 'hono/cache';
 
 const workFormSchema = z.object({
   workId: z.coerce.number().min(1, { message: '作品IDは必須です' }),
@@ -14,8 +15,16 @@ const workFormSchema = z.object({
 export const POST = createRoute(
   zValidator('form', workFormSchema, (result, c) => {
     if (!result.success) {
-      console.error(result.error);
-      return c.redirect('/register/work');
+      const { logger } = c.var;
+      logger.error({
+        method: 'createRegistrationWork',
+        message: '入力内容に誤りがあります。',
+        error: result.error,
+      });
+      const message = encodeURIComponent(
+        '入力内容に誤りがあります。\nプルダウンから作品を選択してください。',
+      );
+      return c.redirect(`/register/work?status=error&message=${message}`, 303);
     }
   }),
   async (c) => {
@@ -100,46 +109,53 @@ export const POST = createRoute(
   },
 );
 
-export default createRoute(async (c) => {
-  // クエリパラメータからステータスとメッセージを取得
-  const status = c.req.query('status') as
-    | 'error'
-    | 'success'
-    | 'info'
-    | 'warning'
-    | undefined;
-  const message = c.req.query('message');
+export default createRoute(
+  cache({
+    cacheName: 'register-work-cache',
+    cacheControl: 'public, max-age=3600',
+    wait: false,
+  }),
+  async (c) => {
+    // クエリパラメータからステータスとメッセージを取得
+    const status = c.req.query('status') as
+      | 'error'
+      | 'success'
+      | 'info'
+      | 'warning'
+      | undefined;
+    const message = c.req.query('message');
 
-  // キャラクター登録画面から、現在登録していない作品を取得します。
-  // annictから作品情報を取得
-  const result = await getWorks({
-    clientId: c.env.ANNICT_CLIENT_ID,
-  });
+    // キャラクター登録画面から、現在登録していない作品を取得します。
+    // annictから作品情報を取得
+    const result = await getWorks({
+      clientId: c.env.ANNICT_CLIENT_ID,
+    });
 
-  if (result.isErr()) {
-    throw new Error('作品情報の取得に失敗しました');
-  }
+    if (result.isErr()) {
+      throw new Error('作品情報の取得に失敗しました');
+    }
 
-  const resultList = result.value.data.searchWorks.nodes.map((node) => ({
-    annictId: node.annictId,
-    title: node.title,
-  }));
+    const resultList = result.value.data.searchWorks.nodes.map((node) => ({
+      annictId: node.annictId,
+      title: node.title,
+    }));
 
-  return c.render(
-    <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
-      <h1 className='text-3xl font-bold text-center mb-8 text-white'>
-        作品登録
-      </h1>
-      <StatusMessage status={status} message={message} />
-      <form method='post' action='/register/work'>
-        <WorkForm works={resultList} />
-        <button
-          type='submit'
-          className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
-        >
-          次へ
-        </button>
-      </form>
-    </div>,
-  );
-});
+    return c.render(
+      <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
+        <h1 className='text-3xl font-bold text-center mb-8 text-white'>
+          作品登録
+        </h1>
+        <StatusMessage status={status} message={message} />
+        <form method='post' action='/register/work'>
+          <WorkForm works={resultList} />
+          <button
+            type='submit'
+            className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
+          >
+            次へ
+          </button>
+        </form>
+      </div>,
+    );
+  },
+);

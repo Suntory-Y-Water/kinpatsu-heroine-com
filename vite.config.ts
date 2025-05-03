@@ -22,4 +22,9 @@ export default defineConfig({
   ssr: {
     external: ['cheerio', 'hono-pino'],
   },
+  server: {
+    watch: {
+      ignored: ['C:/DumpStack.log.tmp'],
+    },
+  },
 });
