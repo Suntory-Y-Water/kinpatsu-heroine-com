@@ -146,11 +146,13 @@ export default createRoute(
           作品登録
         </h1>
         <StatusMessage status={status} message={message} />
-        <form method='post' action='/register/work'>
+        <form method='post' action='/register/work' id='workForm'>
           <WorkForm works={resultList} />
           <button
             type='submit'
-            className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
+            id='submitButton'
+            disabled
+            className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500'
           >
             次へ
           </button>
