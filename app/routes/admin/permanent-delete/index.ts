@@ -1,7 +1,6 @@
-import { updateDeleteFlag } from '@/lib/db';
+import { deleteCharacter } from '@/lib/db/deleteCharacter';
 import { zValidator } from '@hono/zod-validator';
 import { createRoute } from 'honox/factory';
-
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -16,29 +15,33 @@ export const POST = createRoute(
     if (!result.success) {
       const { logger } = c.var;
       logger.error({
-        method: 'updateDeleteFlag',
-        message: 'キャラクターの削除に失敗しました',
+        method: 'deleteCharacter',
+        message: 'キャラクターの完全削除に失敗しました',
         error: result.error,
       });
-      const message = encodeURIComponent('キャラクターの削除に失敗しました。');
+      const message = encodeURIComponent(
+        'キャラクターの完全削除に失敗しました。',
+      );
       return c.redirect(`/admin?status=error&message=${message}`);
     }
   }),
   async (c) => {
     const { characterId, workId } = await c.req.valid('form');
 
-    const result = await updateDeleteFlag({
+    const result = await deleteCharacter({
       DB: c.env.DB,
       characterId,
       workId,
     });
 
     if (result.isErr()) {
-      const message = encodeURIComponent('キャラクターの削除に失敗しました。');
+      const message = encodeURIComponent(
+        'キャラクターの完全削除に失敗しました。',
+      );
       return c.redirect(`/admin?status=error&message=${message}`);
     }
 
-    const message = encodeURIComponent('キャラクターの削除に成功しました。');
+    const message = encodeURIComponent('キャラクターを完全に削除しました。');
     return c.redirect(`/admin?status=success&message=${message}`);
   },
 );

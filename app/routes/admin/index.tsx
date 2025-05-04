@@ -185,6 +185,47 @@ export default createRoute(async (c) => {
                     </form>
                   </div>
                 )}
+                {tab === 'deleted' && (
+                  <div className='flex'>
+                    <form
+                      action='/admin/restore'
+                      method='post'
+                      className='flex-1'
+                    >
+                      <input
+                        type='hidden'
+                        name='characterId'
+                        value={item.characterId}
+                      />
+                      <input type='hidden' name='workId' value={item.workId} />
+                      <button
+                        type='submit'
+                        className='w-full py-2 bg-black/80 text-yellow-300 font-medium rounded-bl-lg hover:bg-gray-700 hover:text-yellow-200 cursor-pointer transition-colors'
+                      >
+                        復元
+                      </button>
+                    </form>
+                    <form
+                      action='/admin/permanent-delete'
+                      method='post'
+                      className='flex-1'
+                      onsubmit="return confirm('本当に完全に削除しますか？この操作は取り消せません。');"
+                    >
+                      <input
+                        type='hidden'
+                        name='characterId'
+                        value={item.characterId}
+                      />
+                      <input type='hidden' name='workId' value={item.workId} />
+                      <button
+                        type='submit'
+                        className='w-full py-2 bg-black/80 text-red-500 font-medium rounded-br-lg hover:bg-gray-700 hover:text-red-400 cursor-pointer transition-colors'
+                      >
+                        完全削除
+                      </button>
+                    </form>
+                  </div>
+                )}
               </div>
             ))}
           </div>
