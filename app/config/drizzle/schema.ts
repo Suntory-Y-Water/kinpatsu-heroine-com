@@ -83,3 +83,17 @@ export const registrationQueueTable = sqliteTable(
     }),
   ],
 );
+
+export const loginAttemptsTable = sqliteTable(
+  'login_attempts_table',
+  {
+    ip_address: text('ip_address', { length: 45 }).notNull(),
+    username: text('username', { length: 255 }).notNull(),
+    failed_attempts: integer('failed_attempts').notNull().default(0),
+    last_failure_timestamp: text('last_failure_timestamp').notNull(),
+    lockout_until: text('lockout_until'),
+    created_at: text('created_at').notNull().default(sql`CURRENT_TIMESTAMP`),
+    updated_at: text('updated_at').notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [primaryKey({ columns: [table.ip_address, table.username] })],
+);
