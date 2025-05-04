@@ -1,5 +1,6 @@
 import { StatusMessage } from '@/components/character/StatusMessage';
 import { getRegistrationQueueTable } from '@/lib/db';
+import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
 
 /**
@@ -184,6 +185,47 @@ export default createRoute(async (c) => {
                     </form>
                   </div>
                 )}
+                {tab === 'deleted' && (
+                  <div className='flex'>
+                    <form
+                      action='/admin/restore'
+                      method='post'
+                      className='flex-1'
+                    >
+                      <input
+                        type='hidden'
+                        name='characterId'
+                        value={item.characterId}
+                      />
+                      <input type='hidden' name='workId' value={item.workId} />
+                      <button
+                        type='submit'
+                        className='w-full py-2 bg-black/80 text-yellow-300 font-medium rounded-bl-lg hover:bg-gray-700 hover:text-yellow-200 cursor-pointer transition-colors'
+                      >
+                        復元
+                      </button>
+                    </form>
+                    <form
+                      action='/admin/permanent-delete'
+                      method='post'
+                      className='flex-1'
+                      onsubmit="return confirm('本当に完全に削除しますか？この操作は取り消せません。');"
+                    >
+                      <input
+                        type='hidden'
+                        name='characterId'
+                        value={item.characterId}
+                      />
+                      <input type='hidden' name='workId' value={item.workId} />
+                      <button
+                        type='submit'
+                        className='w-full py-2 bg-black/80 text-red-500 font-medium rounded-br-lg hover:bg-gray-700 hover:text-red-400 cursor-pointer transition-colors'
+                      >
+                        完全削除
+                      </button>
+                    </form>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -194,5 +236,26 @@ export default createRoute(async (c) => {
         )}
       </div>
     </div>,
+    {
+      title: '管理画面',
+      description:
+        'ユーザーが登録した情報を確認してから登録をすることができます。金髪ヒロインではない場合、登録した情報を削除することも可能です。',
+      openGraph: {
+        title: '管理画面',
+        description: '管理画面',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin' }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: '管理画面',
+        description:
+          'ユーザーが登録した情報を確認してから登録をすることができます。金髪ヒロインではない場合、登録した情報を削除することも可能です。',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin' }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });

@@ -8,3 +8,5 @@ export * from './createStreamingSite';
 export * from './createWorkStreamingSite';
 export * from './getAllCharacters';
 export * from './getRegistrationCharacterById';
+export * from './restoreDeletedCharacter';
+export * from './deleteCharacter';

@@ -1,4 +1,5 @@
 import { createRoute } from 'honox/factory';
+import { absoluteUrl } from '@/lib/utils';
 import CharacterForm from './$character-form';
 
 import { z } from 'zod';
@@ -160,5 +161,30 @@ export default createRoute(async (c) => {
         </button>
       </form>
     </div>,
+    {
+      title: 'キャラクター登録',
+      description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+      openGraph: {
+        title: 'キャラクター登録',
+        description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+        url: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/register/character',
+        }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: 'キャラクター登録',
+        description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+        url: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/register/character',
+        }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });

@@ -29,6 +29,6 @@ export const POST = createRoute(async (c) => {
   });
 
   return c.json({
-    url: `${c.env.R2_ENDPOINT}${result.key}`,
+    url: `${c.env.R2_ENDPOINT}/${result.key}`,
   });
 });

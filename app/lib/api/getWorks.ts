@@ -12,7 +12,7 @@ export async function getWorks({
   try {
     const query = gql`
         query GetWorks {
-          searchWorks(orderBy: { field: CREATED_AT, direction: DESC }) {
+          searchWorks(orderBy: { field: CREATED_AT, direction: ASC }) {
             nodes {
               annictId
               title

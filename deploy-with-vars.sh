@@ -82,14 +82,14 @@ for key in "${!ENV_VARS[@]}"; do
 done
 
 # ユーザー操作は一旦コメントアウト
-# # ユーザー確認
-# echo -e "\n${YELLOW}これらの環境変数を設定してよろしいですか？(y/n)${NC}"
-# read -r confirmation
+# ユーザー確認
+echo -e "\n${YELLOW}これらの環境変数を設定してよろしいですか？(y/n)${NC}"
+read -r confirmation
 
-# if [[ $confirmation != "y" && $confirmation != "Y" ]]; then
-#     logInfo "操作がキャンセルされました"
-#     exit 0
-# fi
+if [[ $confirmation != "y" && $confirmation != "Y" ]]; then
+    logInfo "操作がキャンセルされました"
+    exit 0
+fi
 
 # ---------------------
 # シークレットを個別に設定
@@ -104,6 +104,7 @@ setSecret "ANNICT_CLIENT_ID" "${ENV_VARS[ANNICT_CLIENT_ID]}"
 setSecret "JWT_SECRET" "${ENV_VARS[JWT_SECRET]}"
 setSecret "ADMIN_USERNAME" "${ENV_VARS[ADMIN_USERNAME]}"
 setSecret "ADMIN_PASSWORD_HASH" "${ENV_VARS[ADMIN_PASSWORD_HASH]}"
+setSecret "PUBLIC_APP_URL" "${ENV_VARS[PUBLIC_APP_URL]}"
 
 # ビルド実行
 logInfo "アプリケーションをビルド中..."

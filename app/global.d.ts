@@ -1,28 +1,41 @@
 import type {} from 'hono';
 
+type Head = {
+  title?: string;
+  description?: string;
+  openGraph?: {
+    title: string;
+    description: string;
+    url: string;
+    images: string;
+  };
+  twitter?: {
+    title: string;
+    description: string;
+    url: string;
+    images: string;
+  };
+};
+
 declare module 'hono' {
   interface Env {
-    // CLOUDFLARE_ACCOUNT_ID: string;
-    // CLOUDFLARE_DATABASE_ID: string;
-    // CLOUDFLARE_D1_TOKEN: string;
-    // R2_ACCESS_KEY: string;
-    // R2_SECRET_ACCESS_KEY: string;
-    // R2_ENDPOINT: string;
-    // BUCKET_NAME: string;
-    // ANNICT_CLIENT_ID: string;
     Bindings: {
       R2_BUCKET: R2Bucket;
-      R2_BUCKET_PREVIEW: R2Bucket; // preview bucket
+      R2_BUCKET_PREVIEW: R2Bucket;
       R2_ENDPOINT: string;
       DB: D1Database;
       ANNICT_CLIENT_ID: string;
       JWT_SECRET: string;
       ADMIN_USERNAME: string;
       ADMIN_PASSWORD_HASH: string;
+      PUBLIC_APP_URL: string;
     };
   }
-  // interface Bindings {
-  //   R2_BUCKET: R2Bucket;
-  //   R2_BUCKET_PREVIEW: R2Bucket; // preview bucket
-  // }
+  interface ContextRenderer {
+    // biome-ignore lint/style/useShorthandFunctionType: <explanation>
+    (
+      content: string | Promise<string>,
+      head?: Head,
+    ): Response | Promise<Response>;
+  }
 }
