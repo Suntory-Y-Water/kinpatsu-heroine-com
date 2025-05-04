@@ -1,5 +1,4 @@
-// app/islands/WorkAndCharacterSelector.tsx
-import { useState } from 'hono/jsx';
+import { useState, useEffect } from 'hono/jsx';
 
 // 作品情報の型定義
 interface Work {
@@ -13,7 +12,6 @@ interface WorkFormProps {
 
 export default function WorkForm({ works }: WorkFormProps) {
   // 検索用の状態
-  // TODO: jsあるので動かない
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredWorks, setFilteredWorks] = useState<Work[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -46,6 +44,20 @@ export default function WorkForm({ works }: WorkFormProps) {
     setSearchTerm(work.title);
     setShowSuggestions(false);
   }
+
+  function validateForm() {
+    const submitButton = document.getElementById(
+      'submitButton',
+    ) as HTMLButtonElement;
+
+    if (!submitButton) return;
+
+    submitButton.disabled = selectedWork === null;
+  }
+
+  useEffect(() => {
+    validateForm();
+  }, [selectedWork]);
 
   return (
     <div>

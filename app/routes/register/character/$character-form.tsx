@@ -1,4 +1,4 @@
-import { useState } from 'hono/jsx';
+import { useState, useEffect } from 'hono/jsx';
 
 // キャラクター情報の型定義
 interface Character {
@@ -11,8 +11,6 @@ interface CharacterFormProps {
 }
 
 export default function CharacterForm({ characters }: CharacterFormProps) {
-  // 選択された作品とキャラクターの状態
-
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null,
   );
@@ -30,6 +28,24 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
       characters.find((c) => c.name === characterName) || null,
     );
   }
+
+  function validateForm() {
+    const submitButton = document.getElementById(
+      'submitButton',
+    ) as HTMLButtonElement;
+    const imageUrl = document.querySelector(
+      'input[name="imageUrl"]',
+    ) as HTMLInputElement;
+
+    if (!submitButton || !imageUrl) return;
+
+    const isValid = selectedCharacter !== null && imageUrl.value !== '';
+    submitButton.disabled = !isValid;
+  }
+
+  useEffect(() => {
+    validateForm();
+  }, [selectedCharacter]);
 
   return (
     <div>

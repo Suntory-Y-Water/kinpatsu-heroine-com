@@ -1,4 +1,5 @@
 import { createRoute } from 'honox/factory';
+import { absoluteUrl } from '@/lib/utils';
 import CharacterForm from './$character-form';
 
 import { z } from 'zod';
@@ -91,7 +92,7 @@ export default createRoute(async (c) => {
     });
     // エラーメッセージと共にリダイレクトするか、エラーページを表示する
     const message = encodeURIComponent(
-      'キャラクター登録時に必要な情報が不足しています。最初から登録してください。',
+      'キャラクター登録画面の表示に必要な情報が不足しています。',
     );
     return c.redirect(`/register/work?status=error&message=${message}`, 303);
   }
@@ -144,7 +145,7 @@ export default createRoute(async (c) => {
         <span className='font-medium'>作品名：</span>
         {workName}
       </div>
-      <form method='post' action='/register/character'>
+      <form method='post' action='/register/character' id='characterForm'>
         {/*  API実行用の隠しフォーム */}
         <input type='hidden' name='workId' value={workId} />
         <input type='hidden' name='workName' value={workName} />
@@ -152,11 +153,38 @@ export default createRoute(async (c) => {
         <ImageUploader />
         <button
           type='submit'
-          className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors'
+          id='submitButton'
+          disabled
+          className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500'
         >
           登録
         </button>
       </form>
     </div>,
+    {
+      title: 'キャラクター登録',
+      description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+      openGraph: {
+        title: 'キャラクター登録',
+        description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+        url: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/register/character',
+        }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: 'キャラクター登録',
+        description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+        url: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/register/character',
+        }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });

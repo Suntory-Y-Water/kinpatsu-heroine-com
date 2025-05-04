@@ -5,6 +5,7 @@ import { paginateItems } from '../lib/pagination';
 import { getAllCharacters } from '@/lib/db';
 import { SortOption, SortSelector } from '@/islands/SortSelector';
 import { StatusMessage } from '@/components/character/StatusMessage';
+import { Pagination } from '@/components/Pagination';
 
 type SortOrder = 'newest' | 'likes_desc';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
@@ -62,7 +63,7 @@ export default createRoute(async (c) => {
   const totalPages = paginatedResult.totalPages;
 
   return c.render(
-    <div className='space-y-8 pt-16 md:pt-0'>
+    <div className='space-y-8'>
       <div className='flex justify-end'>
         <SortSelector currentSort={currentSort} options={sortOptions} />
       </div>
@@ -77,32 +78,12 @@ export default createRoute(async (c) => {
       </div>
 
       {/* ページネーション */}
-      {totalPages > 1 && (
-        <div className='flex justify-center gap-2 mt-8 flex-wrap'>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-            const params = new URLSearchParams();
-            if (currentSort !== DEFAULT_SORT_ORDER) {
-              params.set('sort', currentSort);
-            }
-            if (page > 1) {
-              params.set('page', String(page));
-            }
-            const pageHref = `/?${params.toString()}`;
-            return (
-              <a
-                href={pageHref}
-                key={page}
-                className={`
-                w-10 h-10 rounded-full flex items-center justify-center transition-colors
-                ${currentPage === page ? 'bg-yellow-300 text-black font-bold' : 'text-white hover:bg-yellow-900/20'}
-              `}
-              >
-                {page}
-              </a>
-            );
-          })}
-        </div>
-      )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        sortOrder={currentSort}
+        defaultSortOrder={DEFAULT_SORT_ORDER}
+      />
     </div>,
   );
 });

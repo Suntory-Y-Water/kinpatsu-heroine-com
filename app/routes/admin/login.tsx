@@ -8,6 +8,7 @@ import { setCookie } from 'hono/cookie';
 
 import { compare } from 'bcrypt-ts';
 import { StatusMessage } from '@/components/character/StatusMessage';
+import { absoluteUrl } from '@/lib/utils';
 
 const loginSchema = z.object({
   username: z.string().min(1, { message: 'ユーザー名は必須です' }),
@@ -141,5 +142,24 @@ export default createRoute((c) => {
         </button>
       </form>
     </div>,
+    {
+      title: '管理者ログイン',
+      description: '管理者ログイン画面',
+      openGraph: {
+        title: '管理者ログイン',
+        description: '管理者ログイン画面',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin/login' }),
+        images: absoluteUrl({
+          url: c.env.PUBLIC_APP_URL,
+          path: '/ogp.png',
+        }),
+      },
+      twitter: {
+        title: '管理者ログイン',
+        description: '管理者ログイン画面',
+        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin/login' }),
+        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
+      },
+    },
   );
 });
