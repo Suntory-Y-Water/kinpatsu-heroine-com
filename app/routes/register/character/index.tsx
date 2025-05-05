@@ -137,13 +137,24 @@ export default createRoute(async (c) => {
   const characterData = validationResult.data;
 
   return c.render(
-    <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
+    <div className='max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
       <h1 className='text-3xl font-bold text-center mb-8 text-white'>
         キャラクター登録
       </h1>
       <div className='mb-4 text-white'>
         <span className='font-medium'>作品名：</span>
         {workName}
+      </div>
+
+      <div className='mb-6 p-4 bg-gray-700 rounded-lg'>
+        <h2 className='text-lg font-semibold text-yellow-300 mb-2'>
+          ✨️登録の手順
+        </h2>
+        <div className='space-y-2 text-gray-300'>
+          <p>1. 金髪ヒロインを選択してください👧</p>
+          <p>2. キャラクターの画像を選択してアップロードしてください🖼️</p>
+          <p>3. 管理者の確認後、サイトに掲載されます🎉</p>
+        </div>
       </div>
       <form method='post' action='/register/character' id='characterForm'>
         {/*  API実行用の隠しフォーム */}
