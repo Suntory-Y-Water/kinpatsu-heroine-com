@@ -30,7 +30,8 @@
         "useTemplate": "off",
         "useImportType": "off",
         "noUnusedTemplateLiteral": "off",
-        "useNodejsImportProtocol": "off"
+        "useNodejsImportProtocol": "off",
+        "useExponentiationOperator": "off"
       },
       "complexity": {
         "noForEach": "off"

@@ -142,10 +142,25 @@ export default createRoute(
     }));
 
     return c.render(
-      <div className='max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
+      <div className='max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
         <h1 className='text-3xl font-bold text-center mb-8 text-white'>
           作品登録
         </h1>
+        <div className='mb-8 p-4 bg-gray-700 rounded-lg'>
+          <h2 className='text-xl font-semibold text-yellow-300 mb-3'>
+            ✨️ヒロインの登録方法
+          </h2>
+          <div className='space-y-2 text-gray-300'>
+            <p>1. まず作品を選択してください🎨</p>
+            <p>2. 作品内の金髪ヒロインを選択します👧</p>
+            <p>3. 管理者の確認後にサイトに掲載されます👀</p>
+          </div>
+          <div className='mt-4 p-3 bg-yellow-900/20 rounded'>
+            <p className='text-yellow-200 font-medium'>
+              ✨ 金髪ヒロインを発掘して、サイトを充実させましょう！
+            </p>
+          </div>
+        </div>
         <StatusMessage status={status} message={message} />
         <form method='post' action='/register/work' id='workForm'>
           <WorkForm works={resultList} />
