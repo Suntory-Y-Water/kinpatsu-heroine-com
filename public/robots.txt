@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /admin/login/
+Disallow: /register/
+Disallow: /local-bucket/
+
+Sitemap: https://kinpatsu-heroine.com/sitemap.xml 

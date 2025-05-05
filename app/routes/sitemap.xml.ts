@@ -7,12 +7,7 @@ export default createRoute(async (c) => {
   const { data, headers } = await sitemap({
     app,
     hostname,
-    exclude: [
-      '/random',
-      '/admin',
-      '/admin/login',
-      '/local-bucket/images/:filename',
-    ],
+    exclude: ['/admin', '/admin/login', '/local-bucket/images/:filename'],
     priority: {
       '/': '1.0',
       '/character/:id': '0.8',
