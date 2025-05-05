@@ -2,6 +2,14 @@ import { uploadImageFile } from '@/lib/storage';
 import { ValidationError } from '@/types/error';
 import { createRoute } from 'honox/factory';
 
+// 許可される画像ファイルの形式
+const ALLOWED_IMAGE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/webp',
+];
+
 export const POST = createRoute(async (c) => {
   const { logger } = c.var;
   const body = await c.req.parseBody();
@@ -10,6 +18,17 @@ export const POST = createRoute(async (c) => {
     throw new ValidationError('画像ファイルを添付して下さい');
   }
   const file = body.file;
+
+  // ファイル形式のチェック
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    logger.error({
+      message: 'Invalid file type',
+      fileType: file.type,
+    });
+    throw new ValidationError(
+      'PNG、JPEG、WEBP形式の画像ファイルのみアップロード可能です。',
+    );
+  }
 
   // rename file
   const fileName = `images/${crypto.randomUUID()}_${file.name}`;

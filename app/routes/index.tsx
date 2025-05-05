@@ -7,12 +7,13 @@ import { SortOption, SortSelector } from '@/islands/SortSelector';
 import { StatusMessage } from '@/components/character/StatusMessage';
 import { Pagination } from '@/components/Pagination';
 
-type SortOrder = 'newest' | 'likes_desc';
+type SortOrder = 'newest' | 'likes_desc' | 'random';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
 
 const sortOptions: SortOption[] = [
   { key: 'newest', label: '新着順' },
   { key: 'likes_desc', label: 'いいね順' },
+  { key: 'random', label: 'ランダム' },
 ];
 
 // 最大表示件数
@@ -55,6 +56,17 @@ export default createRoute(async (c) => {
 
   if (currentSort === 'likes_desc') {
     allCharacters.sort((a, b) => b.likes - a.likes);
+  }
+
+  if (currentSort === 'random') {
+    // Fisher-Yatesアルゴリズムを使用してランダムにシャッフル
+    for (let i = allCharacters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allCharacters[i], allCharacters[j]] = [
+        allCharacters[j],
+        allCharacters[i],
+      ];
+    }
   }
 
   const paginatedResult = paginateItems(allCharacters, pageNum, ITEMS_PER_PAGE);

@@ -10,3 +10,6 @@ export * from './getAllCharacters';
 export * from './getRegistrationCharacterById';
 export * from './restoreDeletedCharacter';
 export * from './deleteCharacter';
+export * from './getLoginAttempt';
+export * from './updateLoginAttempt';
+export * from './resetLoginAttempt';

@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'hono/jsx';
 
+// 許可される画像ファイルの形式
+const ALLOWED_IMAGE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/webp',
+];
+
 export default function ImageUploader() {
   const [preview, setPreview] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -11,6 +19,13 @@ export default function ImageUploader() {
 
     if (!file) {
       setPreview(null);
+      return;
+    }
+
+    // ファイル形式のチェック
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      alert('PNG、JPEG、WEBP形式の画像ファイルのみアップロード可能です。');
+      input.value = '';
       return;
     }
 
@@ -42,6 +57,7 @@ export default function ImageUploader() {
       alert('画像のアップロードに失敗しました。再度お試しください。');
     }
   };
+
   function validateForm() {
     const submitButton = document.getElementById(
       'submitButton',
@@ -75,7 +91,7 @@ export default function ImageUploader() {
           <input
             type='file'
             className='hidden'
-            accept='image/*'
+            accept='image/png,image/jpeg,image/webp'
             onChange={handleFileChange}
           />
           画像を選択する
@@ -92,7 +108,7 @@ export default function ImageUploader() {
         )}
       </div>
       <p className='text-gray-500 text-xs'>
-        ※JPEG、PNG形式のファイルがアップロード可能です
+        ※PNG、JPEG、WEBP形式のファイルがアップロード可能です
       </p>
 
       {/* 画像URLを保持する隠しフィールド */}
