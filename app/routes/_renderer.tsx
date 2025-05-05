@@ -1,3 +1,4 @@
+import { html } from 'hono/html';
 import { jsxRenderer } from 'hono/jsx-renderer';
 import { Link, Script } from 'honox/server';
 import { Header } from '../components/Header';
@@ -66,6 +67,7 @@ export default jsxRenderer(
             name='twitter:image'
             content={twitter?.images ?? 'https://kinpatsu-heroine.com/ogp.png'}
           />
+          {import.meta.env.PROD ? <GoogleAnalytics /> : null}
           <title>
             {title ? `${title} - 金髪ヒロイン.com` : '金髪ヒロイン.com'}
           </title>
@@ -82,3 +84,23 @@ export default jsxRenderer(
     );
   },
 );
+
+function GoogleAnalytics() {
+  return (
+    <>
+      <script
+        async
+        src='https://www.googletagmanager.com/gtag/js?id=G-JMXK8G36PG'
+      />
+      {html`
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-JMXK8G36PG');
+        </script>
+      `}
+    </>
+  );
+}
