@@ -31,16 +31,12 @@ export default jsxRenderer(
           <meta property='og:type' content='website' />
           <meta
             property='og:url'
-            content={
-              openGraph?.url ??
-              'https://kinpatsu-heroine-com.ayasnppk00.workers.dev'
-            }
+            content={openGraph?.url ?? 'https://kinpatsu-heroine.com'}
           />
           <meta
             property='og:image'
             content={
-              openGraph?.images ??
-              'https://kinpatsu-heroine-com.ayasnppk00.workers.dev/ogp.png'
+              openGraph?.images ?? 'https://kinpatsu-heroine.com/ogp.png'
             }
           />
           <meta
@@ -68,10 +64,7 @@ export default jsxRenderer(
           />
           <meta
             name='twitter:image'
-            content={
-              twitter?.images ??
-              'https://kinpatsu-heroine-com.ayasnppk00.workers.dev/ogp.png'
-            }
+            content={twitter?.images ?? 'https://kinpatsu-heroine.com/ogp.png'}
           />
           <title>
             {title ? `${title} - 金髪ヒロイン.com` : '金髪ヒロイン.com'}
