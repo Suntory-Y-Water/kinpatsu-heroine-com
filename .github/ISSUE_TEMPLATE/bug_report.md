@@ -1,38 +1,37 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+name: バグ報告
+about: バグや不具合を報告する場合に使用してください
+title: '[BUG] '
+labels: bug
 assignees: ''
-
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## 問題の詳細
+<!-- バグや不具合の内容を具体的に記載してください -->
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## 再現手順
+<!-- 問題を再現する手順を番号付きで記載してください -->
+1. 
+2. 
+3. 
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## 期待される動作
+<!-- 本来どのような動作をすべきかを記載してください -->
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## 実際の動作
+<!-- 実際にはどのような動作をするかを記載してください -->
 
-**Additional context**
-Add any other context about the problem here.
+
+## スクリーンショット
+<!-- 必要に応じてスクリーンショットを添付してください -->
+
+
+## 環境
+- OS: 
+- ブラウザ: 
+- デバイス: 
+
+## 追加情報
+<!-- その他、参考となる情報があれば記載してください -->
