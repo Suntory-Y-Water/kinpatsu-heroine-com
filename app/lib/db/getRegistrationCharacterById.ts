@@ -7,7 +7,7 @@ import {
   likeHistoryTable,
 } from '@/config/drizzle/schema';
 import { err, ok, Result } from 'neverthrow';
-import { DatabaseError } from '@/types/error';
+import { DatabaseError, databaseErrorHandler } from '@/types/error';
 import { eq, count, and } from 'drizzle-orm';
 import type { CharacterDetail } from '@/types/character';
 
@@ -101,7 +101,6 @@ export async function getRegistrationCharacterById({
 
     return ok(result);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }

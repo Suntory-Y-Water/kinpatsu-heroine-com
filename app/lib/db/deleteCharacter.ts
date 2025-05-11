@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/d1';
 import { registrationQueueTable } from '@/config/drizzle/schema';
-import { err, ok, Result } from 'neverthrow';
-import { DatabaseError } from '@/types/error';
+import { ok, Result } from 'neverthrow';
+import { DatabaseError, databaseErrorHandler } from '@/types/error';
 import { eq, and } from 'drizzle-orm';
 
 export async function deleteCharacter({
@@ -27,8 +27,6 @@ export async function deleteCharacter({
 
     return ok(undefined);
   } catch (error) {
-    console.error(error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }

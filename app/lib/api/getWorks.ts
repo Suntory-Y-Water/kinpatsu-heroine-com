@@ -1,6 +1,6 @@
-import { err, ok, Result } from 'neverthrow';
+import { ok, Result } from 'neverthrow';
 import { AnnictWorks } from '../../types/annict';
-import { DatabaseError } from '../../types/error';
+import { DatabaseError, databaseErrorHandler } from '../../types/error';
 import { gql, request } from 'graphql-request';
 import { getRequestHeaders } from '@/utils/getRequestHeaders';
 
@@ -42,7 +42,6 @@ export async function getWorks({
       },
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }

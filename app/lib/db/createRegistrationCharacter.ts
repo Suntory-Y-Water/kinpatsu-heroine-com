@@ -1,8 +1,8 @@
 import { registrationQueueTable } from '@/config/drizzle/schema';
 import { CharacterInfo } from '@/types/character';
-import { DatabaseError } from '@/types/error';
+import { DatabaseError, databaseErrorHandler } from '@/types/error';
 import { drizzle } from 'drizzle-orm/d1';
-import { err, ok, Result } from 'neverthrow';
+import { ok, Result } from 'neverthrow';
 
 export async function createRegistrationCharacter(p: {
   DB: D1Database;
@@ -22,7 +22,6 @@ export async function createRegistrationCharacter(p: {
     });
     return ok(undefined);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }

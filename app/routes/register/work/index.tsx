@@ -4,9 +4,9 @@ import WorkForm from './$work-form';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { getWorkCharactersById, getWorks } from '@/lib/api';
-import { getCharacterById } from '@/lib/db/getCharacterById';
 import { StatusMessage } from '@/components/character/StatusMessage';
 import { cache } from 'hono/cache';
+import { getCharacterById } from '@/lib/db';
 
 const workFormSchema = z.object({
   workId: z.coerce.number().min(1, { message: '作品IDは必須です' }),
