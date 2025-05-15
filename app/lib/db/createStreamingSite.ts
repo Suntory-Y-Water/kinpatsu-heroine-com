@@ -1,8 +1,8 @@
 import { streamingSiteTable } from '@/config/drizzle/schema';
 import { StreamingSiteInfo } from '@/types/annict';
-import { DatabaseError } from '@/types/error';
+import { DatabaseError, databaseErrorHandler } from '@/types/error';
 import { drizzle } from 'drizzle-orm/d1';
-import { err, ok, Result } from 'neverthrow';
+import { ok, Result } from 'neverthrow';
 
 export async function createStreamingSite({
   DB,
@@ -19,7 +19,6 @@ export async function createStreamingSite({
         .values({
           streaming_site_id: site.streamingSiteId,
           streaming_site_name: site.streamingSiteName,
-          streaming_site_url: site.streamingSiteUrl,
         })
         .onConflictDoNothing({
           target: streamingSiteTable.streaming_site_id,
@@ -28,7 +27,6 @@ export async function createStreamingSite({
 
     return ok(undefined);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }

@@ -18,9 +18,6 @@
 | `pnpm db:push` | スキーマ変更を直接データベースにプッシュする（注意して使用すること） |
 | `pnpm db:studio` | Drizzle Studioを開いてデータベースデータを閲覧・管理する |
 | `pnpm db:local` | 最新のマイグレーションをローカルデータベースに適用する |
-| `pnpm db:preview` | 最新のマイグレーションをプレビューデータベースに適用する |
-| `pnpm db:prod` | 最新のマイグレーションを本番データベースに適用する |
-| `pnpm db:all` | 最新のマイグレーションをすべての環境（ローカル、プレビュー、本番）に適用する |
 
 ## マイグレーションワークフロー
 
@@ -44,27 +41,6 @@
 pnpm db:local
 ```
 
-#### プレビュー環境
-
-Cloudflareのプレビュー環境でテストするために：
-```bash
-pnpm db:preview
-```
-
-#### 本番環境
-
-本番データベースにマイグレーションを適用：
-```bash
-pnpm db:prod
-```
-
-#### すべての環境
-
-すべての環境に一度にマイグレーションを適用：
-```bash
-pnpm db:all
-```
-
 ### 高度な使用法
 
 マイグレーションスクリプト（`scripts/migrate.ts`）は直接実行することでより柔軟な操作が可能です：
@@ -76,12 +52,6 @@ tsx scripts/migrate.ts <environment> <mode> [--remote] [specificFile]
 # 例
 # 特定のマイグレーションをローカルに適用
 tsx scripts/migrate.ts local specific 0001_some_migration.sql
-
-# すべてのマイグレーションをプレビュー環境に適用
-tsx scripts/migrate.ts preview all --remote
-
-# 最新のマイグレーションを本番環境に適用
-tsx scripts/migrate.ts production latest --remote
 ```
 
 ## トラブルシューティング

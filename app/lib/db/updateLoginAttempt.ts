@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/d1';
 import { loginAttemptsTable } from '@/config/drizzle/schema';
-import { err, ok, Result } from 'neverthrow';
-import { DatabaseError } from '@/types/error';
+import { ok, Result } from 'neverthrow';
+import { DatabaseError, databaseErrorHandler } from '@/types/error';
 
 export async function updateLoginAttempt({
   DB,
@@ -43,7 +43,6 @@ export async function updateLoginAttempt({
 
     return ok(undefined);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }

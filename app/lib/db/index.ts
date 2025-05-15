@@ -13,3 +13,4 @@ export * from './deleteCharacter';
 export * from './getLoginAttempt';
 export * from './updateLoginAttempt';
 export * from './resetLoginAttempt';
+export * from './getCharacterById';

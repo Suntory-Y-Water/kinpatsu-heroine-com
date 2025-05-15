@@ -1,0 +1,82 @@
+{
+  "name": "TypeScript Dev Container",
+  "dockerFile": "Dockerfile",
+  "runArgs": ["--init"],
+  // コンテナ内のワークスペースフォルダを動的に設定
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  // フォワードするポート (HonoX/Vite開発サーバーのデフォルトポート)
+  "forwardPorts": [5173, 8787],
+
+  // ポートフォワーディング時の属性
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server (HonoX)",
+      "onAutoForward": "openPreview"
+    },
+    "8787": {
+      "label": "HonoX Dev Server wrangler",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  // VS Codeがコンテナに接続するたびに実行するコマンド
+  "postAttachCommand": "echo 'Welcome to your dev container!'",
+
+  // VS Codeの設定
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.codeActionsOnSave": {
+          "quickfix.biome": "explicit",
+          "source.organizeImports.biome": "explicit"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        // ターミナル設定 (任意)
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      },
+      "extensions": [
+        "biomejs.biome",
+        "ms-azuretools.vscode-docker",
+        "oouo-diogo-perdigao.docthis",
+        "github.vscode-github-actions",
+        "ecmel.vscode-html-css",
+        "oderwat.indent-rainbow",
+        "yzhang.markdown-all-in-one",
+        "marp-team.marp-vscode",
+        "unifiedjs.vscode-mdx",
+        "ionutvmi.path-autocomplete",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "mechatroner.rainbow-csv",
+        "bradlc.vscode-tailwindcss",
+        "meganrogge.template-string-converter",
+        "hbenl.vscode-test-explorer",
+        "redhat.vscode-yaml"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "NODE_ENV": "development"
+  },
+
+  // コンテナにインストールするパッケージ
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
+}

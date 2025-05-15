@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/d1';
 import { registrationQueueTable, workTable } from '@/config/drizzle/schema';
-import { err, ok } from 'neverthrow';
-import { DatabaseError } from '@/types/error';
+import { ok } from 'neverthrow';
+import { databaseErrorHandler } from '@/types/error';
 import { eq } from 'drizzle-orm';
 
 export async function getCharacterById({
@@ -27,7 +27,6 @@ export async function getCharacterById({
 
     return ok(result);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return err(new DatabaseError(message, error));
+    return databaseErrorHandler(error);
   }
 }
