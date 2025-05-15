@@ -16,10 +16,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:local": "tsx scripts/migrate.ts local latest",
-    "db:preview": "tsx scripts/migrate.ts preview latest --remote",
-    "db:prod": "tsx scripts/migrate.ts production latest --remote",
-    "db:all": "pnpm run db:local && pnpm run db:preview && pnpm run db:prod",
-    "db:generate-inserts": "tsx scripts/generate-insert-sql.ts"
+    "db:local:all": "tsx scripts/migrate.ts local all"
   },
   "private": true,
   "dependencies": {

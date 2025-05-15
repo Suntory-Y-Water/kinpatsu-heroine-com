@@ -40,6 +40,7 @@ export default jsxRenderer(
               openGraph?.images ?? 'https://kinpatsu-heroine.com/ogp.png'
             }
           />
+          <meta property='og:site_name' content='金髪ヒロイン.com' />
           <meta
             name='description'
             content={
