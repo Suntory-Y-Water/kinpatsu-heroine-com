@@ -13,8 +13,8 @@ permissions:
 
 jobs:
   release:
-    # PRがマージされ、かつマージ元のブランチが 'release/' で始まる場合のみ実行
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    # PRがマージされ、かつマージ元のブランチが 'release' で始まる場合のみ実行
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -39,10 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # package.jsonから取得したバージョンを使用
-          tag: 'v${{ steps.package_version.outputs.version }}'
-          name: 'Release v${{ steps.package_version.outputs.version }}' 
-          version: ${{ steps.package_version.outputs.version }} 
-          publish: false
-          # リポジトリルートの .github/release-drafter.yml を使用
-          config-name: release-drafter.yml 
+          # package.jsonから取得した純粋なバージョン番号を渡す
+          version: ${{ steps.package_version.outputs.version }}
+          publish: true # リリースを自動公開
+          config-name: release-drafter.yml
