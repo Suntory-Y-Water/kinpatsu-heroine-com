@@ -1,8 +1,9 @@
 name-template: 'v$RESOLVED_VERSION 🌈'
 tag-template: 'v$RESOLVED_VERSION'
+tag-prefix: 'v'
 
 categories:
-  - title: '🚀 Features' 
+  - title: '🚀 Features'
     labels:
       - 'enhancement'
   - title: '🐛 Bug Fixes'
@@ -16,9 +17,9 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 
 template: |
-  ## Changes
-
   $CHANGES
+
+  **Full Changelog**: $PREVIOUS_TAG...v$RESOLVED_VERSION
 
 autolabeler:
   - label: 'enhancement'
@@ -31,6 +32,7 @@ autolabeler:
   - label: 'documentation'
     branch:
       - '/^doc(s)?[/-].+/'
+  # 以下のラベルは自動付与されても、上記 categories に含まれなければリリースノートには載らない
   - label: 'test'
     branch:
       - '/^test[/-].+/'

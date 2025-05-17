@@ -12,7 +12,7 @@ import {
   createWorkStreamingSite,
   updateRegisterFlag,
 } from '@/lib/db';
-import { parseAnnictPage } from '@/utils/parseAnnictPage';
+import { parseAnnictPage } from '@/lib/parseAnnictPage';
 
 const formSchema = z.object({
   characterId: z.coerce
