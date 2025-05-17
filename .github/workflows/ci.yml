@@ -1,9 +1,11 @@
 name: CI
 
 on:
-  # featureで始まるPRでのみ実行する
+  # feature-またはfeature/で始まるPRでのみ実行する
   pull_request:
-    branches: [ 'feature*' ]
+    branches: 
+      - 'feature-*'
+      - 'feature/*'
 
 jobs:
   build-type:
