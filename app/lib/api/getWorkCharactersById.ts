@@ -2,7 +2,7 @@ import { ok, Result } from 'neverthrow';
 import { gql, request } from 'graphql-request';
 import { AnnictWorkCharacters } from '@/types/annict';
 import { DatabaseError, databaseErrorHandler } from '@/types/error';
-import { getRequestHeaders } from '@/utils/getRequestHeaders';
+import { getRequestHeaders } from '@/lib/utils';
 
 export async function getWorkCharactersById({
   clientId,
