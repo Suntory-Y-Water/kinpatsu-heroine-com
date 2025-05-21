@@ -40,7 +40,7 @@
   },
   "overrides": [
     {
-      "include": ["test-integration/**/*.test.tsx"],
+      "include": ["test-integration/**/*.test.tsx", "test-integration/**/*.ts"],
       "linter": {
         "rules": {
           "suspicious": {
