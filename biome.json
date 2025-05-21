@@ -38,6 +38,18 @@
       }
     }
   },
+  "overrides": [
+    {
+      "include": ["test-integration/**/*.test.tsx"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
