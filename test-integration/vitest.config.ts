@@ -1,4 +1,3 @@
-// test-integration/vitest.config.ts
 import {
   defineWorkersConfig,
   readD1Migrations,
@@ -31,6 +30,8 @@ export default defineWorkersConfig(async () => {
               ADMIN_USERNAME: 'test_admin',
               ADMIN_PASSWORD_HASH: 'test_admin_password_hash',
               PUBLIC_APP_URL: 'http://localhost',
+              // ANNICT_CLIENT_ID: 'key',
+              R2_ENDPOINT: 'http://localhost:5173/local-bucket',
               MIGRATIONS: migrations,
             },
           },
