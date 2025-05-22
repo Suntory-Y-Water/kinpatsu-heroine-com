@@ -1,65 +1,9 @@
 import { SELF, env } from 'cloudflare:test';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { sign } from 'hono/jwt';
-
-type AdminCharacterRecord = {
-  character_id: number;
-  work_id: number;
-  character_name: string;
-  work_name: string;
-  character_image_url: string;
-  is_registered: boolean;
-  is_deleted: boolean;
-  registration_date?: string;
-};
-
-async function generateAdminToken(payload?: object): Promise<string> {
-  const defaultPayload = {
-    role: 'admin',
-    username: 'test_admin_user',
-    exp: Math.floor(Date.now() / 1000) + 60 * 5, // 5 minutes
-  };
-  return await sign({ ...defaultPayload, ...payload }, env.JWT_SECRET);
-}
-
-async function insertAdminCharacters(characters: AdminCharacterRecord[]) {
-  const stmts = characters.map((char) => {
-    const {
-      character_id,
-      work_id,
-      character_name,
-      work_name,
-      character_image_url,
-      is_registered,
-      is_deleted,
-      registration_date = new Date().toISOString(),
-    } = char;
-    return env.DB.prepare(
-      `INSERT INTO registration_queue_table
-       (character_id, work_id, character_name, work_name, character_image_url, registration_date, is_registered, is_deleted)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(character_id, work_id) DO UPDATE SET
-         character_name = excluded.character_name,
-         work_name = excluded.work_name,
-         character_image_url = excluded.character_image_url,
-         registration_date = excluded.registration_date,
-         is_registered = excluded.is_registered,
-         is_deleted = excluded.is_deleted`,
-    ).bind(
-      character_id,
-      work_id,
-      character_name,
-      work_name,
-      character_image_url,
-      registration_date,
-      is_registered ? 1 : 0,
-      is_deleted ? 1 : 0,
-    );
-  });
-  if (stmts.length > 0) {
-    await env.DB.batch(stmts);
-  }
-}
+import {
+  testGenerateAdminToken,
+  testInsertAdminCharacter,
+} from 'test-integration/utils';
 
 async function clearRegistrationQueueTable() {
   await env.DB.exec('DELETE FROM registration_queue_table;');
@@ -70,7 +14,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
 
   beforeEach(async () => {
     await clearRegistrationQueueTable();
-    adminToken = await generateAdminToken();
+    adminToken = await testGenerateAdminToken();
   });
 
   afterEach(() => {
@@ -87,7 +31,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
   });
 
   it('受付待ちリスト (`tab=pending`) が正しく表示されること', async () => {
-    const pendingChar: AdminCharacterRecord = {
+    const pendingChar = {
       character_id: 1,
       work_id: 1,
       character_name: 'Pending Char',
@@ -96,7 +40,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
       is_registered: false,
       is_deleted: false,
     };
-    const registeredChar: AdminCharacterRecord = {
+    const registeredChar = {
       character_id: 2,
       work_id: 2,
       character_name: 'Registered Char',
@@ -105,7 +49,8 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
       is_registered: true,
       is_deleted: false,
     };
-    await insertAdminCharacters([pendingChar, registeredChar]);
+    await testInsertAdminCharacter(pendingChar);
+    await testInsertAdminCharacter(registeredChar);
 
     const response = await SELF.fetch('http://localhost/admin?tab=pending', {
       headers: { Cookie: `admin_token=${adminToken}` },
@@ -117,7 +62,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
   });
 
   it('登録済みリスト (`tab=registered`) が正しく表示されること', async () => {
-    const pendingChar: AdminCharacterRecord = {
+    const pendingChar = {
       character_id: 1,
       work_id: 1,
       character_name: 'Pending Char',
@@ -126,7 +71,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
       is_registered: false,
       is_deleted: false,
     };
-    const registeredChar: AdminCharacterRecord = {
+    const registeredChar = {
       character_id: 2,
       work_id: 2,
       character_name: 'Registered Char',
@@ -135,7 +80,8 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
       is_registered: true,
       is_deleted: false,
     };
-    await insertAdminCharacters([pendingChar, registeredChar]);
+    await testInsertAdminCharacter(pendingChar);
+    await testInsertAdminCharacter(registeredChar);
 
     const response = await SELF.fetch('http://localhost/admin?tab=registered', {
       headers: { Cookie: `admin_token=${adminToken}` },
@@ -147,7 +93,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
   });
 
   it('削除済みリスト (`tab=deleted`) が正しく表示されること', async () => {
-    const deletedChar: AdminCharacterRecord = {
+    const deletedChar = {
       character_id: 3,
       work_id: 3,
       character_name: 'Deleted Char',
@@ -156,7 +102,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
       is_registered: false,
       is_deleted: true,
     };
-    const pendingChar: AdminCharacterRecord = {
+    const pendingChar = {
       character_id: 1,
       work_id: 1,
       character_name: 'Pending Char',
@@ -165,7 +111,8 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
       is_registered: false,
       is_deleted: false,
     };
-    await insertAdminCharacters([deletedChar, pendingChar]);
+    await testInsertAdminCharacter(deletedChar);
+    await testInsertAdminCharacter(pendingChar);
 
     const response = await SELF.fetch('http://localhost/admin?tab=deleted', {
       headers: { Cookie: `admin_token=${adminToken}` },
