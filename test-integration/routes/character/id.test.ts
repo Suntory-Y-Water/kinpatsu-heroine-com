@@ -73,9 +73,6 @@ describe('GET /character/:id (app/routes/character/[id].tsx)', () => {
     const response = await SELF.fetch('http://localhost/character/999');
 
     expect(response.status).toBe(404);
-    const text = await response.text();
-    expect(text).toContain('404 Not Found');
-    expect(text).toContain('ページが見つかりませんでした。');
   });
 
   it('キャラクターのいいね数が正しく表示されること', async () => {

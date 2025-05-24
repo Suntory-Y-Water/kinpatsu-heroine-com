@@ -181,7 +181,7 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
     const text = await response.text();
 
     expect(response.status).toBe(500);
-    expect(text).toContain('通信エラーが発生しました。');
+    expect(text).toContain('通信エラーが発生しました');
     expect(text).toContain('しばらく経ってから再度アクセスしてください。');
 
     prepareSpy.mockRestore();

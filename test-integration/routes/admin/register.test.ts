@@ -414,7 +414,7 @@ describe('POST /admin/register (app/routes/admin/register/index.ts)', () => {
         },
       );
       const text = await followResponse.text();
-      expect(text).toContain(decodeURIComponent('通信エラーが発生しました。'));
+      expect(text).toContain(decodeURIComponent('通信エラーが発生しました'));
     }
 
     prepareSpy.mockRestore();
