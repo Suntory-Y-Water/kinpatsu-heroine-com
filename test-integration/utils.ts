@@ -73,3 +73,71 @@ export async function testGetCharacterFromDb(
     .first<AdminCharacterRecord>();
   return result;
 }
+
+export function createMockAnnictResponse() {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head><title>Test Work</title></head>
+    <body>
+      <a href="https://example.com/official">公式サイト</a>
+      <a href="https://ja.wikipedia.org/wiki/Test_Work">Wikipedia</a>
+      <ul>
+        <li><a href="https://www.netflix.com/test">Netflix</a></li>
+        <li><a href="https://amazon.com/test">Amazon Prime Video</a></li>
+      </ul>
+    </body>
+    </html>
+  `;
+}
+
+export function createEmptyAnnictResponse() {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head><title>Empty Work</title></head>
+    <body>
+      <p>No links found</p>
+    </body>
+    </html>
+  `;
+}
+
+export async function testGetWorkFromDb(workId: number) {
+  const result = await env.DB.prepare(
+    'SELECT * FROM work_table WHERE work_id = ?',
+  )
+    .bind(workId)
+    .first();
+  return result;
+}
+
+export async function testGetStreamingSiteFromDb(streamingSiteId: string) {
+  const result = await env.DB.prepare(
+    'SELECT * FROM streaming_site_table WHERE streaming_site_id = ?',
+  )
+    .bind(streamingSiteId)
+    .first();
+  return result;
+}
+
+export async function testGetWorkStreamingSiteFromDb(
+  workId: number,
+  streamingSiteId: string,
+) {
+  const result = await env.DB.prepare(
+    'SELECT * FROM work_streaming_site_table WHERE work_id = ? AND streaming_site_id = ?',
+  )
+    .bind(workId, streamingSiteId)
+    .first();
+  return result;
+}
+
+export async function testGetCharacterFromCharacterTable(characterId: number) {
+  const result = await env.DB.prepare(
+    'SELECT * FROM character_table WHERE character_id = ?',
+  )
+    .bind(characterId)
+    .first();
+  return result;
+}
