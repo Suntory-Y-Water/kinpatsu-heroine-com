@@ -39,9 +39,9 @@ export const POST = createRoute(
     });
 
     if (result.isErr()) {
-      logger.warn({
+      logger.error({
         method: 'getWorkCharactersById',
-        message: '作品情報の取得に失敗しました',
+        message: result.error.message,
         error: result.error,
       });
       throw new Error(result.error.message);
@@ -117,6 +117,7 @@ export default createRoute(
     wait: false,
   }),
   async (c) => {
+    const { logger } = c.var;
     // クエリパラメータからステータスとメッセージを取得
     const status = c.req.query('status') as
       | 'error'
@@ -133,7 +134,12 @@ export default createRoute(
     });
 
     if (result.isErr()) {
-      throw new Error('作品情報の取得に失敗しました');
+      logger.error({
+        method: 'getWorks',
+        message: '作品情報の取得に失敗しました',
+        error: result.error,
+      });
+      throw new Error(result.error.message);
     }
 
     const resultList = result.value.data.searchWorks.nodes.map((node) => ({

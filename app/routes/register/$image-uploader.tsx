@@ -48,7 +48,7 @@ export default function ImageUploader() {
       if (!response.ok) {
         throw new Error('画像のアップロードに失敗しました');
       }
-      const result = (await response.json()) as { url: string };
+      const result = await response.json<{ url: string }>();
       setImageUrl(result.url);
     } catch (error) {
       if (error instanceof Error) {
