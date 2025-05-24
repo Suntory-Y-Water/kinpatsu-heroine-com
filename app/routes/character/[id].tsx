@@ -5,6 +5,43 @@ import { getRegistrationCharacterById } from '@/lib/db';
 import { getCookie } from 'hono/cookie';
 import { getLikeCharacterById } from '@/lib/db/getLikeCharacterById';
 
+function getStreamingIcon(streamingSiteId: string): {
+  src: string;
+  alt: string;
+} {
+  const iconMap: Record<string, { src: string; alt: string }> = {
+    'www.netflix.com': { src: '/streaming-icons/netflix.png', alt: 'Netflix' },
+    'www.b-ch.com': {
+      src: '/streaming-icons/bandai.png',
+      alt: 'バンダイチャンネル',
+    },
+    'ch.nicovideo.jp': {
+      src: '/streaming-icons/niconico-anime-store.jpg',
+      alt: 'ニコニコチャンネル',
+    },
+    'animestore.docomo.ne.jp': {
+      src: '/streaming-icons/animestore.webp',
+      alt: 'dアニメストア',
+    },
+    'www.amazon.co.jp': {
+      src: '/streaming-icons/amazon-prime.png',
+      alt: 'Amazon プライム・ビデオ',
+    },
+    'abema.tv': { src: '/streaming-icons/abema.png', alt: 'ABEMAビデオ' },
+    'www.nicovideo.jp': {
+      src: '/streaming-icons/niconico-anime-store.jpg',
+      alt: 'dアニメストア ニコニコ支店',
+    },
+  };
+
+  return (
+    iconMap[streamingSiteId] || {
+      src: '/streaming-icons/default.png',
+      alt: 'デフォルトアイコン',
+    }
+  );
+}
+
 export default createRoute(async (c) => {
   const id = c.req.param('id');
 
@@ -61,7 +98,7 @@ export default createRoute(async (c) => {
                 alt={character.characterName}
                 className='w-full aspect-[4/5] object-cover lg:rounded-lg'
               />
-              <div className='absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-gray-900/60 lg:to-transparent lg:rounded-lg' />
+              <div className='absolute inset-0 bg-gradient-to-t via-transparent to-transparent lg:bg-gradient-to-r  lg:to-transparent lg:rounded-lg' />
             </div>
 
             {/* 情報セクション */}
@@ -143,25 +180,45 @@ export default createRoute(async (c) => {
                     視聴できる配信サービス
                   </h2>
                   <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
-                    {character.streamingSiteInfo.map((service) => (
-                      <a
-                        key={service.streamingSiteId}
-                        href={service.streamingSiteUrl}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
-                      >
-                        <span className='text-yellow-300 group-hover:text-yellow-400 text-lg'>
-                          ▶️
-                        </span>
-                        <span className='text-white group-hover:text-yellow-300 font-medium text-sm lg:text-base'>
-                          {service.streamingSiteName}
-                        </span>
-                        <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
-                          →
-                        </span>
-                      </a>
-                    ))}
+                    {character.streamingSiteInfo.map((service) => {
+                      const iconInfo = getStreamingIcon(
+                        service.streamingSiteId,
+                      );
+                      return (
+                        <a
+                          key={service.streamingSiteId}
+                          href={service.streamingSiteUrl}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                        >
+                          <div className='w-6 h-6 flex-shrink-0 rounded-sm overflow-hidden bg-white p-0.5'>
+                            <img
+                              src={iconInfo.src}
+                              alt={iconInfo.alt}
+                              className='w-full h-full object-contain'
+                              onError={(e: Event) => {
+                                // アイコンが読み込めない場合は▶️絵文字を表示
+                                const target =
+                                  e.currentTarget as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML =
+                                    '<span class="text-yellow-300 text-lg">▶️</span>';
+                                }
+                              }}
+                            />
+                          </div>
+                          <span className='text-white group-hover:text-yellow-300 font-medium text-sm lg:text-base'>
+                            {service.streamingSiteName}
+                          </span>
+                          <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                            →
+                          </span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               )}
