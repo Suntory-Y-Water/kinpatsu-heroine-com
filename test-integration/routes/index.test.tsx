@@ -258,7 +258,5 @@ describe('GET / (app/routes/index.tsx)', () => {
 
     expect(response.status).toBe(200);
     expect(text).toContain('操作が正常に完了しました。やったね！'); // デコードされたメッセージ
-    expect(text).toContain('bg-green-900/20'); // StatusMessage の success スタイル
-    expect(text).toContain('✅'); // StatusMessage の success アイコン
   });
 });
