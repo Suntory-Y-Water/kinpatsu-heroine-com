@@ -1,42 +1,51 @@
 import { SELF, env } from 'cloudflare:test';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
-// 最小限のモックデータ
-const minimalMockWorksData = {
-  data: {
-    searchWorks: {
-      nodes: [
-        {
-          annictId: 2108,
-          title: '魔法少女まどか☆マギカ',
-        },
-        {
-          annictId: 6196,
-          title: 'コードギアス 復活のルルーシュ',
-        },
-      ],
-    },
-  },
-};
-
 describe('GET /register/character (app/routes/register/character/index.tsx)', () => {
   beforeEach(async () => {
     await env.DB.exec('DELETE FROM registration_queue_table;');
 
-    // fetchを簡潔にモック化
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockImplementation(async (url, _options) => {
-        // Annict APIの場合はモックレスポンスを返す
-        if (typeof url === 'string' && url.includes('api.annict.com')) {
-          return new Response(JSON.stringify(minimalMockWorksData), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-          });
-        }
-        throw new Error(`Unmocked fetch call to ${url}`);
-      }),
-    );
+    // fetchのモック化
+    global.fetch = vi.fn().mockImplementation(async () => {
+      return {
+        ok: true,
+        status: 200,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => ({
+          data: {
+            searchWorks: {
+              nodes: [
+                {
+                  annictId: 2108,
+                  title: '魔法少女まどか☆マギカ',
+                },
+                {
+                  annictId: 6196,
+                  title: 'コードギアス 復活のルルーシュ',
+                },
+              ],
+            },
+          },
+        }),
+        text: async () =>
+          JSON.stringify({
+            data: {
+              searchWorks: {
+                nodes: [
+                  {
+                    annictId: 2108,
+                    title: '魔法少女まどか☆マギカ',
+                  },
+                  {
+                    annictId: 6196,
+                    title: 'コードギアス 復活のルルーシュ',
+                  },
+                ],
+              },
+            },
+          }),
+      };
+    });
   });
 
   afterEach(() => {
@@ -140,19 +149,47 @@ describe('POST /register/character (app/routes/register/character/index.tsx)', (
   beforeEach(async () => {
     await env.DB.exec('DELETE FROM registration_queue_table;');
 
-    // fetchを簡潔にモック化
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockImplementation(async (url, _options) => {
-        // Annict APIの場合はモックレスポンスを返す
-        if (typeof url === 'string' && url.includes('api.annict.com')) {
-          return new Response(JSON.stringify(minimalMockWorksData), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-          });
-        }
-      }),
-    );
+    // fetchのモック化
+    global.fetch = vi.fn().mockImplementation(async () => {
+      return {
+        ok: true,
+        status: 200,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => ({
+          data: {
+            searchWorks: {
+              nodes: [
+                {
+                  annictId: 2108,
+                  title: '魔法少女まどか☆マギカ',
+                },
+                {
+                  annictId: 6196,
+                  title: 'コードギアス 復活のルルーシュ',
+                },
+              ],
+            },
+          },
+        }),
+        text: async () =>
+          JSON.stringify({
+            data: {
+              searchWorks: {
+                nodes: [
+                  {
+                    annictId: 2108,
+                    title: '魔法少女まどか☆マギカ',
+                  },
+                  {
+                    annictId: 6196,
+                    title: 'コードギアス 復活のルルーシュ',
+                  },
+                ],
+              },
+            },
+          }),
+      };
+    });
   });
 
   afterEach(() => {
