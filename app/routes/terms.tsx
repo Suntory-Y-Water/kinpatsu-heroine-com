@@ -5,19 +5,22 @@ import { PolicyLayout } from '../components/PolicyLayout';
 export default createRoute((c) => {
   return c.render(
     <PolicyLayout title='利用規約'>
-      <section>
-        <h2 className='text-2xl font-semibold text-yellow-300 mb-4'>
+      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
+        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+          <span>📜</span>
           第1条（適用）
         </h2>
         <p>
           本利用規約（以下、「本規約」といいます。）は、金髪ヒロイン.com（以下、「当サイト」といいます。）が提供するサービスの利用条件を定めるものです。ユーザーの皆様（以下、「ユーザー」といいます。）には、本規約に従って本サービスをご利用いただきます。
         </p>
       </section>
-      <section>
-        <h2 className='text-2xl font-semibold text-yellow-300 mb-4'>
+
+      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
+        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+          <span>⚠️</span>
           第2条（禁止事項）
         </h2>
-        <p>
+        <p className='mb-4'>
           ユーザーは、本サービスの利用にあたり、以下の行為をしてはなりません。
         </p>
         <ul className='list-disc list-inside space-y-2 pl-4'>
@@ -40,41 +43,55 @@ export default createRoute((c) => {
           <li>その他、当サイトが不適切と判断する行為</li>
         </ul>
       </section>
-      <section>
-        <h2 className='text-2xl font-semibold text-yellow-300 mb-4'>
+
+      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
+        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+          <span>🛡️</span>
           第3条（免責事項）
         </h2>
-        <p>
-          当サイトは、掲載する情報について可能な限り正確性を期しておりますが、その完全性、正確性、最新性を保証するものではありません。
-        </p>
-        <p>
-          当サイトは、本サービスに事実上または法律上の瑕疵（安全性、信頼性、正確性、完全性、有効性、特定の目的への適合性、セキュリティなどに関する欠陥、エラーやバグ、権利侵害などを含みます。）がないことを保証するものではありません。
-        </p>
-        <p>
-          当サイトは、本サービスによってユーザーに生じたあらゆる損害について、一切の責任を負いません。
-        </p>
-      </section>
-      <section>
-        <h2 className='text-2xl font-semibold text-yellow-300 mb-4'>
-          第4条（投稿コンテンツについて）
-        </h2>
-        <p>
-          ユーザーは、投稿する画像やコンテンツについて、著作権を含むすべての必要な権利を有していること、および投稿するコンテンツが第三者の権利を侵害していないことを表明し、保証するものとします。
-        </p>
-        <p>
-          無許可の著作物のアップロードは一切禁止します。当サイトは著作権侵害に対して厳正に対処します。
-        </p>
+        <div className='space-y-4'>
+          <p>
+            当サイトは、掲載する情報について可能な限り正確性を期しておりますが、その完全性、正確性、最新性を保証するものではありません。
+          </p>
+          <p>
+            当サイトは、本サービスに事実上または法律上の瑕疵（安全性、信頼性、正確性、完全性、有効性、特定の目的への適合性、セキュリティなどに関する欠陥、エラーやバグ、権利侵害などを含みます。）がないことを保証するものではありません。
+          </p>
+          <p>
+            当サイトは、本サービスによってユーザーに生じたあらゆる損害について、一切の責任を負いません。
+          </p>
+        </div>
       </section>
 
-      <section>
-        <h2 className='text-2xl font-semibold text-yellow-300 mb-4'>
+      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
+        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+          <span>📤</span>
+          第4条（投稿コンテンツについて）
+        </h2>
+        <div className='space-y-4'>
+          <p>
+            ユーザーは、投稿する画像やコンテンツについて、著作権を含むすべての必要な権利を有していること、および投稿するコンテンツが第三者の権利を侵害していないことを表明し、保証するものとします。
+          </p>
+          <p>
+            無許可の著作物のアップロードは一切禁止します。当サイトは著作権侵害に対して厳正に対処します。
+          </p>
+        </div>
+      </section>
+
+      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
+        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+          <span>⚖️</span>
           第5条（ライセンスの付与）
         </h2>
         <p>
           ユーザーは、投稿した画像について、当サイトに対し表示目的での非独占的、無償のライセンスを付与するものとします。このライセンスは著作権者からの削除要請により直ちに失効します。
         </p>
       </section>
-      <p className='mt-8'>2025年5月5日 制定</p>
+
+      <div className='bg-yellow-400/10 border border-yellow-400/30 p-6 rounded-lg'>
+        <p className='text-yellow-300 text-center font-medium'>
+          📅 2025年5月5日 制定
+        </p>
+      </div>
     </PolicyLayout>,
     {
       title: '利用規約',

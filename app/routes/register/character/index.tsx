@@ -137,40 +137,52 @@ export default createRoute(async (c) => {
   const characterData = validationResult.data;
 
   return c.render(
-    <div className='max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
-      <h1 className='text-3xl font-bold text-center mb-8 text-white'>
-        キャラクター登録
-      </h1>
-      <div className='mb-4 text-white'>
-        <span className='font-medium'>作品名：</span>
-        {workName}
-      </div>
-
-      <div className='mb-6 p-4 bg-gray-700 rounded-lg'>
-        <h2 className='text-lg font-semibold text-yellow-300 mb-2'>
-          ✨️登録の手順
-        </h2>
-        <div className='space-y-2 text-gray-300'>
-          <p>1. 金髪ヒロインを選択してください👧</p>
-          <p>2. キャラクターの画像を選択してアップロードしてください🖼️</p>
-          <p>3. 管理者の確認後、サイトに掲載されます🎉</p>
+    <div className='min-h-screen bg-gray-800 py-8 px-4'>
+      <div className='max-w-xl mx-auto bg-gray-700 py-8 px-4 rounded-xl shadow-2xl'>
+        <h1 className='text-4xl font-bold text-center mb-8 text-yellow-300'>
+          キャラクター登録
+        </h1>
+        <div className='mb-4 text-gray-300'>
+          <span className='font-medium text-yellow-300'>作品名：</span>
+          {workName}
         </div>
+
+        <div className='mb-8 p-6 bg-gray-600 rounded-lg border border-gray-500'>
+          <h2 className='text-xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+            <span>✨</span>
+            登録の手順
+          </h2>
+          <div className='space-y-3 text-gray-300'>
+            <p className='flex items-start gap-2'>
+              <span className='text-yellow-300 font-medium'>1.</span>
+              金髪ヒロインを選択してください👧
+            </p>
+            <p className='flex items-start gap-2'>
+              <span className='text-yellow-300 font-medium'>2.</span>
+              キャラクターの画像を選択してアップロードしてください🖼️
+            </p>
+            <p className='flex items-start gap-2'>
+              <span className='text-yellow-300 font-medium'>3.</span>
+              管理者の確認後、サイトに掲載されます🎉
+            </p>
+          </div>
+        </div>
+        <form method='post' action='/register/character' id='characterForm'>
+          {/*  API実行用の隠しフォーム */}
+          <input type='hidden' name='workId' value={workId} />
+          <input type='hidden' name='workName' value={workName} />
+          <CharacterForm characters={characterData} />
+          <ImageUploader />
+          <button
+            type='submit'
+            id='submitButton'
+            disabled
+            className='w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 py-3 px-6 rounded-lg font-bold text-lg transition-all  transform hover:scale-100 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500 disabled:transform-none shadow-lg'
+          >
+            登録
+          </button>
+        </form>
       </div>
-      <form method='post' action='/register/character' id='characterForm'>
-        {/*  API実行用の隠しフォーム */}
-        <input type='hidden' name='workId' value={workId} />
-        <input type='hidden' name='workName' value={workName} />
-        <CharacterForm characters={characterData} />
-        <ImageUploader />
-        <button
-          type='submit'
-          id='submitButton'
-          disabled
-          className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500'
-        >
-          登録
-        </button>
-      </form>
     </div>,
     {
       title: 'キャラクター登録',
