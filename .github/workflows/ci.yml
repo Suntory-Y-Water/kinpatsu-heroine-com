@@ -2,7 +2,7 @@ name: CI
 
 on:
   # feature-またはfeature/で始まるPRでのみ実行する
-  pull_request:
+  push:
     branches: 
       - 'feature-*'
       - 'feature/*'
