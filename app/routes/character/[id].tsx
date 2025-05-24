@@ -98,7 +98,7 @@ export default createRoute(async (c) => {
                 alt={character.characterName}
                 className='w-full aspect-[4/5] object-cover lg:rounded-lg'
               />
-              <div className='absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-gray-900/60 lg:to-transparent lg:rounded-lg' />
+              <div className='absolute inset-0 bg-gradient-to-t via-transparent to-transparent lg:bg-gradient-to-r  lg:to-transparent lg:rounded-lg' />
             </div>
 
             {/* 情報セクション */}

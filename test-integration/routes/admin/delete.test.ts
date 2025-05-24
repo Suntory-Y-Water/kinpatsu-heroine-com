@@ -169,9 +169,9 @@ describe('POST /admin/delete (app/routes/admin/delete/index.ts)', () => {
         },
       );
       // リダイレクトしたあとにグローバルの500エラーが発生して
-      // 通信エラーが発生しました。が表示される。
+      // 通信エラーが発生しましたが表示される。
       const text = await followResponse.text();
-      expect(text).toContain(decodeURIComponent('通信エラーが発生しました。'));
+      expect(text).toContain(decodeURIComponent('通信エラーが発生しました'));
     }
     prepareSpy.mockRestore();
   });
