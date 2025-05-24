@@ -27,26 +27,26 @@ export function SortSelector({ currentSort, options }: SortSelectorProps) {
 
   return (
     <form method='get' action='' className='flex justify-end'>
-      <div className='relative inline-block text-left'>
+      <div className='relative inline-block text-left group'>
         <select
           name='sort'
           value={selectedSort}
           onChange={handleChange}
-          className='inline-flex justify-center w-full rounded-md border border-gray-700 shadow-sm px-6 py-2 bg-gray-800 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-300 transition-colors appearance-none'
+          className='inline-flex justify-center w-full rounded-full border border-gray-600 shadow-lg px-6 py-3 bg-gray-700 text-base font-medium text-white hover:bg-gray-600 hover:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-300 appearance-none cursor-pointer transform hover:scale-105'
         >
           {options.map((option) => (
             <option
               key={option.key}
               value={option.key}
-              className='bg-gray-800 text-white'
+              className='bg-gray-700 text-white py-2'
             >
               {option.label}
             </option>
           ))}
         </select>
-        <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white'>
+        <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-yellow-300 group-hover:text-yellow-400 transition-colors duration-300'>
           <svg
-            className='h-5 w-5'
+            className='h-5 w-5 transform group-hover:rotate-180 transition-transform duration-300'
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'
             fill='currentColor'
