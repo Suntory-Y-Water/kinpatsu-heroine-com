@@ -38,6 +38,21 @@
       }
     }
   },
+  "overrides": [
+    {
+      "include": ["test-integration/**/*.test.tsx", "test-integration/**/*.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          },
+          "style": {
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "single",

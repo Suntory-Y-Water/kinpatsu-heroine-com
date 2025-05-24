@@ -2,20 +2,21 @@ name: CI
 
 on:
   # feature-またはfeature/で始まるPRでのみ実行する
-  pull_request:
+  push:
     branches: 
       - 'feature-*'
       - 'feature/*'
 
 jobs:
-  build-type:
-    name: Run Build and TypeScript lint Check
+  build_lint_test:
+    name: Build, Lint, and Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
           version: 9
 
@@ -23,6 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm' # pnpmの依存関係キャッシュを有効化
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -32,3 +34,6 @@ jobs:
 
       - name: Run Lint
         run: pnpm run lint
+
+      - name: Run Tests
+        run: pnpm test
