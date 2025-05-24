@@ -52,7 +52,6 @@ function mockCharactersResponse(
 describe('GET /register/work (app/routes/register/work/index.tsx)', () => {
   beforeEach(async () => {
     await env.DB.exec('DELETE FROM registration_queue_table;');
-    env.ANNICT_CLIENT_ID = 'test_client_id';
   });
 
   afterEach(() => {
@@ -126,8 +125,7 @@ describe('POST /register/work (app/routes/register/work/index.tsx)', () => {
   beforeEach(async () => {
     await env.DB.exec('DELETE FROM registration_queue_table;');
     await env.DB.exec('DELETE FROM character_table;');
-    await env.DB.exec('DELETE FROM work_table;'); // work_tableもクリア
-    env.ANNICT_CLIENT_ID = 'test_client_id';
+    await env.DB.exec('DELETE FROM work_table;');
   });
 
   afterEach(() => {
