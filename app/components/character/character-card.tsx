@@ -16,25 +16,28 @@ export function CharacterCard({
   return (
     <a
       href={`/character/${characterId}`}
-      className='group relative overflow-hidden rounded-lg bg-gradient-to-b from-gray-900 to-black border border-yellow-900/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(234,179,8,0.3)]'
+      className='group block relative overflow-hidden rounded-lg bg-gray-800 border border-gray-600 transition-all duration-300 hover:border-yellow-400 hover:shadow-lg hover:-translate-y-1'
     >
       <div className='aspect-square relative overflow-hidden'>
         <img
           src={imageUrl}
           alt={characterName}
-          className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
+          className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-110'
         />
-        <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
+
+        <div className='absolute top-2 right-2 bg-black/80 rounded-full px-3 py-1 flex items-center gap-1'>
+          <span className='text-yellow-400 text-sm'>♥</span>
+          <span className='text-white text-sm'>{likes}</span>
+        </div>
+
+        <div className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent' />
       </div>
-      <div className='absolute bottom-0 w-full p-4'>
-        <h3 className='text-yellow-300 text-lg font-bold mb-1 truncate'>
+
+      <div className='absolute bottom-0 left-0 right-0 p-3 text-white'>
+        <h3 className='font-bold text-yellow-300 truncate mb-1'>
           {characterName}
         </h3>
-        <p className='text-yellow-50/50 text-sm truncate'>{workName}</p>
-      </div>
-      <div className='absolute top-2 right-2 flex items-center gap-1 bg-black/60 rounded-full px-3 py-1'>
-        <span className='text-yellow-300 text-sm'>♥</span>
-        <span className='text-white text-sm'>{likes}</span>
+        <p className='text-sm text-gray-300 truncate'>{workName}</p>
       </div>
     </a>
   );

@@ -117,7 +117,6 @@ describe('GET /register/work (app/routes/register/work/index.tsx)', () => {
 
     expect(response.status).toBe(200);
     expect(text).toContain('テストエラーメッセージ');
-    expect(text).toContain('❌');
   });
 });
 

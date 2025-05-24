@@ -191,46 +191,58 @@ export default createRoute((c) => {
   const message = c.req.query('message');
 
   return c.render(
-    <div className='max-w-md mx-auto my-10 bg-gray-800 p-6 rounded-lg shadow-lg'>
-      <h1 className='text-2xl font-bold text-center mb-6 text-yellow-300'>
-        管理者ログイン
-      </h1>
-      <form method='post' action='/admin/login'>
-        <StatusMessage status={status} message={message} />
-
-        <div className='mb-4'>
-          <label htmlFor='username' className='block text-white mb-2'>
-            ユーザー名
-          </label>
-          <input
-            type='text'
-            id='username'
-            name='username'
-            className='w-full bg-gray-700 border border-gray-600 rounded py-2 px-3 text-white'
-            required
-          />
+    <div className='min-h-screen bg-gray-800 flex items-center justify-center py-8 px-4'>
+      <div className='max-w-md w-full bg-gray-700 p-8 rounded-xl shadow-2xl border border-yellow-400'>
+        <div className='text-center mb-8'>
+          <div className='text-6xl mb-4'>🔒</div>
+          <h1 className='text-3xl font-bold text-yellow-300'>管理者ログイン</h1>
         </div>
 
-        <div className='mb-6'>
-          <label htmlFor='password' className='block text-white mb-2'>
-            パスワード
-          </label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            className='w-full bg-gray-700 border border-gray-600 rounded py-2 px-3 text-white'
-            required
-          />
-        </div>
+        <form method='post' action='/admin/login'>
+          <StatusMessage status={status} message={message} />
 
-        <button
-          type='submit'
-          className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-bold hover:bg-yellow-400 transition-colors'
-        >
-          ログイン
-        </button>
-      </form>
+          <div className='mb-6'>
+            <label
+              htmlFor='username'
+              className='block text-yellow-300 font-medium mb-3'
+            >
+              ユーザー名
+            </label>
+            <input
+              type='text'
+              id='username'
+              name='username'
+              className='w-full bg-gray-600 border border-gray-500 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 hover:border-yellow-400 transition-colors duration-300'
+              placeholder='ユーザー名を入力'
+              required
+            />
+          </div>
+
+          <div className='mb-8'>
+            <label
+              htmlFor='password'
+              className='block text-yellow-300 font-medium mb-3'
+            >
+              パスワード
+            </label>
+            <input
+              type='password'
+              id='password'
+              name='password'
+              className='w-full bg-gray-600 border border-gray-500 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 hover:border-yellow-400 transition-colors duration-300'
+              placeholder='パスワードを入力'
+              required
+            />
+          </div>
+
+          <button
+            type='submit'
+            className='w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+          >
+            🔓 ログインする
+          </button>
+        </form>
+      </div>
     </div>,
     {
       title: '管理者ログイン',

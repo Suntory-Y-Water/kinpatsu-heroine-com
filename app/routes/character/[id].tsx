@@ -41,106 +41,131 @@ export default createRoute(async (c) => {
   const isLiked = isLikedResult.isOk() ? isLikedResult.value : false;
 
   return c.render(
-    <div className='max-w-6xl mx-auto'>
-      {/* 戻るボタン */}
-      <a
-        href='/'
-        className='inline-flex items-center gap-2 text-white hover:text-yellow-300 mb-8 transition-colors'
-      >
-        <span className='text-white'>←</span>
-        <span>キャラクター一覧に戻る</span>
-      </a>
+    <div className='min-h-screen bg-gray-800 py-8'>
+      <div className='max-w-7xl mx-auto px-4'>
+        {/* 戻るボタン */}
+        <a
+          href='/'
+          className='inline-flex items-center gap-3 text-white hover:text-yellow-300 mb-8 transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full border border-gray-600 hover:border-yellow-400'
+        >
+          <span className='text-yellow-300'>←</span>
+          <span className='font-medium'>キャラクター一覧に戻る</span>
+        </a>
 
-      <div className='bg-gradient-to-b rounded-xl overflow-hidden shadow-2xl border border-yellow-900/30'>
-        <div className='md:flex'>
-          {/* 画像セクション */}
-          <div className='md:w-1/2 relative'>
-            <img
-              src={character.imageUrl}
-              alt={character.characterName}
-              className='w-full aspect-[4/5] object-cover md:h-[500px]'
-            />
-            <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:bg-gradient-to-r md:from-black/30 md:to-transparent' />
-          </div>
-
-          {/* 情報セクション */}
-          <div className='md:w-1/2 p-6 md:p-8 relative'>
-            <div className='flex flex-col gap-4'>
-              <div>
-                <h1 className='text-2xl md:text-3xl font-bold text-yellow-300 mb-2'>
-                  {character.characterName}
-                </h1>
-                <p className='text-lg md:text-xl text-yellow-50/50 mb-4'>
-                  {character.workName}
-                </p>
-              </div>
-
-              {/* いいねボタン - モバイルで左寄せ */}
-              <div className=''>
-                <LikeButton
-                  initialLikes={character.likes}
-                  characterId={character.characterId}
-                  isLiked={isLiked}
-                />
-              </div>
+        <div className=' rounded-xl shadow-2xl border border-yellow-400 overflow-hidden lg:overflow-visible lg:p-6'>
+          <div className='lg:flex lg:gap-6'>
+            {/* 画像セクション */}
+            <div className='lg:w-1/2 relative'>
+              <img
+                src={character.imageUrl}
+                alt={character.characterName}
+                className='w-full aspect-[4/5] object-cover lg:rounded-lg'
+              />
+              <div className='absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-gray-900/60 lg:to-transparent lg:rounded-lg' />
             </div>
 
-            {/* 関連リンク */}
-            {(character.infoUrl.officialSiteUrl ||
-              character.infoUrl.wikipediaUrl) && (
-              <div className='space-y-4 mt-8'>
-                <h2 className='text-xl font-bold text-yellow-300 mb-4'>
-                  関連リンク
-                </h2>
-                <div className='grid gap-4'>
-                  {character.infoUrl.officialSiteUrl && (
-                    <a
-                      href={character.infoUrl.officialSiteUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
-                    >
-                      <span className='text-white'>🌐</span>
-                      <span>公式サイト</span>
-                    </a>
-                  )}
-                  {character.infoUrl.wikipediaUrl && (
-                    <a
-                      href={character.infoUrl.wikipediaUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='flex items-center gap-3 text-white hover:text-yellow-300 transition-colors'
-                    >
-                      <span className='text-white'>📖</span>
-                      <span>Wikipedia</span>
-                    </a>
-                  )}
+            {/* 情報セクション */}
+            <div className='lg:w-1/2 p-6 lg:p-0 bg-gray-800 lg:bg-transparent'>
+              <div className='flex flex-col gap-6'>
+                <div>
+                  <h1 className='text-3xl lg:text-4xl font-bold text-yellow-300 mb-3'>
+                    {character.characterName}
+                  </h1>
+                  <p className='text-xl lg:text-2xl text-gray-300 mb-6'>
+                    {character.workName}
+                  </p>
                 </div>
-              </div>
-            )}
 
-            {/* 配信サービス */}
-            {character.streamingSiteInfo.length > 0 && (
-              <div className='mt-8'>
-                <h2 className='text-xl font-bold text-yellow-300 mb-4'>
-                  視聴できる配信サービス
-                </h2>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                  {character.streamingSiteInfo.map((service) => (
-                    <a
-                      key={service.streamingSiteId}
-                      href={service.streamingSiteUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='flex items-center gap-2 text-white hover:text-yellow-300 transition-colors'
-                    >
-                      <span className='text-white'>▶️</span>
-                      <span>{service.streamingSiteName}</span>
-                    </a>
-                  ))}
+                {/* いいねボタン */}
+                <div className='mb-6'>
+                  <LikeButton
+                    initialLikes={character.likes}
+                    characterId={character.characterId}
+                    isLiked={isLiked}
+                  />
                 </div>
               </div>
-            )}
+
+              {/* 関連リンク */}
+              {(character.infoUrl.officialSiteUrl ||
+                character.infoUrl.wikipediaUrl) && (
+                <div className='mb-6'>
+                  <h2 className='text-lg lg:text-xl font-bold text-yellow-300 mb-4 border-l-4 border-yellow-400 pl-3'>
+                    <span className='text-yellow-400'>🔗</span>
+                    関連リンク
+                  </h2>
+                  <div className='space-y-3'>
+                    {character.infoUrl.officialSiteUrl && (
+                      <a
+                        href={character.infoUrl.officialSiteUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                      >
+                        <span className='text-yellow-300 group-hover:text-yellow-400 text-lg'>
+                          🌐
+                        </span>
+                        <span className='text-white group-hover:text-yellow-300 font-medium'>
+                          公式サイト
+                        </span>
+                        <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                          →
+                        </span>
+                      </a>
+                    )}
+                    {character.infoUrl.wikipediaUrl && (
+                      <a
+                        href={character.infoUrl.wikipediaUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                      >
+                        <span className='text-yellow-300 group-hover:text-yellow-400 text-lg'>
+                          📖
+                        </span>
+                        <span className='text-white group-hover:text-yellow-300 font-medium'>
+                          Wikipedia
+                        </span>
+                        <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                          →
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* 配信サービス */}
+              {character.streamingSiteInfo.length > 0 && (
+                <div>
+                  <h2 className='text-lg lg:text-xl font-bold text-yellow-300 mb-4 border-l-4 border-yellow-400 pl-3'>
+                    <span className='text-yellow-400'>🔗</span>
+                    視聴できる配信サービス
+                  </h2>
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
+                    {character.streamingSiteInfo.map((service) => (
+                      <a
+                        key={service.streamingSiteId}
+                        href={service.streamingSiteUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                      >
+                        <span className='text-yellow-300 group-hover:text-yellow-400 text-lg'>
+                          ▶️
+                        </span>
+                        <span className='text-white group-hover:text-yellow-300 font-medium text-sm lg:text-base'>
+                          {service.streamingSiteName}
+                        </span>
+                        <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                          →
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -28,37 +28,37 @@ export function Pagination({
   }
 
   return (
-    <div className='flex items-center justify-center space-x-6 py-8'>
+    <div className='flex items-center justify-center space-x-8 py-12'>
       {currentPage > 1 ? (
         <a
           href={buildPageUrl(currentPage - 1)}
-          className='inline-flex items-center gap-1 px-4 py-2 border border-gray-700 rounded-md text-white hover:bg-gray-700 hover:text-yellow-300 transition-colors'
+          className='group inline-flex items-center gap-2 px-6 py-3 bg-gray-700 border border-gray-600 rounded-full text-white hover:bg-gray-600 hover:border-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
         >
-          <span>←</span>
-          <span className='sr-only'>Previous</span>
+          <span className='text-yellow-300 group-hover:text-yellow-400 transition-colors duration-300'>
+            ←
+          </span>
         </a>
       ) : (
-        <div className='inline-flex items-center gap-1 px-4 py-2 border border-gray-700 rounded-md text-gray-500 pointer-events-none opacity-50'>
+        <div className='inline-flex items-center gap-2 px-6 py-3 bg-gray-800 border border-gray-700 rounded-full text-gray-500 pointer-events-none opacity-50'>
           <span>←</span>
-          <span className='sr-only'>Previous</span>
         </div>
       )}
 
-      <div className='text-yellow-300 font-mono text-sm'>
+      <div className='bg-gradient-to-r from-yellow-400 to-yellow-300 text-gray-900 font-bold text-lg px-6 py-3 rounded-full shadow-lg min-w-[120px] text-center'>
         {currentPage} / {totalPages}
       </div>
 
       {currentPage < totalPages ? (
         <a
           href={buildPageUrl(currentPage + 1)}
-          className='inline-flex items-center gap-1 px-4 py-2 border border-gray-700 rounded-md text-white hover:bg-gray-700 hover:text-yellow-300 transition-colors'
+          className='group inline-flex items-center gap-2 px-6 py-3 bg-gray-700 border border-gray-600 rounded-full text-white hover:bg-gray-600 hover:border-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
         >
-          <span className='sr-only'>Next</span>
-          <span>→</span>
+          <span className='text-yellow-300 group-hover:text-yellow-400 transition-colors duration-300'>
+            →
+          </span>
         </a>
       ) : (
-        <div className='inline-flex items-center gap-1 px-4 py-2 border border-gray-700 rounded-md text-gray-500 pointer-events-none opacity-50'>
-          <span className='sr-only'>Next</span>
+        <div className='inline-flex items-center gap-2 px-6 py-3 bg-gray-800 border border-gray-700 rounded-full text-gray-500 pointer-events-none opacity-50'>
           <span>→</span>
         </div>
       )}

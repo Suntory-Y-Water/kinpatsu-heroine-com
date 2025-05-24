@@ -49,8 +49,11 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
 
   return (
     <div>
-      <div className='mb-4'>
-        <label htmlFor='characterName' className='block text-white mb-2'>
+      <div className='mb-6'>
+        <label
+          htmlFor='characterName'
+          className='block text-yellow-300 font-medium mb-3'
+        >
           キャラクター名
         </label>
         <select
@@ -58,17 +61,17 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
           name='characterName'
           value={selectedCharacter?.name || ''}
           onChange={handleSelectCharacter}
-          className='bg-gray-800 border border-gray-700 text-white rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-transparent'
+          className='bg-gray-700 border border-gray-600 text-white rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 hover:border-yellow-400 transition-colors duration-300'
           required
         >
-          <option value='' className='bg-gray-800 text-gray-400'>
+          <option value='' className='bg-gray-700 text-gray-400'>
             キャラクターを選択してください
           </option>
           {characters.map((character) => (
             <option
               key={character.name}
               value={character.name}
-              className='bg-gray-800 text-white'
+              className='bg-gray-700 text-white'
             >
               {character.name}
             </option>
