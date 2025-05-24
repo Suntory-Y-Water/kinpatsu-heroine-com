@@ -148,37 +148,49 @@ export default createRoute(
     }));
 
     return c.render(
-      <div className='max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg'>
-        <h1 className='text-3xl font-bold text-center mb-8 text-white'>
-          作品登録
-        </h1>
-        <div className='mb-8 p-4 bg-gray-700 rounded-lg'>
-          <h2 className='text-xl font-semibold text-yellow-300 mb-3'>
-            ✨️ヒロインの登録方法
-          </h2>
-          <div className='space-y-2 text-gray-300'>
-            <p>1. まず作品を選択してください🎨</p>
-            <p>2. 作品内の金髪ヒロインを選択します👧</p>
-            <p>3. 管理者の確認後にサイトに掲載されます👀</p>
+      <div className='min-h-screen bg-gray-800 py-8 px-4'>
+        <div className='max-w-xl mx-auto bg-gray-700 py-8 px-4 rounded-xl shadow-2xl'>
+          <h1 className='text-4xl font-bold text-center mb-8 text-yellow-300'>
+            作品登録
+          </h1>
+          <div className='mb-8 p-6 bg-gray-600 rounded-lg border border-gray-500'>
+            <h2 className='text-xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+              <span>✨</span>
+              ヒロインの登録方法
+            </h2>
+            <div className='space-y-3 text-gray-300'>
+              <p className='flex items-start gap-2'>
+                <span className='text-yellow-300 font-medium'>1.</span>
+                まず作品を選択してください🎨
+              </p>
+              <p className='flex items-start gap-2'>
+                <span className='text-yellow-300 font-medium'>2.</span>
+                作品内の金髪ヒロインを選択します👧
+              </p>
+              <p className='flex items-start gap-2'>
+                <span className='text-yellow-300 font-medium'>3.</span>
+                管理者の確認後にサイトに掲載されます👀
+              </p>
+            </div>
+            <div className='mt-6 p-4 bg-yellow-400/10 border border-yellow-400/30 rounded-lg'>
+              <p className='text-yellow-300 font-medium text-center'>
+                ✨ 新しい金髪ヒロインを発見して、サイトを充実させましょう！
+              </p>
+            </div>
           </div>
-          <div className='mt-4 p-3 bg-yellow-900/20 rounded'>
-            <p className='text-yellow-200 font-medium'>
-              ✨ 金髪ヒロインを発掘して、サイトを充実させましょう！
-            </p>
-          </div>
+          <StatusMessage status={status} message={message} />
+          <form method='post' action='/register/work' id='workForm'>
+            <WorkForm works={resultList} />
+            <button
+              type='submit'
+              id='submitButton'
+              disabled
+              className='w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500 disabled:transform-none shadow-lg'
+            >
+              次へ
+            </button>
+          </form>
         </div>
-        <StatusMessage status={status} message={message} />
-        <form method='post' action='/register/work' id='workForm'>
-          <WorkForm works={resultList} />
-          <button
-            type='submit'
-            id='submitButton'
-            disabled
-            className='w-full bg-yellow-300 text-gray-900 py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500'
-          >
-            次へ
-          </button>
-        </form>
       </div>,
       {
         title: '作品登録',

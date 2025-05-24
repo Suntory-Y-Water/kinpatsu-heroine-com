@@ -77,37 +77,38 @@ export default function ImageUploader() {
   }, [imageUrl]);
 
   return (
-    <div className='mb-4'>
+    <div className='mb-6'>
       <label
         htmlFor='image-upload'
-        className='block text-white text-sm font-bold mb-2'
+        className='block text-yellow-300 font-medium mb-3'
       >
         画像添付
       </label>
       <div className='flex flex-col items-start'>
-        <label
-          className={`bg-white border border-gray-400 font-semibold rounded py-2 px-4 text-gray-700 cursor-pointer hover:bg-gray-100`}
-        >
+        <label className='bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 font-medium rounded-lg py-3 px-6 text-white cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-lg'>
           <input
             type='file'
             className='hidden'
             accept='image/png,image/jpeg,image/webp'
             onChange={handleFileChange}
           />
-          画像を選択する
+          📷 画像を選択する
         </label>
 
         {preview && (
-          <div className='mt-2'>
+          <div className='mt-4'>
             <img
               src={preview}
               alt='プレビュー'
-              className='w-32 h-32 object-cover rounded border border-gray-200'
+              className='w-32 h-32 object-cover rounded-lg border-2 border-yellow-400 shadow-lg'
             />
+            <p className='text-yellow-300 text-sm mt-2 font-medium'>
+              ✓ 画像が選択されました
+            </p>
           </div>
         )}
       </div>
-      <p className='text-gray-500 text-xs'>
+      <p className='text-gray-400 text-sm mt-3'>
         ※PNG、JPEG、WEBP形式のファイルがアップロード可能です
       </p>
 
