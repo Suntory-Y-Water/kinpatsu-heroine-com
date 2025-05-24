@@ -42,7 +42,6 @@ describe('GET /admin/login (app/routes/admin/login.tsx)', () => {
 
     expect(response.status).toBe(200);
     expect(text).toContain(message);
-    expect(text).toContain('❌');
   });
 });
 

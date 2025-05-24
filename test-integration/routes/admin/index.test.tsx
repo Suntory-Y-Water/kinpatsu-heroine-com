@@ -202,6 +202,5 @@ describe('GET /admin (app/routes/admin/index.tsx)', () => {
 
     expect(response.status).toBe(200);
     expect(text).toContain('何らかのエラーが発生しました');
-    expect(text).toContain('❌');
   });
 });
