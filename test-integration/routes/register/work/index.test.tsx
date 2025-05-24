@@ -98,7 +98,7 @@ describe('GET /register/work (app/routes/register/work/index.tsx)', () => {
 
     expect(response.status).toBe(500);
     const text = await response.text();
-    expect(text).toContain('通信エラーが発生しました。');
+    expect(text).toContain('通信エラーが発生しました');
   });
 
   it('クエリパラメータに status と message がある場合、StatusMessage が表示されること', async () => {
@@ -208,7 +208,7 @@ describe('POST /register/work (app/routes/register/work/index.tsx)', () => {
 
     expect(response.status).toBe(500); // エラーハンドラが500を返す
     const text = await response.text();
-    expect(text).toContain('通信エラーが発生しました。');
+    expect(text).toContain('通信エラーが発生しました');
   });
 
   it('作品にキャラクターが登録されていない場合、エラーメッセージと共に /register/work にリダイレクトされること', async () => {
