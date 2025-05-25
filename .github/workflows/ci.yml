@@ -10,7 +10,7 @@ on:
       - 'feature-*'
       - 'feature/*'
     # ts, tsx, jsなど実行されるコードがpushされたときのみ実行する
-    paths: ['*.ts', '*.tsx', '*.js']
+    paths: ['**/*.ts', '**/*.tsx', '**/*.js']
 
 # デフォルトシェルでパイプエラーを有効化
 defaults:

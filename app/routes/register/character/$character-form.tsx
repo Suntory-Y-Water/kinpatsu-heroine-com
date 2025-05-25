@@ -80,7 +80,6 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
             </option>
           ))}
         </select>
-        {/* 隠しフィールドでキャラクターIDを保持 */}
         <input
           type='hidden'
           name='characterId'
