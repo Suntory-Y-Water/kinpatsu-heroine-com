@@ -1,19 +1,50 @@
+# https://gihyo.jp/article/2024/10/good-practices-for-github-actions
 name: CI
 
 on:
+  # 動作確認しやすいように手動起動を可能にする
+  workflow_dispatch:
   # feature-またはfeature/で始まるPRでのみ実行する
   push:
     branches: 
       - 'feature-*'
       - 'feature/*'
+    # ts, tsx, jsなど実行されるコードがpushされたときのみ実行する
+    paths: ['**/*.ts', '**/*.tsx', '**/*.js']
+
+# デフォルトシェルでパイプエラーを有効化
+defaults:
+  run:
+    shell: bash
+
+# 全パーミッションの無効化
+# 詳細なパーミッション設定はJOB単位で設定する
+permissions: {} 
+
+# ワークフローが複数起動したら自動キャンセル
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build_lint_test:
     name: Build, Lint, and Test
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      # コードの読み込みを許可
+      contents: read 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Bashトレーシングオプションの有効化でログを詳細化
+      - name: Run actionlint
+        run: |
+          set -x
+          date
+          hostname
+          docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:1.7.3
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
