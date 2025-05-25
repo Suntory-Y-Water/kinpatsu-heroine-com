@@ -9,8 +9,8 @@ on:
     branches: 
       - 'feature-*'
       - 'feature/*'
-    # ts, tsx, jsなど実行されるコードがpushされたときのみ実行する
-    paths: ['**/*.ts', '**/*.tsx', '**/*.js']
+    # ts, tsx, jsなど実行されるコードがpushされたときや.github/配下の設定を更新したときのみ実行する
+    paths: ['**/*.ts', '**/*.tsx', '**/*.js', '.github/**']
 
 # デフォルトシェルでパイプエラーを有効化
 defaults:
