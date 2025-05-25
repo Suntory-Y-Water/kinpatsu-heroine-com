@@ -137,32 +137,32 @@ export default createRoute(async (c) => {
   const characterData = validationResult.data;
 
   return c.render(
-    <div className='min-h-screen bg-gray-800 py-8 px-4'>
-      <div className='max-w-xl mx-auto bg-gray-700 py-8 px-4 rounded-xl shadow-2xl'>
-        <h1 className='text-4xl font-bold text-center mb-8 text-yellow-300'>
+    <div className='min-h-screen bg-background py-8 px-4'>
+      <div className='max-w-xl mx-auto bg-background-light py-8 px-4 rounded-xl shadow-2xl'>
+        <h1 className='text-4xl font-bold text-center mb-8 text-primary'>
           キャラクター登録
         </h1>
-        <div className='mb-4 text-gray-300'>
-          <span className='font-medium text-yellow-300'>作品名：</span>
+        <div className='mb-4 text-foreground'>
+          <span className='font-medium text-primary'>作品名：</span>
           {workName}
         </div>
 
-        <div className='mb-8 p-6 bg-gray-600 rounded-lg border border-gray-500'>
-          <h2 className='text-xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+        <div className='mb-8 p-6 bg-background-lighter rounded-lg border border-border'>
+          <h2 className='text-xl font-bold text-primary mb-4 flex items-center gap-2'>
             <span>✨</span>
             登録の手順
           </h2>
-          <div className='space-y-3 text-gray-300'>
+          <div className='space-y-3 text-foreground'>
             <p className='flex items-start gap-2'>
-              <span className='text-yellow-300 font-medium'>1.</span>
+              <span className='text-primary font-medium'>1.</span>
               金髪ヒロインを選択してください👧
             </p>
             <p className='flex items-start gap-2'>
-              <span className='text-yellow-300 font-medium'>2.</span>
+              <span className='text-primary font-medium'>2.</span>
               キャラクターの画像を選択してアップロードしてください🖼️
             </p>
             <p className='flex items-start gap-2'>
-              <span className='text-yellow-300 font-medium'>3.</span>
+              <span className='text-primary font-medium'>3.</span>
               管理者の確認後、サイトに掲載されます🎉
             </p>
           </div>
@@ -177,7 +177,7 @@ export default createRoute(async (c) => {
             type='submit'
             id='submitButton'
             disabled
-            className='w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 py-3 px-6 rounded-lg font-bold text-lg transition-all  transform hover:scale-100 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-500 disabled:transform-none shadow-lg'
+            className='w-full bg-primary hover:bg-primary-light text-primary-foreground py-3 px-6 rounded-lg font-bold text-lg transition-all  transform hover:scale-100 disabled:bg-background-lighter disabled:text-foreground-muted disabled:cursor-not-allowed disabled:hover:bg-background-lighter disabled:transform-none shadow-lg'
           >
             登録
           </button>

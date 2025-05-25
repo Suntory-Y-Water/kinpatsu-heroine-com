@@ -65,7 +65,7 @@ export default function WorkForm({ works }: WorkFormProps) {
       <div className='mb-6 relative'>
         <label
           htmlFor='workName'
-          className='block text-yellow-300 font-medium mb-3'
+          className='block text-primary font-medium mb-3'
         >
           作品名
         </label>
@@ -84,7 +84,7 @@ export default function WorkForm({ works }: WorkFormProps) {
               setShowSuggestions(false);
             }, 200);
           }}
-          className='w-full bg-gray-700 border border-gray-600 rounded-lg py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 hover:border-yellow-400 transition-colors duration-300'
+          className='w-full bg-background-lighter border border-border rounded-lg py-3 px-4 text-foreground leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary hover:border-primary transition-colors duration-300'
           placeholder='作品名を入力してください'
           required
         />
@@ -98,11 +98,11 @@ export default function WorkForm({ works }: WorkFormProps) {
 
         {/* 作品候補のドロップダウン */}
         {showSuggestions && filteredWorks.length > 0 && (
-          <ul className='absolute z-10 mt-2 w-full bg-gray-700 border border-yellow-400 rounded-lg shadow-2xl max-h-60 overflow-auto'>
+          <ul className='absolute z-10 mt-2 w-full bg-background-lighter border border-primary rounded-lg shadow-2xl max-h-60 overflow-auto'>
             {filteredWorks.map((work) => (
               <li
                 key={work.annictId}
-                className='px-4 py-3 text-white hover:bg-gray-600 hover:text-yellow-300 cursor-pointer transition-colors duration-300 first:rounded-t-lg last:rounded-b-lg'
+                className='px-4 py-3 text-foreground  hover:text-primary cursor-pointer transition-colors duration-300 first:rounded-t-lg last:rounded-b-lg'
                 onClick={() => {
                   handleSelectWork(work);
                 }}

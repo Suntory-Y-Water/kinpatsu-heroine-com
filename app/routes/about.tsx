@@ -3,26 +3,26 @@ import { createRoute } from 'honox/factory';
 
 export default createRoute((c) => {
   return c.render(
-    <div className='min-h-screen bg-gray-800'>
+    <div className='min-h-screen bg-background'>
       <div className='container mx-auto px-4 py-8'>
-        <div className='max-w-4xl mx-auto bg-gray-700 p-8 rounded-xl shadow-2xl border border-yellow-400'>
+        <div className='max-w-4xl mx-auto bg-background-light p-8 rounded-xl shadow-2xl border border-primary'>
           <div className='text-center mb-8'>
             <div className='text-6xl mb-4'>✨</div>
-            <h1 className='text-4xl font-bold text-yellow-300 border-b border-yellow-400 pb-6'>
+            <h1 className='text-4xl font-bold text-primary border-b border-primary pb-6'>
               このサイトについて
             </h1>
           </div>
-          <div className='space-y-8 text-gray-300 leading-relaxed text-lg'>
-            <div className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-              <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+          <div className='space-y-8 text-foreground leading-relaxed text-lg'>
+            <div className='bg-background-lighter p-6 rounded-lg border border-border'>
+              <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
                 <span>👋</span>
                 ようこそ！
               </h2>
               <p>金髪ヒロイン.comへようこそ！</p>
             </div>
 
-            <div className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-              <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+            <div className='bg-background-lighter p-6 rounded-lg border border-border'>
+              <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
                 <span>🎯</span>
                 サイトの目的
               </h2>
@@ -31,8 +31,8 @@ export default createRoute((c) => {
               </p>
             </div>
 
-            <div className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-              <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+            <div className='bg-background-lighter p-6 rounded-lg border border-border'>
+              <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
                 <span>📚</span>
                 提供コンテンツ
               </h2>
@@ -41,12 +41,12 @@ export default createRoute((c) => {
               </p>
             </div>
 
-            <div className='bg-yellow-400/10 border border-yellow-400/30 p-6 rounded-lg'>
-              <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+            <div className='bg-primary/10 border border-primary/30 p-6 rounded-lg'>
+              <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
                 <span>💫</span>
                 私たちの願い
               </h2>
-              <p className='text-yellow-300'>
+              <p className='text-primary'>
                 新しい作品との出会いや、お気に入りのヒロインの再発見のきっかけになれば幸いです。
               </p>
             </div>

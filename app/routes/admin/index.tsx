@@ -53,23 +53,23 @@ export default createRoute(async (c) => {
   };
 
   return c.render(
-    <div className='min-h-screen bg-gray-800'>
+    <div className='min-h-screen bg-background'>
       <div className='container mx-auto px-4 py-8'>
-        <h1 className='text-4xl font-bold text-yellow-300 mb-8 text-center'>
+        <h1 className='text-4xl font-bold text-primary mb-8 text-center'>
           管理画面
         </h1>
 
         <StatusMessage status={status} message={message} />
 
         {/* タブナビゲーション */}
-        <div className='flex border-b border-yellow-400 mb-8 bg-gray-700 rounded-t-lg'>
+        <div className='flex border-b border-primary mb-8 bg-background-light rounded-t-lg'>
           <a
             href='/admin?tab=pending'
             className={
               'py-4 px-6 font-medium transition-colors duration-300 first:rounded-tl-lg ' +
               (tab === 'pending'
-                ? 'text-yellow-300 bg-gray-600'
-                : 'text-gray-300 hover:text-yellow-300 hover:bg-gray-600')
+                ? 'text-primary bg-background-lighter'
+                : 'text-foreground-muted hover:text-primary hover:bg-background-lighter')
             }
           >
             受付待ちリスト ({pendingItems.length})
@@ -79,8 +79,8 @@ export default createRoute(async (c) => {
             className={
               'py-4 px-6 font-medium transition-colors duration-300 ' +
               (tab === 'registered'
-                ? 'text-yellow-300 bg-gray-600'
-                : 'text-gray-300 hover:text-yellow-300 hover:bg-gray-600')
+                ? 'text-primary bg-background-lighter'
+                : 'text-foreground-muted hover:text-primary hover:bg-background-lighter')
             }
           >
             登録済みリスト ({registeredItems.length})
@@ -90,8 +90,8 @@ export default createRoute(async (c) => {
             className={
               'py-4 px-6 font-medium transition-colors duration-300 last:rounded-tr-lg ' +
               (tab === 'deleted'
-                ? 'text-yellow-300 bg-gray-600'
-                : 'text-gray-300 hover:text-yellow-300 hover:bg-gray-600')
+                ? 'text-primary bg-background-lighter'
+                : 'text-foreground-muted hover:text-primary hover:bg-background-lighter')
             }
           >
             削除済みリスト ({deletedItems.length})
@@ -100,11 +100,11 @@ export default createRoute(async (c) => {
 
         {/* カードグリッド表示 */}
         {items.length > 0 ? (
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
             {items.map((item) => (
               <div
                 key={item.characterId + '-' + item.workId}
-                className='bg-gray-700 border border-gray-600 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'
+                className='bg-background-light border border-border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'
               >
                 {/* キャラクター画像とキャラクター名部分 */}
                 <div className='relative'>
@@ -121,12 +121,14 @@ export default createRoute(async (c) => {
                   </div>
 
                   {/* キャラクター名バー */}
-                  <div className='absolute bottom-0 left-0 right-0 bg-gray-900/90'>
+                  <div className='absolute bottom-0 left-0 right-0 bg-background/90'>
                     <div className='p-3'>
-                      <p className='text-yellow-300 font-bold text-sm'>
+                      <p className='text-primary font-bold text-sm'>
                         {item.characterName}
                       </p>
-                      <p className='text-gray-300 text-xs'>{item.workName}</p>
+                      <p className='text-foreground-muted text-xs'>
+                        {item.workName}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -162,7 +164,7 @@ export default createRoute(async (c) => {
                       />
                       <button
                         type='submit'
-                        className='w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold rounded-bl-lg transition-colors duration-300'
+                        className='cursor-pointer w-full py-3 bg-primary hover:bg-primary-light text-primary-foreground font-bold rounded-bl-lg transition-colors duration-300'
                       >
                         ✓ 登録
                       </button>
@@ -181,7 +183,7 @@ export default createRoute(async (c) => {
                       <input type='hidden' name='workId' value={item.workId} />
                       <button
                         type='submit'
-                        className='w-full py-3 bg-gray-600 hover:bg-gray-500 text-white font-bold rounded-br-lg transition-colors duration-300'
+                        className='cursor-pointer w-full py-3 bg-background-lighter hover:bg-muted text-foreground font-bold rounded-br-lg transition-colors duration-300'
                       >
                         ✗ 削除
                       </button>
@@ -203,7 +205,7 @@ export default createRoute(async (c) => {
                       <input type='hidden' name='workId' value={item.workId} />
                       <button
                         type='submit'
-                        className='w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold rounded-bl-lg transition-colors duration-300'
+                        className='cursor-pointer w-full py-3 bg-primary hover:bg-primary-light text-primary-foreground font-bold rounded-bl-lg transition-colors duration-300'
                       >
                         ↻ 復元
                       </button>
@@ -222,7 +224,7 @@ export default createRoute(async (c) => {
                       <input type='hidden' name='workId' value={item.workId} />
                       <button
                         type='submit'
-                        className='w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-br-lg transition-colors duration-300'
+                        className='cursor-pointer w-full py-3 bg-error hover:bg-error text-foreground font-bold rounded-br-lg transition-colors duration-300'
                       >
                         🗑 完全削除
                       </button>
@@ -233,9 +235,9 @@ export default createRoute(async (c) => {
             ))}
           </div>
         ) : (
-          <div className='bg-gray-700 border border-yellow-400 rounded-lg p-12 text-center'>
+          <div className='bg-background-light border border-primary rounded-lg p-12 text-center'>
             <div className='text-6xl mb-4'>📄</div>
-            <p className='text-gray-300 text-lg font-medium'>
+            <p className='text-foreground-muted text-lg font-medium'>
               {tabMessages[tab] || '情報がありません'}
             </p>
           </div>

@@ -80,12 +80,12 @@ export default function ImageUploader() {
     <div className='mb-6'>
       <label
         htmlFor='image-upload'
-        className='block text-yellow-300 font-medium mb-3'
+        className='block text-primary font-medium mb-3'
       >
         画像添付
       </label>
       <div className='flex flex-col items-start'>
-        <label className='bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 font-medium rounded-lg py-3 px-6 text-white cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-lg'>
+        <label className='bg-background-light hover:bg-background-lighter border border-border hover:border-primary font-medium rounded-lg py-3 px-6 text-foreground cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-lg'>
           <input
             type='file'
             className='hidden'
@@ -100,15 +100,15 @@ export default function ImageUploader() {
             <img
               src={preview}
               alt='プレビュー'
-              className='w-32 h-32 object-cover rounded-lg border-2 border-yellow-400 shadow-lg'
+              className='w-32 h-32 object-cover rounded-lg border-2 border-primary shadow-lg'
             />
-            <p className='text-yellow-300 text-sm mt-2 font-medium'>
+            <p className='text-primary text-sm mt-2 font-medium'>
               ✓ 画像が選択されました
             </p>
           </div>
         )}
       </div>
-      <p className='text-gray-400 text-sm mt-3'>
+      <p className='text-foreground-muted text-sm mt-3'>
         ※PNG、JPEG、WEBP形式のファイルがアップロード可能です
       </p>
 

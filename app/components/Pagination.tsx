@@ -32,33 +32,33 @@ export function Pagination({
       {currentPage > 1 ? (
         <a
           href={buildPageUrl(currentPage - 1)}
-          className='group inline-flex items-center gap-2 px-6 py-3 bg-gray-700 border border-gray-600 rounded-full text-white hover:bg-gray-600 hover:border-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
+          className='group inline-flex items-center gap-2 px-6 py-3 bg-background-light border border-border rounded-full text-foreground hover:bg-background-lighter hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
         >
-          <span className='text-yellow-300 group-hover:text-yellow-400 transition-colors duration-300'>
+          <span className='text-primary group-hover:text-primary-light transition-colors duration-300'>
             ←
           </span>
         </a>
       ) : (
-        <div className='inline-flex items-center gap-2 px-6 py-3 bg-gray-800 border border-gray-700 rounded-full text-gray-500 pointer-events-none opacity-50'>
+        <div className='inline-flex items-center gap-2 px-6 py-3 bg-background border border-border rounded-full text-foreground-muted pointer-events-none opacity-50'>
           <span>←</span>
         </div>
       )}
 
-      <div className='bg-gradient-to-r from-yellow-400 to-yellow-300 text-gray-900 font-bold text-lg px-6 py-3 rounded-full shadow-lg min-w-[120px] text-center'>
+      <div className='bg-gradient-to-r from-primary to-primary-dark text-primary-foreground font-bold text-lg px-6 py-3 rounded-full shadow-lg min-w-[120px] text-center'>
         {currentPage} / {totalPages}
       </div>
 
       {currentPage < totalPages ? (
         <a
           href={buildPageUrl(currentPage + 1)}
-          className='group inline-flex items-center gap-2 px-6 py-3 bg-gray-700 border border-gray-600 rounded-full text-white hover:bg-gray-600 hover:border-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
+          className='group inline-flex items-center gap-2 px-6 py-3 bg-background-light border border-border rounded-full text-foreground hover:bg-background-lighter hover:border-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
         >
-          <span className='text-yellow-300 group-hover:text-yellow-400 transition-colors duration-300'>
+          <span className='text-primary group-hover:text-primary-light transition-colors duration-300'>
             →
           </span>
         </a>
       ) : (
-        <div className='inline-flex items-center gap-2 px-6 py-3 bg-gray-800 border border-gray-700 rounded-full text-gray-500 pointer-events-none opacity-50'>
+        <div className='inline-flex items-center gap-2 px-6 py-3 bg-background border border-border rounded-full text-foreground-muted pointer-events-none opacity-50'>
           <span>→</span>
         </div>
       )}

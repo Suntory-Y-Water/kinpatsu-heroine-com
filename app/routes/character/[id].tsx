@@ -53,7 +53,7 @@ export default createRoute(async (c) => {
   });
 
   if (result.isErr()) {
-    logger.error({
+    logger.warn({
       method: 'getRegistrationCharacterById',
       message: 'DBからキャラクター情報を取得できませんでした',
     });
@@ -78,18 +78,18 @@ export default createRoute(async (c) => {
   const isLiked = isLikedResult.isOk() ? isLikedResult.value : false;
 
   return c.render(
-    <div className='min-h-screen bg-gray-800 py-8'>
+    <div className='min-h-screen bg-background py-8'>
       <div className='max-w-7xl mx-auto px-4'>
         {/* 戻るボタン */}
         <a
           href='/'
-          className='inline-flex items-center gap-3 text-white hover:text-yellow-300 mb-8 transition-all duration-300 transform hover:scale-105 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full border border-gray-600 hover:border-yellow-400'
+          className='inline-flex items-center gap-3 text-foreground hover:text-primary mb-8 transition-all duration-300 transform hover:scale-105 bg-background-light hover:bg-background-lighter px-4 py-2 rounded-full border border-border hover:border-primary'
         >
-          <span className='text-yellow-300'>←</span>
+          <span className='text-primary'>←</span>
           <span className='font-medium'>キャラクター一覧に戻る</span>
         </a>
 
-        <div className=' rounded-xl shadow-2xl border border-yellow-400 overflow-hidden lg:overflow-visible lg:p-6'>
+        <div className=' rounded-xl shadow-2xl border border-primary overflow-hidden lg:overflow-visible lg:p-6'>
           <div className='lg:flex lg:gap-6'>
             {/* 画像セクション */}
             <div className='lg:w-1/2 relative'>
@@ -102,13 +102,13 @@ export default createRoute(async (c) => {
             </div>
 
             {/* 情報セクション */}
-            <div className='lg:w-1/2 p-6 lg:p-0 bg-gray-800 lg:bg-transparent'>
+            <div className='lg:w-1/2 p-6 lg:p-0 bg-background lg:bg-transparent'>
               <div className='flex flex-col gap-6'>
                 <div>
-                  <h1 className='text-3xl lg:text-4xl font-bold text-yellow-300 mb-3'>
+                  <h1 className='text-3xl lg:text-4xl font-bold text-primary mb-3'>
                     {character.characterName}
                   </h1>
-                  <p className='text-xl lg:text-2xl text-gray-300 mb-6'>
+                  <p className='text-xl lg:text-2xl text-foreground-muted mb-6'>
                     {character.workName}
                   </p>
                 </div>
@@ -127,8 +127,8 @@ export default createRoute(async (c) => {
               {(character.infoUrl.officialSiteUrl ||
                 character.infoUrl.wikipediaUrl) && (
                 <div className='mb-6'>
-                  <h2 className='text-lg lg:text-xl font-bold text-yellow-300 mb-4 border-l-4 border-yellow-400 pl-3'>
-                    <span className='text-yellow-400'>🔗</span>
+                  <h2 className='text-lg lg:text-xl font-bold text-primary mb-4 border-l-4 border-primary pl-3'>
+                    <span className='text-primary'>🔗</span>
                     関連リンク
                   </h2>
                   <div className='space-y-3'>
@@ -137,15 +137,15 @@ export default createRoute(async (c) => {
                         href={character.infoUrl.officialSiteUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                        className='flex items-center gap-3 bg-background-light hover:bg-background-lighter border border-border hover:border-primary px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
                       >
-                        <span className='text-yellow-300 group-hover:text-yellow-400 text-lg'>
+                        <span className='text-primary group-hover:text-primary-light text-lg'>
                           🌐
                         </span>
-                        <span className='text-white group-hover:text-yellow-300 font-medium'>
+                        <span className='text-foreground group-hover:text-primary font-medium'>
                           公式サイト
                         </span>
-                        <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                        <span className='ml-auto text-foreground-muted group-hover:text-primary transition-colors duration-300'>
                           →
                         </span>
                       </a>
@@ -155,15 +155,15 @@ export default createRoute(async (c) => {
                         href={character.infoUrl.wikipediaUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                        className='flex items-center gap-3 bg-background-light hover:bg-background-lighter border border-border hover:border-primary px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
                       >
-                        <span className='text-yellow-300 group-hover:text-yellow-400 text-lg'>
+                        <span className='text-primary group-hover:text-primary-light text-lg'>
                           📖
                         </span>
-                        <span className='text-white group-hover:text-yellow-300 font-medium'>
+                        <span className='text-foreground group-hover:text-primary font-medium'>
                           Wikipedia
                         </span>
-                        <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                        <span className='ml-auto text-foreground-muted group-hover:text-primary transition-colors duration-300'>
                           →
                         </span>
                       </a>
@@ -175,8 +175,8 @@ export default createRoute(async (c) => {
               {/* 配信サービス */}
               {character.streamingSiteInfo.length > 0 && (
                 <div>
-                  <h2 className='text-lg lg:text-xl font-bold text-yellow-300 mb-4 border-l-4 border-yellow-400 pl-3'>
-                    <span className='text-yellow-400'>🔗</span>
+                  <h2 className='text-lg lg:text-xl font-bold text-primary mb-4 border-l-4 border-primary pl-3'>
+                    <span className='text-primary'>🔗</span>
                     視聴できる配信サービス
                   </h2>
                   <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
@@ -190,7 +190,7 @@ export default createRoute(async (c) => {
                           href={service.streamingSiteUrl}
                           target='_blank'
                           rel='noopener noreferrer'
-                          className='flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
+                          className='flex items-center gap-3 bg-background-light hover:bg-background-lighter border border-border hover:border-primary px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 group'
                         >
                           <div className='w-6 h-6 flex-shrink-0 rounded-sm overflow-hidden bg-white p-0.5'>
                             <img
@@ -205,15 +205,15 @@ export default createRoute(async (c) => {
                                 const parent = target.parentElement;
                                 if (parent) {
                                   parent.innerHTML =
-                                    '<span class="text-yellow-300 text-lg">▶️</span>';
+                                    '<span class="text-primary text-lg">▶️</span>';
                                 }
                               }}
                             />
                           </div>
-                          <span className='text-white group-hover:text-yellow-300 font-medium text-sm lg:text-base'>
+                          <span className='text-foreground group-hover:text-primary font-medium text-sm lg:text-base'>
                             {service.streamingSiteName}
                           </span>
-                          <span className='ml-auto text-gray-400 group-hover:text-yellow-300 transition-colors duration-300'>
+                          <span className='ml-auto text-foreground-muted group-hover:text-primary transition-colors duration-300'>
                             →
                           </span>
                         </a>
