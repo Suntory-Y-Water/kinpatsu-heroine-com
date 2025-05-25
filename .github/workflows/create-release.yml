@@ -32,7 +32,7 @@ jobs:
         id: package_version
         run: |
           # package.json からバージョンを読み取り、出力変数に設定
-          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
       - name: Create Release Tag and Note
         uses: release-drafter/release-drafter@v6

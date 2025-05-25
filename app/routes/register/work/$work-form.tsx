@@ -86,6 +86,7 @@ export default function WorkForm({ works }: WorkFormProps) {
           }}
           className='w-full bg-background-lighter border border-border rounded-lg py-3 px-4 text-foreground leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary hover:border-primary transition-colors duration-300'
           placeholder='作品名を入力してください'
+          autocomplete='off'
           required
         />
 

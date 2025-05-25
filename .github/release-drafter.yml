@@ -25,17 +25,37 @@ autolabeler:
   - label: 'enhancement'
     branch:
       - '/^feat(ure)?[/-].+/'
+    title:
+      - '/^feat(ure)?[:\s].+/i'
+    body:
+      - '/feat(ure)?/i'
   - label: 'bug'
     branch:
       - '/^fix[/-].+/'
       - '/^hotfix[/-].+/'
+    title:
+      - '/^fix[:\s].+/i'
+    body:
+      - '/fix/i'
   - label: 'documentation'
     branch:
       - '/^doc(s)?[/-].+/'
+    title:
+      - '/^doc(s)?[:\s].+/i'
+    body:
+      - '/doc(s)?/i'
   # 以下のラベルは自動付与されても、上記 categories に含まれなければリリースノートには載らない
   - label: 'test'
     branch:
       - '/^test[/-].+/'
+    title:
+      - '/^test[:\s].+/i'
+    body:
+      - '/test/i'
   - label: 'refactor'
     branch:
       - '/^refactor[/-].+/'
+    title:
+      - '/^refactor[:\s].+/i'
+    body:
+      - '/refactor/i'
