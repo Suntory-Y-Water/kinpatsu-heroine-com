@@ -76,7 +76,7 @@ export default jsxRenderer(
           <Link href='/app/style.css' rel='stylesheet' />
           <Script src='/app/client.ts' async />
         </head>
-        <body className='min-h-screen bg-gradient-to-r bg-gray-900 flex flex-col'>
+        <body className='min-h-screen bg-background-light flex flex-col'>
           <Header />
           <main className='flex-1'>{children}</main>
           <Footer />

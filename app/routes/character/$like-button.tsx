@@ -59,21 +59,21 @@ export default function LikeButton({
       type='button'
       onClick={handleLike}
       disabled={isLiked || isLoading}
-      className={`flex items-center gap-3 bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-yellow-400 rounded-lg px-6 py-3 transition-all duration-300 transform hover:scale-105 group ${
-        isLiked ? 'bg-gray-600 border-yellow-400' : ''
+      className={`flex items-center gap-3 bg-background-light hover:bg-background-lighter border border-border hover:border-accent rounded-lg px-6 py-3 transition-all duration-300 transform hover:scale-105 group ${
+        isLiked ? 'bg-background-lighter border-accent' : ''
       } ${isLoading ? 'opacity-50' : ''}`}
       aria-label={isLiked ? 'いいね済み' : 'いいねする'}
     >
       <span
         className={`text-2xl transition-colors duration-300 ${
           isLiked
-            ? 'text-yellow-300'
-            : 'text-gray-400 group-hover:text-yellow-300'
+            ? 'text-accent'
+            : 'text-foreground-muted group-hover:text-accent'
         }`}
       >
         ♥
       </span>
-      <span className='text-white group-hover:text-yellow-300 font-bold text-lg transition-colors duration-300'>
+      <span className='text-foreground group-hover:text-accent font-bold text-lg transition-colors duration-300'>
         {displayLikes}
       </span>
     </button>
