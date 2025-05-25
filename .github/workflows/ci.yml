@@ -1,70 +1,21 @@
-# https://gihyo.jp/article/2024/10/good-practices-for-github-actions
+# .github/workflows/ci.yml
 name: CI
 
 on:
-  # 動作確認しやすいように手動起動を可能にする
   workflow_dispatch:
-  # feature-またはfeature/で始まるPRでのみ実行する
   push:
     branches: 
       - 'feature-*'
       - 'feature/*'
-    # ts, tsx, jsなど実行されるコードがpushされたときや.github/配下の設定を更新したときのみ実行する
     paths: ['**/*.ts', '**/*.tsx', '**/*.js', '.github/**']
 
-# デフォルトシェルでパイプエラーを有効化
-defaults:
-  run:
-    shell: bash
-
-# 全パーミッションの無効化
-# 詳細なパーミッション設定はJOB単位で設定する
-permissions: {} 
-
-# ワークフローが複数起動したら自動キャンセル
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build_lint_test:
-    name: Build, Lint, and Test
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      # コードの読み込みを許可
-      contents: read 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Bashトレーシングオプションの有効化でログを詳細化
-      - name: Run actionlint
-        run: |
-          set -x
-          date
-          hostname
-          docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:1.7.3
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm' # pnpmの依存関係キャッシュを有効化
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run Build
-        run: pnpm run build
-
-      - name: Run Lint
-        run: pnpm run lint
-
-      - name: Run Tests
-        run: pnpm test
+  ci:
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/ci.yml@main
+    with:
+      enable-actionlint: true
+      enable-build: true
+      enable-lint: true
+      enable-test: true
+      node-version: '20'
+      pnpm-version: '9'
