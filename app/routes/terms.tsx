@@ -5,8 +5,8 @@ import { PolicyLayout } from '../components/PolicyLayout';
 export default createRoute((c) => {
   return c.render(
     <PolicyLayout title='利用規約'>
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>📜</span>
           第1条（適用）
         </h2>
@@ -15,8 +15,8 @@ export default createRoute((c) => {
         </p>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>⚠️</span>
           第2条（禁止事項）
         </h2>
@@ -44,8 +44,8 @@ export default createRoute((c) => {
         </ul>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>🛡️</span>
           第3条（免責事項）
         </h2>
@@ -62,8 +62,8 @@ export default createRoute((c) => {
         </div>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>📤</span>
           第4条（投稿コンテンツについて）
         </h2>
@@ -77,8 +77,8 @@ export default createRoute((c) => {
         </div>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>⚖️</span>
           第5条（ライセンスの付与）
         </h2>
@@ -87,8 +87,8 @@ export default createRoute((c) => {
         </p>
       </section>
 
-      <div className='bg-yellow-400/10 border border-yellow-400/30 p-6 rounded-lg'>
-        <p className='text-yellow-300 text-center font-medium'>
+      <div className='bg-primary/10 border border-primary/30 p-6 rounded-lg'>
+        <p className='text-primary text-center font-medium'>
           📅 2025年5月5日 制定
         </p>
       </div>

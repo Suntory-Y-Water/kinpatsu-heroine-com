@@ -5,8 +5,8 @@ import { PolicyLayout } from '../components/PolicyLayout';
 export default createRoute((c) => {
   return c.render(
     <PolicyLayout title='プライバシーポリシー'>
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>📋</span>
           個人情報の取得
         </h2>
@@ -15,8 +15,8 @@ export default createRoute((c) => {
         </p>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>🎯</span>
           個人情報の利用目的
         </h2>
@@ -25,8 +25,8 @@ export default createRoute((c) => {
         </p>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>🔒</span>
           個人情報の第三者への開示
         </h2>
@@ -41,8 +41,8 @@ export default createRoute((c) => {
         </ul>
       </section>
 
-      <section className='bg-gray-600 p-6 rounded-lg border border-gray-500'>
-        <h2 className='text-2xl font-bold text-yellow-300 mb-4 flex items-center gap-2'>
+      <section className='bg-background-lighter p-6 rounded-lg border border-border'>
+        <h2 className='text-2xl font-bold text-primary mb-4 flex items-center gap-2'>
           <span>📊</span>
           アクセス解析ツールについて
         </h2>
@@ -51,8 +51,8 @@ export default createRoute((c) => {
         </p>
       </section>
 
-      <div className='bg-yellow-400/10 border border-yellow-400/30 p-6 rounded-lg'>
-        <p className='text-yellow-300 text-center font-medium'>
+      <div className='bg-primary/10 border border-primary/30 p-6 rounded-lg'>
+        <p className='text-primary text-center font-medium'>
           📝
           プライバシーポリシーの内容は適宜変更される可能性があります。最新の情報をご確認ください。
         </p>
