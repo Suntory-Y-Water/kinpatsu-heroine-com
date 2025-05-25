@@ -1,4 +1,4 @@
-# @see https://gihyo.jp/article/2024/10/good-practices-for-github-actions
+# https://gihyo.jp/article/2024/10/good-practices-for-github-actions
 name: CI
 
 on:
@@ -35,6 +35,9 @@ jobs:
       # コードの読み込みを許可
       contents: read 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       # Bashトレーシングオプションの有効化でログを詳細化
       - name: Run actionlint
         run: |
@@ -42,8 +45,6 @@ jobs:
           date
           hostname
           docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:1.7.3
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
