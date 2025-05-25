@@ -191,11 +191,11 @@ export default createRoute((c) => {
   const message = c.req.query('message');
 
   return c.render(
-    <div className='min-h-screen bg-gray-800 flex items-center justify-center py-8 px-4'>
-      <div className='max-w-md w-full bg-gray-700 p-8 rounded-xl shadow-2xl border border-yellow-400'>
+    <div className='min-h-screen bg-background flex items-center justify-center py-8 px-4'>
+      <div className='max-w-md w-full bg-background-light p-8 rounded-xl shadow-2xl border border-primary'>
         <div className='text-center mb-8'>
           <div className='text-6xl mb-4'>🔒</div>
-          <h1 className='text-3xl font-bold text-yellow-300'>管理者ログイン</h1>
+          <h1 className='text-3xl font-bold text-primary'>管理者ログイン</h1>
         </div>
 
         <form method='post' action='/admin/login'>
@@ -204,7 +204,7 @@ export default createRoute((c) => {
           <div className='mb-6'>
             <label
               htmlFor='username'
-              className='block text-yellow-300 font-medium mb-3'
+              className='block text-primary font-medium mb-3'
             >
               ユーザー名
             </label>
@@ -212,7 +212,7 @@ export default createRoute((c) => {
               type='text'
               id='username'
               name='username'
-              className='w-full bg-gray-600 border border-gray-500 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 hover:border-yellow-400 transition-colors duration-300'
+              className='w-full bg-background-lighter border border-border rounded-lg py-3 px-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary hover:border-primary transition-colors duration-300'
               placeholder='ユーザー名を入力'
               required
             />
@@ -221,7 +221,7 @@ export default createRoute((c) => {
           <div className='mb-8'>
             <label
               htmlFor='password'
-              className='block text-yellow-300 font-medium mb-3'
+              className='block text-primary font-medium mb-3'
             >
               パスワード
             </label>
@@ -229,7 +229,7 @@ export default createRoute((c) => {
               type='password'
               id='password'
               name='password'
-              className='w-full bg-gray-600 border border-gray-500 rounded-lg py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 hover:border-yellow-400 transition-colors duration-300'
+              className='w-full bg-background-lighter border border-border rounded-lg py-3 px-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary hover:border-primary transition-colors duration-300'
               placeholder='パスワードを入力'
               required
             />
@@ -237,7 +237,7 @@ export default createRoute((c) => {
 
           <button
             type='submit'
-            className='w-full bg-yellow-400 hover:bg-yellow-300 text-gray-900 py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
+            className='w-full bg-primary hover:bg-primary-light text-primary-foreground py-3 px-6 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg'
           >
             🔓 ログインする
           </button>

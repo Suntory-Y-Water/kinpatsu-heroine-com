@@ -75,22 +75,22 @@ export default createRoute(async (c) => {
   const totalPages = paginatedResult.totalPages;
 
   return c.render(
-    <div className='min-h-screen bg-gray-800'>
+    <div className='min-h-screen bg-background'>
       <div className='space-y-8 py-8'>
         {/* ヘロセクション - 1ページ目のみ表示 */}
         {currentPage === 1 && (
           <div className='text-center py-16 mx-4'>
             <h1 className='text-4xl md:text-6xl font-bold mb-6'>
-              <span className='bg-gradient-to-r from-yellow-300 to-yellow-400 bg-clip-text text-transparent'>
+              <span className='bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent'>
                 金髪ヒロインの世界へ
               </span>
             </h1>
-            <p className='text-xl text-gray-300 max-w-2xl mx-auto mb-8'>
+            <p className='text-xl text-foreground-muted max-w-2xl mx-auto mb-8'>
               あなたのお気に入りの金髪ヒロインを見つけて、新しいアニメとの出会いを楽しみましょう
             </p>
             <a
               href='/register/work'
-              className='inline-block bg-gradient-to-r from-yellow-400 to-yellow-300 text-gray-900 rounded-full px-8 py-4 font-bold text-lg hover:from-yellow-300 hover:to-yellow-200 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
+              className='inline-block bg-gradient-to-r from-primary to-primary-dark text-primary-foreground rounded-full px-8 py-4 font-bold text-lg hover:from-primary-light hover:to-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
             >
               ✨ ヒロインを登録する
             </a>

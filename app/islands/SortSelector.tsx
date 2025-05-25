@@ -32,19 +32,19 @@ export function SortSelector({ currentSort, options }: SortSelectorProps) {
           name='sort'
           value={selectedSort}
           onChange={handleChange}
-          className='inline-flex justify-center w-full rounded-full border border-gray-600 shadow-lg px-6 py-3 bg-gray-700 text-base font-medium text-white hover:bg-gray-600 hover:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-300 appearance-none cursor-pointer transform hover:scale-105'
+          className='inline-flex justify-center w-full rounded-full border border-border shadow-lg px-6 py-3 bg-background-light text-base font-medium text-foreground hover:bg-background-lighter hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 appearance-none cursor-pointer transform hover:scale-105'
         >
           {options.map((option) => (
             <option
               key={option.key}
               value={option.key}
-              className='bg-gray-700 text-white py-2'
+              className='bg-background-light text-foreground py-2'
             >
               {option.label}
             </option>
           ))}
         </select>
-        <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-yellow-300 group-hover:text-yellow-400 transition-colors duration-300'>
+        <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-primary group-hover:text-primary-light transition-colors duration-300'>
           <svg
             className='h-5 w-5 transform group-hover:rotate-180 transition-transform duration-300'
             xmlns='http://www.w3.org/2000/svg'
