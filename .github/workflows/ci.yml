@@ -1,4 +1,3 @@
-# .github/workflows/ci.yml
 name: CI
 
 on:
@@ -13,9 +12,15 @@ jobs:
   ci:
     uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/ci.yml@main
     with:
+      # actionlintを実行するか
       enable-actionlint: true
+      # ビルドを実行するか  
       enable-build: true
+      # リントを実行するか
       enable-lint: true
+      # テストを実行するか
       enable-test: true
+      # Node.jsバージョン
       node-version: '20'
+      # pnpmバージョン
       pnpm-version: '9'
