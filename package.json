@@ -36,18 +36,18 @@
     "hono-pino": "^0.8.0",
     "honox": "^0.1.42",
     "neverthrow": "^8.2.0",
-    "zod": "^3.25.56"
+    "zod": "^3.25.57"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@cloudflare/vitest-pool-workers": "^0.8.36",
-    "@cloudflare/workers-types": "^4.20250607.0",
+    "@cloudflare/workers-types": "^4.20250610.0",
     "@hono/vite-build": "^1.6.2",
     "@hono/vite-dev-server": "^0.19.1",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.53.0",
     "@tailwindcss/vite": "^4.1.8",
     "@types/bcrypt": "^5.0.2",
-    "@types/node": "^22.15.30",
+    "@types/node": "^22.15.31",
     "drizzle-kit": "^0.31.1",
     "happy-dom": "^17.6.3",
     "tailwindcss": "^4.1.8",
