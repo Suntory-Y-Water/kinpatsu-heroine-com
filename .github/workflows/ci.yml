@@ -24,7 +24,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@main
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@8443f29383d756fb71b50b0b927f4b907775b263
 
 
   # TypeScript CI + バージョンチェック
@@ -32,7 +32,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@main
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@8443f29383d756fb71b50b0b927f4b907775b263
     with:
       node-version: '20'
       pnpm-version: '9'
