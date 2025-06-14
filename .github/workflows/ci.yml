@@ -19,13 +19,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # GitHub Actions品質チェック
   actions-security:
+    permissions:
+      contents: read
+      security-events: write
     uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@main
 
+
+  # TypeScript CI + バージョンチェック
   typescript-ci:
+    permissions:
+      contents: read
+      pull-requests: write
     uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@main
     with:
       node-version: '20'
       pnpm-version: '9'
-      timeout-minutes: 15
+      timeout-minutes: 5
       version-check: true
