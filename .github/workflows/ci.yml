@@ -57,7 +57,7 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: バージョンチェックとコメント投稿
+      - name: check version, post comments
         uses: actions/github-script@v7
         with:
           script: |
