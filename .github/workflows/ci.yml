@@ -64,83 +64,77 @@ jobs:
             const { execSync } = require('child_process');
             const { readFileSync } = require('fs');
             
-            // mainブランチとのバージョン比較
-            const baseVersion = execSync('git show origin/main:package.json').toString();
-            const currentPackage = readFileSync('package.json', 'utf8');
-            
-            const baseVersionNum = JSON.parse(baseVersion).version;
-            const currentVersionNum = JSON.parse(currentPackage).version;
-            
-            console.log(`Main branch version: ${baseVersionNum}`);
-            console.log(`Current branch version: ${currentVersionNum}`);
-            
-            // バージョンが同じ場合のみ警告処理を実行
-            if (baseVersionNum !== currentVersionNum) {
-              console.log('バージョンが更新されています。警告は不要です。');
-              return;
-            }
-            
-            // 現在のブランチ名を取得
-            const branchName = context.ref.replace('refs/heads/', '');
-            
-            // プルリクエストを検索
-            const { data: pulls } = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head: `${context.repo.owner}:${branchName}`,
-              state: 'open'
-            });
-            
-            console.log(`検索条件: ${context.repo.owner}/${context.repo.repo} ブランチ: ${branchName}`);
-            console.log(`見つかったプルリクエスト数: ${pulls.length}`);
-            
-            if (pulls.length === 0) {
-              console.log('対応するプルリクエストが見つかりません');
-              return;
-            }
-
-            const pr = pulls[0];
-            
-            // 既存のコメントをチェック（同じ警告の重複を防ぐ）
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number
-            });
-            
-            const hasVersionWarning = comments.some(comment => 
-              comment.body.includes('⚠️ **package.jsonのバージョンが更新されていません**') &&
-              comment.user.type === 'Bot'
-            );
-            
-            if (hasVersionWarning) {
-              console.log('既にバージョン警告コメントが存在します');
-              return;
-            }
-            
-            // このブランチで既にバージョンが上がったことがあるかチェック
-            const commits = execSync(`git log origin/main..HEAD --oneline --grep="version"`).toString();
-            const hasVersionCommit = commits.includes('version') || 
-                                   execSync(`git log origin/main..HEAD --oneline`).toString().includes('bump') ||
-                                   execSync(`git log origin/main..HEAD --name-only`).toString().includes('package.json');
-            
-            if (hasVersionCommit) {
-              // このブランチで過去にpackage.jsonが変更されている場合、
-              // 最新のコミットでバージョンが戻されていないかチェック
-              const gitLog = execSync(`git log origin/main..HEAD --oneline --follow -- package.json`).toString().trim();
-              if (gitLog) {
-                console.log('このブランチで既にpackage.jsonが変更されています。警告をスキップします。');
+            try {
+              // mainブランチとのバージョン比較
+              const baseVersion = execSync('git show origin/main:package.json').toString();
+              const currentPackage = readFileSync('package.json', 'utf8');
+              
+              const baseVersionNum = JSON.parse(baseVersion).version;
+              const currentVersionNum = JSON.parse(currentPackage).version;
+              
+              console.log(`Main branch version: ${baseVersionNum}`);
+              console.log(`Current branch version: ${currentVersionNum}`);
+              
+              // 現在のブランチ名を取得
+              const branchName = context.ref.replace('refs/heads/', '');
+              
+              // プルリクエストを検索
+              const { data: pulls } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${branchName}`,
+                state: 'open'
+              });
+              
+              console.log(`検索条件: ${context.repo.owner}/${context.repo.repo} ブランチ: ${branchName}`);
+              console.log(`見つかったプルリクエスト数: ${pulls.length}`);
+              
+              if (pulls.length === 0) {
+                console.log('対応するプルリクエストが見つかりません');
                 return;
               }
+
+              // 最新のプルリクエストを選択
+              const pr = pulls.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+              console.log(`対象プルリクエスト: #${pr.number} (${pr.title})`);
+              
+              // 既存のコメントをチェック（一度でも警告が出ていれば以降は警告しない）
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number
+              });
+              
+              const hasVersionWarning = comments.some(comment => 
+                comment.body.includes('## ⚠️ package.jsonのバージョンが更新されていません') &&
+                comment.user.type === 'Bot'
+              );
+              
+              if (hasVersionWarning) {
+                console.log('既にバージョン警告コメントが存在します。以降の警告はスキップします。');
+                return;
+              }
+              
+              // バージョンが同じ場合のみ警告を投稿
+              if (baseVersionNum === currentVersionNum) {
+                console.log('バージョンが更新されていません。警告コメントを投稿します。');
+              } else {
+                console.log('バージョンが更新されています。警告は不要です。');
+                return;
+              }
+              
+              console.log(`プルリクエスト #${pr.number} にコメントを投稿します`);
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `## ⚠️ package.jsonのバージョンが更新されていません\n\n- 現在のバージョン: \`${currentVersionNum}\`\n- mainブランチのバージョン: \`${baseVersionNum}\`\n\nこのままマージを行った場合、デプロイ処理を行いません。\nデプロイを行う場合、\`package.json\`のバージョンアップをお願いします。`
+              });
+              
+              console.log(`プルリクエスト #${pr.number} にコメントを投稿しました`);
+              
+            } catch (error) {
+              console.error('バージョンチェック処理でエラーが発生しました:', error.message);
+              // エラーが発生してもCIを失敗させない
             }
-            
-            console.log(`プルリクエスト #${pr.number} にコメントを投稿します`);
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-              body: `⚠️ **package.jsonのバージョンが更新されていません**\n\n現在のバージョン: \`${currentVersionNum}\`\nmainブランチのバージョン: \`${baseVersionNum}\`\n\nバージョンアップをお願いします。`
-            });
-            
-            console.log(`プルリクエスト #${pr.number} にコメントを投稿しました`);
