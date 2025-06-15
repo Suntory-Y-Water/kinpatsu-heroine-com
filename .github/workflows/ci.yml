@@ -6,6 +6,8 @@ on:
     branches: 
       - 'feature-*'
       - 'feature/*'
+      # 依存関係が更新されたときにも一応チェックする
+      - 'dependabot/*' 
     paths: ['**/*.ts', '**/*.tsx', '**/*.js', '.github/**', '**/*.json']
 
 defaults:
@@ -19,138 +21,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    env:
-      TZ: Asia/Tokyo
-    timeout-minutes: 5
+  # GitHub Actions品質チェック
+  actions-security:
+    permissions:
+      contents: read
+      security-events: write
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@b8a9f49f267810b6e23524b2a90f76279c1dbcec
+
+
+  # TypeScript CI + バージョンチェック
+  typescript-ci:
     permissions:
       contents: read
       pull-requests: write
-      security-events: write  # zizmor用
-    steps:
-      # 全てコミットハッシュ形式で指定する
-      # @see https://zenn.dev/kou_pg_0131/articles/gha-static-checker
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      # GitHub Actions Lint - actionlint
-      - name: Run actionlint
-        uses: koki-develop/github-actions-lint/actionlint@62dfef5c9854a07712bad7af3bee7edb0c1109b1 # v1.4.1
-
-      # GitHub Actions Lint - ghalint
-      - name: Run ghalint
-        uses: koki-develop/github-actions-lint/ghalint@62dfef5c9854a07712bad7af3bee7edb0c1109b1 # v1.4.1
-
-      # GitHub Actions Lint - zizmor
-      - name: Run zizmor
-        uses: koki-develop/github-actions-lint/zizmor@62dfef5c9854a07712bad7af3bee7edb0c1109b1 # v1.4.1
-        with:
-          github-token: ${{ github.token }}
-          persona: auditor
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
-        with:
-          version: '9'
-
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Lint
-        run: pnpm run lint
-
-      - name: Test
-        run: pnpm test
-
-      - name: check version, post comments
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            const { readFileSync } = require('fs');
-            
-            try {
-              // mainブランチとのバージョン比較
-              const baseVersion = execSync('git show origin/main:package.json').toString();
-              const currentPackage = readFileSync('package.json', 'utf8');
-              
-              const baseVersionNum = JSON.parse(baseVersion).version;
-              const currentVersionNum = JSON.parse(currentPackage).version;
-              
-              console.log(`Main branch version: ${baseVersionNum}`);
-              console.log(`Current branch version: ${currentVersionNum}`);
-              
-              // 現在のブランチ名を取得
-              const branchName = context.ref.replace('refs/heads/', '');
-              
-              // プルリクエストを検索
-              const { data: pulls } = await github.rest.pulls.list({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                head: `${context.repo.owner}:${branchName}`,
-                state: 'open'
-              });
-              
-              console.log(`検索条件: ${context.repo.owner}/${context.repo.repo} ブランチ: ${branchName}`);
-              console.log(`見つかったプルリクエスト数: ${pulls.length}`);
-              
-              if (pulls.length === 0) {
-                console.log('対応するプルリクエストが見つかりません');
-                return;
-              }
-
-              // 最新のプルリクエストを選択
-              const pr = pulls.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
-              console.log(`対象プルリクエスト: #${pr.number} (${pr.title})`);
-              
-              // 既存のコメントをチェック（一度でも警告が出ていれば以降は警告しない）
-              const { data: comments } = await github.rest.issues.listComments({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number
-              });
-              
-              const hasVersionWarning = comments.some(comment => 
-                comment.body.includes('## ⚠️ package.jsonのバージョンが更新されていません') &&
-                comment.user.type === 'Bot'
-              );
-              
-              if (hasVersionWarning) {
-                console.log('既にバージョン警告コメントが存在します。以降の警告はスキップします。');
-                return;
-              }
-              
-              // バージョンが同じ場合のみ警告を投稿
-              if (baseVersionNum === currentVersionNum) {
-                console.log('バージョンが更新されていません。警告コメントを投稿します。');
-              } else {
-                console.log('バージョンが更新されています。警告は不要です。');
-                return;
-              }
-              
-              console.log(`プルリクエスト #${pr.number} にコメントを投稿します`);
-              
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number,
-                body: `## ⚠️ package.jsonのバージョンが更新されていません\n\n- 現在のバージョン: \`${currentVersionNum}\`\n- mainブランチのバージョン: \`${baseVersionNum}\`\n\nこのままマージを行った場合、デプロイ処理を行いません。\nデプロイを行う場合、\`package.json\`のバージョンアップをお願いします。`
-              });
-              
-              console.log(`プルリクエスト #${pr.number} にコメントを投稿しました`);
-              
-            } catch (error) {
-              console.error('バージョンチェック処理でエラーが発生しました:', error.message);
-              // エラーが発生してもCIを失敗させない
-            }
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@b8a9f49f267810b6e23524b2a90f76279c1dbcec
+    with:
+      node-version: '20'
+      pnpm-version: '9'
+      timeout-minutes: 5
+      version-check: true
