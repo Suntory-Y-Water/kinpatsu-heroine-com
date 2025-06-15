@@ -6,6 +6,8 @@ on:
     branches: 
       - 'feature-*'
       - 'feature/*'
+      # 依存関係が更新されたときにも一応チェックする
+      - 'dependabot/*' 
     paths: ['**/*.ts', '**/*.tsx', '**/*.js', '.github/**', '**/*.json']
 
 defaults:
@@ -24,7 +26,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@8443f29383d756fb71b50b0b927f4b907775b263
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@a13be3ad015749a9b9f29774e349c7a3415b9b71
 
 
   # TypeScript CI + バージョンチェック
@@ -32,7 +34,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@8443f29383d756fb71b50b0b927f4b907775b263
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@a13be3ad015749a9b9f29774e349c7a3415b9b71
     with:
       node-version: '20'
       pnpm-version: '9'
