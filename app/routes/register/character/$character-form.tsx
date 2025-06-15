@@ -61,7 +61,7 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
           name='characterName'
           value={selectedCharacter?.name || ''}
           onChange={handleSelectCharacter}
-          className='bg-background-lighter border border-border text-foreground rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary hover:border-primary transition-colors duration-300'
+          className='bg-background-lighter border border-border text-foreground rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary hover:border-primary transition-colors duration-300 text-base'
           required
         >
           <option
@@ -80,7 +80,6 @@ export default function CharacterForm({ characters }: CharacterFormProps) {
             </option>
           ))}
         </select>
-        {/* 隠しフィールドでキャラクターIDを保持 */}
         <input
           type='hidden'
           name='characterId'

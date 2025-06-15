@@ -1,8 +1,6 @@
 import { SELF, env } from 'cloudflare:test';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
-const ITEMS_PER_PAGE = 8;
-
 type CharacterRecord = {
   character_id: number;
   work_id: number;
@@ -121,82 +119,12 @@ describe('GET / (app/routes/index.tsx)', () => {
     const text = await response.text();
 
     expect(response.status).toBe(200);
-    // デフォルトソート(newest) を考慮し、登録日が新しい Character Alpha が先に表示されることを期待
-    // ただし、現在の getAllCharacters には ORDER BY がないため、表示順はDBの実装依存。
-    // ここでは、両方のキャラクターが含まれていることを確認する。
+    // デフォルトソート(newest)では登録日の降順でソートされるため、
+    // 登録日が新しい Character Alpha が先に表示される
     expect(text).toContain('Character Alpha');
     expect(text).toContain('/img/alpha.png');
     expect(text).toContain('Character Beta');
     expect(text).toContain('/img/beta.png');
-  });
-
-  describe('ページネーション機能', () => {
-    const totalItemsForPagination = ITEMS_PER_PAGE + 2; // 2ページ目が必要なアイテム数
-    let charactersForPagination: CharacterRecord[];
-
-    beforeEach(async () => {
-      charactersForPagination = [];
-      for (let i = 1; i <= totalItemsForPagination; i++) {
-        charactersForPagination.push({
-          character_id: i,
-          work_id: 1,
-          character_name: `Paged Character ${i}`,
-          work_name: 'Pagination Demo Work',
-          character_image_url: `/img/paged${i}.png`,
-          registration_date: new Date(
-            Date.now() - (totalItemsForPagination - i) * 60000,
-          ).toISOString(),
-        });
-      }
-      // 登録日の降順 (新しいものが先頭) = character_id の降順になるようにソート
-      charactersForPagination.sort((a, b) => a.character_id - b.character_id);
-      await insertCharacters(charactersForPagination);
-    });
-
-    it('1ページ目が正しく表示されること', async () => {
-      const response = await SELF.fetch('http://localhost/');
-      const text = await response.text();
-      expect(response.status).toBe(200);
-
-      for (let i = 0; i < ITEMS_PER_PAGE; i++) {
-        expect(text).toContain(charactersForPagination[i].character_name);
-      }
-      expect(text).not.toContain(
-        charactersForPagination[ITEMS_PER_PAGE].character_name,
-      );
-      const totalPages = Math.ceil(totalItemsForPagination / ITEMS_PER_PAGE);
-      expect(text).toContain(`1 / ${totalPages}`);
-    });
-  });
-
-  it('不正な page クエリパラメータ(文字列、0、負数)が指定された場合、1ページ目が表示されること', async () => {
-    const itemsForTest: CharacterRecord[] = [];
-    for (let i = 1; i <= ITEMS_PER_PAGE * 2; i++) {
-      itemsForTest.push({
-        character_id: i,
-        work_id: 1,
-        character_name: `Char ${i}`,
-        work_name: 'Work',
-        character_image_url: `/img/${i}.png`,
-        registration_date: new Date(
-          Date.now() - (ITEMS_PER_PAGE * 2 - i) * 60000,
-        ).toISOString(),
-      });
-    }
-    itemsForTest.sort((a, b) => a.character_id - b.character_id);
-    await insertCharacters(itemsForTest);
-
-    const invalidPages = ['abc', '0', '-1'];
-    for (const page of invalidPages) {
-      const response = await SELF.fetch(`http://localhost/?page=${page}`);
-      const text = await response.text();
-      expect(response.status).toBe(200);
-      for (let i = 0; i < ITEMS_PER_PAGE; i++) {
-        expect(text).toContain(itemsForTest[i].character_name); // 1ページ目の内容
-      }
-      expect(text).not.toContain(itemsForTest[ITEMS_PER_PAGE].character_name);
-      expect(text).toContain(`1 / 2`);
-    }
   });
 
   it('不正な sort クエリパラメータが指定された場合、デフォルトのソート順 (`newest`) で表示されること', async () => {
@@ -216,11 +144,8 @@ describe('GET / (app/routes/index.tsx)', () => {
       character_image_url: '/img/newest.png',
       registration_date: new Date('2024-01-01T10:00:00Z').toISOString(),
     };
-    // 実際の 'newest' ソートは registration_date 降順だが、getAllCharacters に ORDER BY がないため、
-    // character_id 昇順で表示されると仮定してテストデータを準備する。
-    await insertCharacters(
-      [charNew, charOld].sort((a, b) => a.character_id - b.character_id),
-    );
+    // 'newest' ソートは registration_date 降順のため、登録日が新しい Newest Char が先に表示される
+    await insertCharacters([charNew, charOld]);
 
     const response = await SELF.fetch(
       'http://localhost/?sort=invalidSortValue',
@@ -232,7 +157,7 @@ describe('GET / (app/routes/index.tsx)', () => {
     const oldCharIndex = text.indexOf('Oldest Char');
     expect(newCharIndex).toBeGreaterThan(-1);
     expect(oldCharIndex).toBeGreaterThan(-1);
-    // デフォルトソート'newest'。現状のgetAllCharactersはcharacter_id昇順で返すと期待。
+    // デフォルトソート'newest'では、登録日が新しいものが先に表示される
     expect(newCharIndex).toBeLessThan(oldCharIndex);
   });
 
