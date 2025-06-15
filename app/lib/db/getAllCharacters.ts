@@ -5,7 +5,7 @@ import {
 } from '@/config/drizzle/schema';
 import { ok, Result } from 'neverthrow';
 import { DatabaseError, databaseErrorHandler } from '@/types/error';
-import { eq, count, and } from 'drizzle-orm';
+import { eq, count, and, desc } from 'drizzle-orm';
 import type { CharacterList } from '@/types/character';
 
 export async function getAllCharacters({
@@ -40,7 +40,8 @@ export async function getAllCharacters({
         registrationQueueTable.character_name,
         registrationQueueTable.character_image_url,
         registrationQueueTable.work_name,
-      );
+      )
+      .orderBy(desc(registrationQueueTable.registration_date));
 
     const result: CharacterList[] = rawResult.map((row) => ({
       characterId: row.characterId,

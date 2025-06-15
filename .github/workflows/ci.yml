@@ -1,39 +1,42 @@
 name: CI
 
 on:
-  # feature-またはfeature/で始まるPRでのみ実行する
+  workflow_dispatch:
   push:
     branches: 
       - 'feature-*'
       - 'feature/*'
+      # 依存関係が更新されたときにも一応チェックする
+      - 'dependabot/*' 
+    paths: ['**/*.ts', '**/*.tsx', '**/*.js', '.github/**', '**/*.json']
+
+defaults:
+  run:
+    shell: bash
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build_lint_test:
-    name: Build, Lint, and Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # GitHub Actions品質チェック
+  actions-security:
+    permissions:
+      contents: read
+      security-events: write
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml@b8a9f49f267810b6e23524b2a90f76279c1dbcec
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm' # pnpmの依存関係キャッシュを有効化
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run Build
-        run: pnpm run build
-
-      - name: Run Lint
-        run: pnpm run lint
-
-      - name: Run Tests
-        run: pnpm test
+  # TypeScript CI + バージョンチェック
+  typescript-ci:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml@b8a9f49f267810b6e23524b2a90f76279c1dbcec
+    with:
+      node-version: '20'
+      pnpm-version: '9'
+      timeout-minutes: 5
+      version-check: true
