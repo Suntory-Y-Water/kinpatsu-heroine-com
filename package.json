@@ -32,7 +32,7 @@
     "drizzle-orm": "^0.44.2",
     "graphql": "^16.11.0",
     "graphql-request": "^7.2.0",
-    "hono": "^4.8.0",
+    "hono": "^4.8.1",
     "hono-pino": "^0.8.0",
     "honox": "^0.1.42",
     "neverthrow": "^8.2.0",
@@ -40,8 +40,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/vitest-pool-workers": "^0.8.41",
-    "@cloudflare/workers-types": "^4.20250618.0",
+    "@cloudflare/vitest-pool-workers": "^0.8.43",
+    "@cloudflare/workers-types": "^4.20250620.0",
     "@hono/vite-build": "^1.6.2",
     "@hono/vite-dev-server": "^0.19.1",
     "@playwright/test": "^1.53.1",
@@ -55,6 +55,6 @@
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "~3.2.4",
-    "wrangler": "^4.20.3"
+    "wrangler": "^4.20.5"
   }
 }
