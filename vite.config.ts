@@ -22,4 +22,9 @@ export default defineConfig({
   ssr: {
     external: ['cheerio', 'hono-pino'],
   },
+  build: {
+    rollupOptions: {
+      external: ['cloudflare:workers'],
+    },
+  },
 });
