@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'hono/jsx';
+import { useEffect } from 'hono/jsx/dom';
 
 export interface SortOption {
   key: string;
@@ -11,10 +11,11 @@ interface SortSelectorProps {
 }
 
 export function SortSelector({ currentSort, options }: SortSelectorProps) {
-  const [selectedSort, setSelectedSort] = useState(currentSort);
-
   useEffect(() => {
-    setSelectedSort(currentSort);
+    const select = document.querySelector('select[name="sort"]');
+    if (select && select instanceof HTMLSelectElement) {
+      select.value = currentSort;
+    }
   }, [currentSort]);
 
   function handleChange(e: Event) {
@@ -30,7 +31,7 @@ export function SortSelector({ currentSort, options }: SortSelectorProps) {
       <div className='relative inline-block text-left group'>
         <select
           name='sort'
-          value={selectedSort}
+          defaultValue={currentSort}
           onChange={handleChange}
           className='inline-flex justify-center w-full rounded-full border border-border shadow-lg px-6 py-3 bg-background-light text-base font-medium text-foreground hover:bg-background-lighter hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 appearance-none cursor-pointer transform hover:scale-105'
         >
