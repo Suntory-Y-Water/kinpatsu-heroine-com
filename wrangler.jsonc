@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kinpatsu-heroine-com",
   "main": "./dist/index.js",
-  "compatibility_date": "2025-03-03",
+  "compatibility_date": "2025-06-28",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist"
