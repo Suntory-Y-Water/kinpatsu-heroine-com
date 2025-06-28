@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'hono/jsx';
 import ImageCropper from './$image-cropper';
 
-// 許可される画像ファイルの形式
 const ALLOWED_IMAGE_TYPES = [
   'image/png',
   'image/jpeg',
   'image/jpg',
   'image/webp',
 ];
+
+const MAX_WIDTH_FOR_DIRECT_UPLOAD = 400;
+const MAX_HEIGHT_FOR_DIRECT_UPLOAD = 500;
+const TARGET_ASPECT_RATIO = 0.8; // 4:5の比率
+const ASPECT_RATIO_TOLERANCE = 0.1;
 
 export default function ImageUploader() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -16,7 +20,47 @@ export default function ImageUploader() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [originalFileType, setOriginalFileType] = useState<string>('');
 
-  // ファイル選択時の処理
+  const uploadImageFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch('/image', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('画像のアップロードに失敗しました');
+    }
+
+    const result = await response.json<{ url: string }>();
+    return result.url;
+  };
+
+  const handleDirectUpload = async (file: File) => {
+    try {
+      const uploadedUrl = await uploadImageFile(file);
+      setImageUrl(uploadedUrl);
+      setPreview(URL.createObjectURL(file));
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(`画像アップロードエラー:${error.message}`);
+      }
+      alert('画像のアップロードに失敗しました。再度お試しください。');
+    }
+  };
+
+  const shouldSkipCropping = (width: number, height: number) => {
+    const isSmallImage =
+      width <= MAX_WIDTH_FOR_DIRECT_UPLOAD &&
+      height <= MAX_HEIGHT_FOR_DIRECT_UPLOAD;
+    const aspectRatio = width / height;
+    const isCorrectRatio =
+      Math.abs(aspectRatio - TARGET_ASPECT_RATIO) < ASPECT_RATIO_TOLERANCE;
+
+    return isSmallImage || isCorrectRatio;
+  };
+
   const handleFileChange = async (e: Event) => {
     const input = e.target as HTMLInputElement;
     const file = input.files?.[0] || null;
@@ -43,7 +87,16 @@ export default function ImageUploader() {
     reader.onload = (e) => {
       const imageDataUrl = e.target?.result as string;
       setOriginalImage(imageDataUrl);
-      setShowCropper(true);
+
+      const img = new Image();
+      img.onload = () => {
+        if (shouldSkipCropping(img.width, img.height)) {
+          handleDirectUpload(file);
+        } else {
+          setShowCropper(true);
+        }
+      };
+      img.src = imageDataUrl;
     };
     reader.readAsDataURL(file);
   };
