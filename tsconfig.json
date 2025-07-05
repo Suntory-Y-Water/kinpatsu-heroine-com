@@ -14,5 +14,6 @@
       "@/*": ["app/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", "test-integration", "test-unit"]
 }

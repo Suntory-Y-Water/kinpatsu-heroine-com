@@ -21,7 +21,9 @@
     "db:studio": "drizzle-kit studio",
     "db:local": "tsx scripts/migrate.ts local latest",
     "db:local:all": "tsx scripts/migrate.ts local all",
-    "typegen": "wrangler types"
+    "typegen": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "ai-check": "pnpm run lint && pnpm run typecheck"
   },
   "private": true,
   "dependencies": {
