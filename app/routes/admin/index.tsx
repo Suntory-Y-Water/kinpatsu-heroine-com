@@ -2,6 +2,7 @@ import { StatusMessage } from '@/components/character/StatusMessage';
 import { getRegistrationQueueTable } from '@/lib/db';
 import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
+import { generateMetadata } from '@/lib/metadata';
 
 /**
  * 表示タブの型定義
@@ -51,6 +52,15 @@ export default createRoute(async (c) => {
     registered: '登録済みのキャラクターはありません',
     deleted: '削除済みのキャラクターはありません',
   };
+
+  const metadata = generateMetadata({
+    title: '管理画面',
+    description:
+      'ユーザーが登録した情報を確認してから登録をすることができます。金髪ヒロインではない場合、登録した情報を削除することも可能です。',
+    keywords: ['管理', '管理者'],
+    canonical: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin' }),
+    noindex: true,
+  });
 
   return c.render(
     <div className='min-h-screen bg-background'>
@@ -244,26 +254,6 @@ export default createRoute(async (c) => {
         )}
       </div>
     </div>,
-    {
-      title: '管理画面',
-      description:
-        'ユーザーが登録した情報を確認してから登録をすることができます。金髪ヒロインではない場合、登録した情報を削除することも可能です。',
-      openGraph: {
-        title: '管理画面',
-        description: '管理画面',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin' }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: '管理画面',
-        description:
-          'ユーザーが登録した情報を確認してから登録をすることができます。金髪ヒロインではない場合、登録した情報を削除することも可能です。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin' }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });

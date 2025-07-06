@@ -1,8 +1,17 @@
 import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
 import { PolicyLayout } from '../components/PolicyLayout';
+import { generateMetadata } from '@/lib/metadata';
 
 export default createRoute((c) => {
+  const metadata = generateMetadata({
+    title: '利用規約',
+    description:
+      '金髪ヒロイン.comの利用規約です。当サイトのサービス利用条件や禁止事項、免責事項について定めています。',
+    keywords: ['利用規約'],
+    canonical: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/terms' }),
+  });
+
   return c.render(
     <PolicyLayout title='利用規約'>
       <section className='bg-background-lighter p-6 rounded-lg border border-border'>
@@ -93,27 +102,6 @@ export default createRoute((c) => {
         </p>
       </div>
     </PolicyLayout>,
-    {
-      title: '利用規約',
-      description:
-        '金髪ヒロイン.comの利用規約です。当サイトのサービス利用条件や禁止事項、免責事項について定めています。',
-      openGraph: {
-        title: '利用規約',
-        description:
-          '金髪ヒロイン.comの利用規約です。当サイトのサービス利用条件や禁止事項、免責事項について定めています。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/terms' }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: '利用規約',
-        description:
-          '金髪ヒロイン.comの利用規約です。当サイトのサービス利用条件や禁止事項、免責事項について定めています。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/terms' }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });

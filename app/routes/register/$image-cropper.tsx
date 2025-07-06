@@ -1,5 +1,8 @@
-import { useState, useEffect, useRef } from 'hono/jsx';
+import { useState, useEffect, useRef, useCallback } from 'hono/jsx';
 
+/**
+ * 画像切り抜きコンポーネントのプロパティ
+ */
 interface ImageCropperProps {
   originalImage: string;
   originalFileType: string;
@@ -7,11 +10,18 @@ interface ImageCropperProps {
   onCancel: () => void;
 }
 
+/**
+ * リサイズハンドルの設定
+ */
 interface ResizeHandle {
   position: 'nw' | 'ne' | 'sw' | 'se' | 'n' | 's' | 'e' | 'w';
   cursor: string;
 }
 
+/**
+ * 画像切り抜きコンポーネント
+ * スマートフォンでのパフォーマンスを最適化済み
+ */
 export default function ImageCropper({
   originalImage,
   originalFileType,
@@ -38,6 +48,8 @@ export default function ImageCropper({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const cropperRef = useRef<HTMLDivElement>(null);
+  const boundsRef = useRef<DOMRect | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   // 画像読み込み完了時の処理
   useEffect(() => {
@@ -75,170 +87,253 @@ export default function ImageCropper({
     img.src = originalImage;
   }, [originalImage]);
 
-  // ドラッグ開始（マウス・タッチ対応）
-  const handleStartDrag = (clientX: number, clientY: number) => {
-    setIsDragging(true);
-    const rect = cropperRef.current?.getBoundingClientRect();
-    if (rect) {
-      setDragStart({
-        x: clientX - rect.left - cropArea.x,
-        y: clientY - rect.top - cropArea.y,
-      });
-    }
-  };
+  /**
+   * ドラッグ開始処理（マウス・タッチ対応）
+   * @param clientX クライアントX座標
+   * @param clientY クライアントY座標
+   */
+  const handleStartDrag = useCallback(
+    (clientX: number, clientY: number) => {
+      setIsDragging(true);
+      const rect = cropperRef.current?.getBoundingClientRect();
+      if (rect) {
+        boundsRef.current = rect;
+        setDragStart({
+          x: clientX - rect.left - cropArea.x,
+          y: clientY - rect.top - cropArea.y,
+        });
+      }
+    },
+    [cropArea.x, cropArea.y],
+  );
 
-  const handleMouseDown = (e: MouseEvent) => {
-    e.preventDefault();
-    handleStartDrag(e.clientX, e.clientY);
-  };
+  /**
+   * マウス押下イベントハンドラー
+   */
+  const handleMouseDown = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      handleStartDrag(e.clientX, e.clientY);
+    },
+    [handleStartDrag],
+  );
 
-  const handleTouchStart = (e: TouchEvent) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    handleStartDrag(touch.clientX, touch.clientY);
-  };
+  /**
+   * タッチ開始イベントハンドラー
+   */
+  const handleTouchStart = useCallback(
+    (e: TouchEvent) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      handleStartDrag(touch.clientX, touch.clientY);
+    },
+    [handleStartDrag],
+  );
 
-  // リサイズ開始（マウス・タッチ対応）
-  const handleStartResize = (
-    clientX: number,
-    clientY: number,
-    handle: string,
-  ) => {
-    setIsResizing(true);
-    setResizeHandle(handle);
-    setInitialCropArea({ ...cropArea });
-    const rect = cropperRef.current?.getBoundingClientRect();
-    if (rect) {
-      setDragStart({
-        x: clientX - rect.left,
-        y: clientY - rect.top,
-      });
-    }
-  };
+  /**
+   * リサイズ開始処理（マウス・タッチ対応）
+   * @param clientX クライアントX座標
+   * @param clientY クライアントY座標
+   * @param handle リサイズハンドルの位置
+   */
+  const handleStartResize = useCallback(
+    (clientX: number, clientY: number, handle: string) => {
+      setIsResizing(true);
+      setResizeHandle(handle);
+      setInitialCropArea({ ...cropArea });
+      const rect = cropperRef.current?.getBoundingClientRect();
+      if (rect) {
+        boundsRef.current = rect;
+        setDragStart({
+          x: clientX - rect.left,
+          y: clientY - rect.top,
+        });
+      }
+    },
+    [cropArea],
+  );
 
-  const handleResizeStart = (e: MouseEvent, handle: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handleStartResize(e.clientX, e.clientY, handle);
-  };
+  /**
+   * リサイズ開始（マウス）
+   */
+  const handleResizeStart = useCallback(
+    (e: MouseEvent, handle: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleStartResize(e.clientX, e.clientY, handle);
+    },
+    [handleStartResize],
+  );
 
-  const handleResizeTouchStart = (e: TouchEvent, handle: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const touch = e.touches[0];
-    handleStartResize(touch.clientX, touch.clientY, handle);
-  };
+  /**
+   * リサイズ開始（タッチ）
+   */
+  const handleResizeTouchStart = useCallback(
+    (e: TouchEvent, handle: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const touch = e.touches[0];
+      handleStartResize(touch.clientX, touch.clientY, handle);
+    },
+    [handleStartResize],
+  );
 
-  // 移動・リサイズ処理（マウス・タッチ共通）
-  const handleMove = (clientX: number, clientY: number) => {
-    if (!cropperRef.current) return;
+  /**
+   * リサイズ処理
+   * @param currentX 現在のX座標
+   * @param currentY 現在のY座標
+   */
+  const handleResize = useCallback(
+    (currentX: number, currentY: number) => {
+      const deltaX = currentX - dragStart.x;
+      const _deltaY = currentY - dragStart.y;
+      const aspectRatio = 4 / 5;
 
-    const rect = cropperRef.current.getBoundingClientRect();
-    const currentX = clientX - rect.left;
-    const currentY = clientY - rect.top;
+      const newCropArea = { ...initialCropArea };
 
-    if (isDragging) {
-      const newX = currentX - dragStart.x;
-      const newY = currentY - dragStart.y;
+      switch (resizeHandle) {
+        case 'se': // 右下
+          newCropArea.width = Math.max(50, initialCropArea.width + deltaX);
+          newCropArea.height = newCropArea.width / aspectRatio;
+          break;
+        case 'sw': {
+          // 左下
+          const newWidth = Math.max(50, initialCropArea.width - deltaX);
+          newCropArea.width = newWidth;
+          newCropArea.height = newWidth / aspectRatio;
+          newCropArea.x =
+            initialCropArea.x + (initialCropArea.width - newWidth);
+          break;
+        }
+        case 'ne': {
+          // 右上
+          const neWidth = Math.max(50, initialCropArea.width + deltaX);
+          newCropArea.width = neWidth;
+          newCropArea.height = neWidth / aspectRatio;
+          newCropArea.y =
+            initialCropArea.y + initialCropArea.height - newCropArea.height;
+          break;
+        }
+        case 'nw': {
+          // 左上
+          const nwWidth = Math.max(50, initialCropArea.width - deltaX);
+          newCropArea.width = nwWidth;
+          newCropArea.height = nwWidth / aspectRatio;
+          newCropArea.x = initialCropArea.x + (initialCropArea.width - nwWidth);
+          newCropArea.y =
+            initialCropArea.y + initialCropArea.height - newCropArea.height;
+          break;
+        }
+      }
 
       // 境界チェック
-      const maxX = imageSize.width - cropArea.width;
-      const maxY = imageSize.height - cropArea.height;
-
-      setCropArea((prev) => ({
-        ...prev,
-        x: Math.max(0, Math.min(newX, maxX)),
-        y: Math.max(0, Math.min(newY, maxY)),
-      }));
-    } else if (isResizing) {
-      handleResize(currentX, currentY);
-    }
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    handleMove(e.clientX, e.clientY);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    handleMove(touch.clientX, touch.clientY);
-  };
-
-  // リサイズ処理
-  const handleResize = (currentX: number, currentY: number) => {
-    const deltaX = currentX - dragStart.x;
-    const _deltaY = currentY - dragStart.y;
-    const aspectRatio = 4 / 5;
-
-    const newCropArea = { ...initialCropArea };
-
-    switch (resizeHandle) {
-      case 'se': // 右下
-        newCropArea.width = Math.max(50, initialCropArea.width + deltaX);
+      if (newCropArea.x < 0) {
+        newCropArea.width += newCropArea.x;
         newCropArea.height = newCropArea.width / aspectRatio;
-        break;
-      case 'sw': {
-        // 左下
-        const newWidth = Math.max(50, initialCropArea.width - deltaX);
-        newCropArea.width = newWidth;
-        newCropArea.height = newWidth / aspectRatio;
-        newCropArea.x = initialCropArea.x + (initialCropArea.width - newWidth);
-        break;
+        newCropArea.x = 0;
       }
-      case 'ne': {
-        // 右上
-        const neWidth = Math.max(50, initialCropArea.width + deltaX);
-        newCropArea.width = neWidth;
-        newCropArea.height = neWidth / aspectRatio;
-        newCropArea.y =
-          initialCropArea.y + initialCropArea.height - newCropArea.height;
-        break;
+      if (newCropArea.y < 0) {
+        newCropArea.height += newCropArea.y;
+        newCropArea.width = newCropArea.height * aspectRatio;
+        newCropArea.y = 0;
       }
-      case 'nw': {
-        // 左上
-        const nwWidth = Math.max(50, initialCropArea.width - deltaX);
-        newCropArea.width = nwWidth;
-        newCropArea.height = nwWidth / aspectRatio;
-        newCropArea.x = initialCropArea.x + (initialCropArea.width - nwWidth);
-        newCropArea.y =
-          initialCropArea.y + initialCropArea.height - newCropArea.height;
-        break;
+      if (newCropArea.x + newCropArea.width > imageSize.width) {
+        newCropArea.width = imageSize.width - newCropArea.x;
+        newCropArea.height = newCropArea.width / aspectRatio;
       }
-    }
+      if (newCropArea.y + newCropArea.height > imageSize.height) {
+        newCropArea.height = imageSize.height - newCropArea.y;
+        newCropArea.width = newCropArea.height * aspectRatio;
+      }
 
-    // 境界チェック
-    if (newCropArea.x < 0) {
-      newCropArea.width += newCropArea.x;
-      newCropArea.height = newCropArea.width / aspectRatio;
-      newCropArea.x = 0;
-    }
-    if (newCropArea.y < 0) {
-      newCropArea.height += newCropArea.y;
-      newCropArea.width = newCropArea.height * aspectRatio;
-      newCropArea.y = 0;
-    }
-    if (newCropArea.x + newCropArea.width > imageSize.width) {
-      newCropArea.width = imageSize.width - newCropArea.x;
-      newCropArea.height = newCropArea.width / aspectRatio;
-    }
-    if (newCropArea.y + newCropArea.height > imageSize.height) {
-      newCropArea.height = imageSize.height - newCropArea.y;
-      newCropArea.width = newCropArea.height * aspectRatio;
-    }
+      setCropArea(newCropArea);
+    },
+    [dragStart, initialCropArea, imageSize, resizeHandle],
+  );
 
-    setCropArea(newCropArea);
-  };
+  /**
+   * 移動・リサイズ処理（マウス・タッチ共通）
+   * @param clientX クライアントX座標
+   * @param clientY クライアントY座標
+   */
+  const handleMove = useCallback(
+    (clientX: number, clientY: number) => {
+      if (!boundsRef.current) return;
 
-  // ドラッグ・リサイズ終了
-  const handleMouseUp = () => {
+      const rect = boundsRef.current;
+      const currentX = clientX - rect.left;
+      const currentY = clientY - rect.top;
+
+      if (isDragging) {
+        const newX = currentX - dragStart.x;
+        const newY = currentY - dragStart.y;
+
+        // 境界チェック
+        const maxX = imageSize.width - cropArea.width;
+        const maxY = imageSize.height - cropArea.height;
+
+        setCropArea((prev) => ({
+          ...prev,
+          x: Math.max(0, Math.min(newX, maxX)),
+          y: Math.max(0, Math.min(newY, maxY)),
+        }));
+      } else if (isResizing) {
+        handleResize(currentX, currentY);
+      }
+    },
+    [isDragging, isResizing, dragStart, imageSize, cropArea, handleResize],
+  );
+
+  /**
+   * マウス移動イベントハンドラー（スロットリング適用）
+   */
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      animationFrameRef.current = requestAnimationFrame(() => {
+        handleMove(e.clientX, e.clientY);
+      });
+    },
+    [handleMove],
+  );
+
+  /**
+   * タッチ移動イベントハンドラー（スロットリング適用）
+   */
+  const handleTouchMove = useCallback(
+    (e: TouchEvent) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      animationFrameRef.current = requestAnimationFrame(() => {
+        handleMove(touch.clientX, touch.clientY);
+      });
+    },
+    [handleMove],
+  );
+
+  /**
+   * ドラッグ・リサイズ終了
+   */
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
     setIsResizing(false);
     setResizeHandle('');
-  };
+    boundsRef.current = null;
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+  }, []);
 
-  // 画像のトリミング処理
-  const handleCrop = async () => {
+  /**
+   * 画像のトリミング処理
+   */
+  const handleCrop = useCallback(async () => {
     const canvas = canvasRef.current;
     const image = imageRef.current;
 
@@ -312,9 +407,11 @@ export default function ImageCropper({
       outputMimeType,
       outputQuality,
     );
-  };
+  }, [cropArea, imageSize, originalFileType, onCropComplete]);
 
-  // マウス・タッチイベントリスナーの設定
+  /**
+   * マウス・タッチイベントリスナーの設定
+   */
   useEffect(() => {
     if (isDragging || isResizing) {
       // マウスイベント
@@ -332,18 +429,23 @@ export default function ImageCropper({
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleMouseUp);
     };
-  }, [
-    isDragging,
-    isResizing,
-    dragStart,
-    cropArea,
-    initialCropArea,
-    imageSize,
-    resizeHandle,
-  ]);
+  }, [isDragging, isResizing, handleMouseMove, handleMouseUp, handleTouchMove]);
 
-  // リサイズハンドルのレンダリング
-  const renderResizeHandles = () => {
+  /**
+   * コンポーネントのクリーンアップ
+   */
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
+
+  /**
+   * リサイズハンドルのレンダリング
+   */
+  const renderResizeHandles = useCallback(() => {
     const handles: ResizeHandle[] = [
       { position: 'nw', cursor: 'nw-resize' },
       { position: 'ne', cursor: 'ne-resize' },
@@ -395,7 +497,7 @@ export default function ImageCropper({
         />
       );
     });
-  };
+  }, [handleResizeStart, handleResizeTouchStart]);
 
   return (
     <div className='space-y-4'>

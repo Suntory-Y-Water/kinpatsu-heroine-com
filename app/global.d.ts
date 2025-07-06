@@ -1,21 +1,5 @@
 import type {} from 'hono';
-
-type Head = {
-  title?: string;
-  description?: string;
-  openGraph?: {
-    title: string;
-    description: string;
-    url: string;
-    images: string;
-  };
-  twitter?: {
-    title: string;
-    description: string;
-    url: string;
-    images: string;
-  };
-};
+import type { Metadata } from '@/lib/metadata';
 
 declare module 'hono' {
   interface Env {
@@ -35,7 +19,7 @@ declare module 'hono' {
     // biome-ignore lint/style/useShorthandFunctionType: <explanation>
     (
       content: string | Promise<string>,
-      head?: Head,
+      head?: { metadata?: Metadata },
     ): Response | Promise<Response>;
   }
 }

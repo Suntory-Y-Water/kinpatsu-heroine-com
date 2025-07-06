@@ -9,5 +9,6 @@
     "./**/*.tsx",
     "../app/global.d.ts",
     "../worker-configuration.d.ts"
-  ]
+  ],
+  "exclude": []
 }

@@ -6,6 +6,7 @@ import { getAllCharacters } from '@/lib/db';
 import { SortOption, SortSelector } from '@/islands/SortSelector';
 import { StatusMessage } from '@/components/character/StatusMessage';
 import { Pagination } from '@/components/Pagination';
+import { generateMetadata } from '@/lib/metadata';
 
 type SortOrder = 'newest' | 'likes_desc' | 'random';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
@@ -74,6 +75,11 @@ export default createRoute(async (c) => {
   const currentPage = paginatedResult.currentPage;
   const totalPages = paginatedResult.totalPages;
 
+  const metadata = generateMetadata({
+    title: currentPage === 1 ? undefined : `ページ${currentPage}`,
+    canonical: `https://kinpatsu-heroine.com${currentPage === 1 ? '' : `?page=${currentPage}`}`,
+  });
+
   return c.render(
     <div className='min-h-screen bg-background'>
       <div className='space-y-8 py-8'>
@@ -134,5 +140,6 @@ export default createRoute(async (c) => {
         />
       </div>
     </div>,
+    { metadata },
   );
 });

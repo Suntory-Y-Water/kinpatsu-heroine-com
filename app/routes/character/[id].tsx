@@ -4,6 +4,7 @@ import LikeButton from './$like-button';
 import { getRegistrationCharacterById } from '@/lib/db';
 import { getCookie } from 'hono/cookie';
 import { getLikeCharacterById } from '@/lib/db/getLikeCharacterById';
+import { generateMetadata } from '@/lib/metadata';
 
 function getStreamingIcon(streamingSiteId: string): {
   src: string;
@@ -76,6 +77,18 @@ export default createRoute(async (c) => {
   });
 
   const isLiked = isLikedResult.isOk() ? isLikedResult.value : false;
+
+  const metadata = generateMetadata({
+    title: character.characterName,
+    description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
+    keywords: [character.workName, character.characterName],
+    canonical: absoluteUrl({
+      url: c.env.PUBLIC_APP_URL,
+      path: `/character/${id}`,
+    }),
+    ogImage: character.imageUrl,
+    ogType: 'profile',
+  });
 
   return c.render(
     <div className='min-h-screen bg-background py-8'>
@@ -227,30 +240,6 @@ export default createRoute(async (c) => {
         </div>
       </div>
     </div>,
-    {
-      title: `${character.characterName}`,
-      description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
-      openGraph: {
-        title: `${character.characterName}`,
-        description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
-        url: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: `/character/${id}`,
-        }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: `${character.characterName}`,
-        description: `「${character.characterName}」のプロフィールページです。『${character.workName}』に登場します。`,
-        url: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: `/character/${id}`,
-        }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });
