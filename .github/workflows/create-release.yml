@@ -11,8 +11,8 @@ permissions: {}
 
 jobs:
   release:
-    # PRがマージされ、かつマージ元のブランチが 'release' で始まる場合のみ実行
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release')
+    # PRがマージされ、かつマージ元のブランチが 'feature' で始まる場合のみ実行
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'feature')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
