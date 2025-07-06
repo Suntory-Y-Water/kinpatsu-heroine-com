@@ -1,8 +1,17 @@
 import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
 import { PolicyLayout } from '../components/PolicyLayout';
+import { generateMetadata } from '@/lib/metadata';
 
 export default createRoute((c) => {
+  const metadata = generateMetadata({
+    title: 'プライバシーポリシー',
+    description:
+      '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
+    keywords: ['プライバシーポリシー', '個人情報', 'プライバシー'],
+    canonical: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/privacy' }),
+  });
+
   return c.render(
     <PolicyLayout title='プライバシーポリシー'>
       <section className='bg-background-lighter p-6 rounded-lg border border-border'>
@@ -58,27 +67,6 @@ export default createRoute((c) => {
         </p>
       </div>
     </PolicyLayout>,
-    {
-      title: 'プライバシーポリシー',
-      description:
-        '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
-      openGraph: {
-        title: 'プライバシーポリシー',
-        description:
-          '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/privacy' }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: 'プライバシーポリシー',
-        description:
-          '金髪ヒロイン.comのプライバシーポリシーです。当サイトでの個人情報の取り扱いやCookieの利用について説明しています。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/privacy' }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });

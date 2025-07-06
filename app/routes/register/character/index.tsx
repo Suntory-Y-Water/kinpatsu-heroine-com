@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { createRegistrationCharacter } from '@/lib/db';
 import ImageUploader from '../$image-uploader';
+import { generateMetadata } from '@/lib/metadata';
 
 const characterFormSchema = z.object({
   characterId: z.coerce
@@ -136,6 +137,16 @@ export default createRoute(async (c) => {
   // 検証成功、型安全なデータを使用
   const characterData = validationResult.data;
 
+  const metadata = generateMetadata({
+    title: 'キャラクター登録',
+    description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
+    keywords: ['登録', 'フォーム', workName],
+    canonical: absoluteUrl({
+      url: c.env.PUBLIC_APP_URL,
+      path: '/register/character',
+    }),
+  });
+
   return c.render(
     <div className='min-h-screen bg-background py-8 px-4'>
       <div className='max-w-xl mx-auto bg-background-light py-8 px-4 rounded-xl shadow-2xl'>
@@ -184,30 +195,6 @@ export default createRoute(async (c) => {
         </form>
       </div>
     </div>,
-    {
-      title: 'キャラクター登録',
-      description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
-      openGraph: {
-        title: 'キャラクター登録',
-        description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
-        url: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/register/character',
-        }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: 'キャラクター登録',
-        description: `『${workName}』から新しい金髪ヒロインのキャラクターを登録します。キャラクターを選んで画像をアップロードしてください。`,
-        url: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/register/character',
-        }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });

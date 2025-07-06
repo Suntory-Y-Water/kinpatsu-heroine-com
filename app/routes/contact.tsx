@@ -1,7 +1,16 @@
 import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
+import { generateMetadata } from '@/lib/metadata';
 
 export default createRoute((c) => {
+  const metadata = generateMetadata({
+    title: 'お問い合わせ',
+    description:
+      '金髪ヒロイン.comへのご意見・ご感想はこちらからお願いします。サイトに関する質問や誤字脱字の報告も受け付けています。',
+    keywords: ['お問い合わせ', '連絡', '問い合わせフォーム'],
+    canonical: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/contact' }),
+  });
+
   return c.render(
     <div className='min-h-screen bg-background'>
       <div className='container mx-auto px-4 py-8'>
@@ -51,27 +60,6 @@ export default createRoute((c) => {
         </div>
       </div>
     </div>,
-    {
-      title: 'お問い合わせ',
-      description:
-        '金髪ヒロイン.comへのご意見・ご感想はこちらからお願いします。サイトに関する質問や誤字脱字の報告も受け付けています。',
-      openGraph: {
-        title: 'お問い合わせ',
-        description:
-          '金髪ヒロイン.comへのご意見・ご感想はこちらからお願いします。サイトに関する質問や誤字脱字の報告も受け付けています。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/contact' }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: 'お問い合わせ',
-        description:
-          '金髪ヒロイン.comへのご意見・ご感想はこちらからお願いします。サイトに関する質問や誤字脱字の報告も受け付けています。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/contact' }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });
