@@ -200,6 +200,29 @@ export default createRoute(async (c) => {
                     </form>
                   </div>
                 )}
+                {tab === 'registered' && (
+                  <div className='flex'>
+                    <form
+                      action='/admin/unregister'
+                      method='post'
+                      className='flex-1'
+                      onsubmit="return confirm('本当に非登録状態にしますか？');"
+                    >
+                      <input
+                        type='hidden'
+                        name='characterId'
+                        value={item.characterId}
+                      />
+                      <input type='hidden' name='workId' value={item.workId} />
+                      <button
+                        type='submit'
+                        className='cursor-pointer w-full py-3 bg-background-lighter hover:bg-muted text-foreground font-bold rounded-b-lg transition-colors duration-300'
+                      >
+                        ↺ 非公開
+                      </button>
+                    </form>
+                  </div>
+                )}
                 {tab === 'deleted' && (
                   <div className='flex'>
                     <form
