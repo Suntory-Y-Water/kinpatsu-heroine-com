@@ -8,6 +8,7 @@ import { setCookie } from 'hono/cookie';
 
 import { compare } from 'bcrypt-ts';
 import { StatusMessage } from '@/components/character/StatusMessage';
+import { generateMetadata } from '@/lib/metadata';
 import { absoluteUrl } from '@/lib/utils';
 import {
   getLoginAttempt,
@@ -190,6 +191,14 @@ export default createRoute((c) => {
     | undefined;
   const message = c.req.query('message');
 
+  const metadata = generateMetadata({
+    title: '管理者ログイン',
+    description: '管理者ログイン画面',
+    keywords: ['管理', '管理者', 'ログイン'],
+    canonical: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin/login' }),
+    noindex: true,
+  });
+
   return c.render(
     <div className='min-h-screen bg-background flex items-center justify-center py-8 px-4'>
       <div className='max-w-md w-full bg-background-light p-8 rounded-xl shadow-2xl border border-primary'>
@@ -244,24 +253,6 @@ export default createRoute((c) => {
         </form>
       </div>
     </div>,
-    {
-      title: '管理者ログイン',
-      description: '管理者ログイン画面',
-      openGraph: {
-        title: '管理者ログイン',
-        description: '管理者ログイン画面',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin/login' }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: '管理者ログイン',
-        description: '管理者ログイン画面',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/admin/login' }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });

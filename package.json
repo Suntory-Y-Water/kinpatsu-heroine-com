@@ -1,7 +1,7 @@
 {
   "name": "kinpatsu-hiroin.com",
   "type": "module",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build --mode client && vite build && cp ./.assetsignore ./dist",
@@ -21,40 +21,41 @@
     "db:studio": "drizzle-kit studio",
     "db:local": "tsx scripts/migrate.ts local latest",
     "db:local:all": "tsx scripts/migrate.ts local all",
-    "typegen": "wrangler types"
+    "typegen": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "ai-check": "pnpm run lint && pnpm run typecheck"
   },
   "private": true,
   "dependencies": {
     "@hono/zod-validator": "^0.7.0",
-    "bcrypt": "^6.0.0",
     "bcrypt-ts": "^7.1.0",
     "cheerio": "^1.1.0",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "drizzle-orm": "^0.44.2",
     "graphql": "^16.11.0",
     "graphql-request": "^7.2.0",
-    "hono": "^4.8.0",
-    "hono-pino": "^0.8.0",
-    "honox": "^0.1.42",
+    "hono": "^4.8.3",
+    "hono-pino": "^0.9.1",
+    "honox": "^0.1.43",
     "neverthrow": "^8.2.0",
-    "zod": "^3.25.67"
+    "zod": "^3.25.69"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/vitest-pool-workers": "^0.8.41",
-    "@cloudflare/workers-types": "^4.20250618.0",
+    "@cloudflare/vitest-pool-workers": "^0.8.48",
+    "@cloudflare/workers-types": "^4.20250702.0",
     "@hono/vite-build": "^1.6.2",
-    "@hono/vite-dev-server": "^0.19.1",
-    "@tailwindcss/vite": "^4.1.10",
+    "@hono/vite-dev-server": "^0.20.0",
+    "@tailwindcss/vite": "^4.1.11",
     "@types/bcrypt": "^5.0.2",
-    "@types/node": "^22.15.32",
-    "drizzle-kit": "^0.31.1",
+    "@types/node": "^22.16.0",
+    "drizzle-kit": "^0.31.4",
     "happy-dom": "^17.6.3",
-    "tailwindcss": "^4.1.10",
+    "tailwindcss": "^4.1.11",
     "tsx": "^4.20.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "~3.2.4",
-    "wrangler": "^4.20.3"
+    "wrangler": "^4.22.0"
   }
 }

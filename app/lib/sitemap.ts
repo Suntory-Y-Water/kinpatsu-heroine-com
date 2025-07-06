@@ -1,6 +1,6 @@
 import type { Hono } from 'hono';
 import { inspectRoutes } from 'hono/dev';
-import type { StatusCode } from 'hono/utils/http-status';
+import { getAllCharacters } from '@/lib/db/getAllCharacters';
 
 interface RouteData {
   path: string;
@@ -16,11 +16,11 @@ export interface SitemapOptions {
   exclude?: string[];
   frequency?: Record<string, Frequency>;
   priority?: Record<string, string>;
+  DB?: D1Database;
 }
 
 interface SitemapResponse {
   data: string;
-  status: StatusCode;
   headers: Record<string, string>;
 }
 type Frequency =
@@ -47,12 +47,12 @@ const DEFAULT_CONFIG = {
  */
 const sitemap = async (options: SitemapOptions): Promise<SitemapResponse> => {
   try {
-    validateOptions(options);
+    validateOptions({ options });
 
     const config = { ...DEFAULT_CONFIG, ...options };
     const routesData: RouteData[] = inspectRoutes(config.app);
 
-    const filteredRoutes = sortRoutesByDepth(routesData).filter(
+    const filteredRoutes = sortRoutesByDepth({ routes: routesData }).filter(
       (route) =>
         !config.exclude.includes(route.path) &&
         route.method === 'GET' &&
@@ -60,11 +60,19 @@ const sitemap = async (options: SitemapOptions): Promise<SitemapResponse> => {
         route.path !== '/*',
     );
 
-    const sitemapXml = await generateSitemapXml(filteredRoutes, config);
+    // 動的ルートを実際のURLに展開
+    const expandedRoutes = await expandDynamicRoutes({
+      routes: filteredRoutes,
+      config,
+    });
+
+    const sitemapXml = await generateSitemapXml({
+      routes: expandedRoutes,
+      config,
+    });
 
     return {
       data: sitemapXml,
-      status: 200,
       headers: {
         'Content-Type': 'application/xml',
       },
@@ -77,10 +85,10 @@ const sitemap = async (options: SitemapOptions): Promise<SitemapResponse> => {
 
 /**
  * Validates the provided options.
- * @param options - The options to validate.
+ * @param params - バリデーション用パラメータ
  * @throws Error if options are invalid.
  */
-const validateOptions = (options: SitemapOptions): void => {
+function validateOptions({ options }: { options: SitemapOptions }): void {
   if (options.priority) {
     for (const [key, value] of Object.entries(options.priority)) {
       const priority = Number.parseFloat(value);
@@ -108,31 +116,70 @@ const validateOptions = (options: SitemapOptions): void => {
       }
     }
   }
-};
+}
 
 /**
  * Sorts routes by the depth of their paths.
- * @param routes - The routes to sort.
+ * @param params - ソート用パラメータ
  * @returns Sorted array of routes.
  */
-const sortRoutesByDepth = (routes: RouteData[]): RouteData[] => {
+function sortRoutesByDepth({ routes }: { routes: RouteData[] }): RouteData[] {
   return routes.sort((a, b) => {
     const aDepth = a.path === '/' ? 0 : a.path.split('/').length;
     const bDepth = b.path === '/' ? 0 : b.path.split('/').length;
     return aDepth - bDepth;
   });
-};
+}
+
+/**
+ * 動的ルートを実際のURLに展開する関数
+ * @param params - 展開用パラメータ
+ * @returns 展開されたルート
+ */
+async function expandDynamicRoutes({
+  routes,
+  config,
+}: {
+  routes: RouteData[];
+  config: SitemapOptions & typeof DEFAULT_CONFIG;
+}): Promise<RouteData[]> {
+  const expandedRoutes: RouteData[] = [];
+
+  for (const route of routes) {
+    if (route.path !== '/character/:id' || !config.DB) {
+      expandedRoutes.push(route);
+      continue;
+    }
+
+    const charactersResult = await getAllCharacters({ DB: config.DB });
+    if (!charactersResult.isOk()) {
+      continue;
+    }
+
+    const characters = charactersResult.value;
+    for (const character of characters) {
+      expandedRoutes.push({
+        ...route,
+        path: `/character/${character.characterId}`,
+      });
+    }
+  }
+
+  return expandedRoutes;
+}
 
 /**
  * Generates the XML content for the sitemap.
- * @param routes - The filtered routes.
- * @param config - The configuration options.
+ * @param params - XML生成用パラメータ
  * @returns A promise that resolves to the XML string.
  */
-const generateSitemapXml = async (
-  routes: RouteData[],
-  config: SitemapOptions & typeof DEFAULT_CONFIG,
-): Promise<string> => {
+async function generateSitemapXml({
+  routes,
+  config,
+}: {
+  routes: RouteData[];
+  config: SitemapOptions & typeof DEFAULT_CONFIG;
+}): Promise<string> {
   const lastMod = new Date().toISOString().split('T')[0];
   const getChangeFreq = (path: string) =>
     config.frequency?.[path] || config.defaultFrequency;
@@ -144,7 +191,7 @@ const generateSitemapXml = async (
     <url>
       <loc>${
         route.path === '/' ? config.hostname : `${config.hostname}${route.path}`
-      }/</loc>
+      }</loc>
       <lastmod>${lastMod}</lastmod>
       <changefreq>${getChangeFreq(route.path)}</changefreq>
       <priority>${getPriority(route.path)}</priority>
@@ -153,9 +200,9 @@ const generateSitemapXml = async (
   );
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   ${urlEntries.join('')}
   </urlset>`;
-};
+}
 
 export default sitemap;

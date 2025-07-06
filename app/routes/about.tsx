@@ -1,7 +1,16 @@
 import { absoluteUrl } from '@/lib/utils';
 import { createRoute } from 'honox/factory';
+import { generateMetadata } from '@/lib/metadata';
 
 export default createRoute((c) => {
+  const metadata = generateMetadata({
+    title: 'このサイトについて',
+    description:
+      '金髪ヒロイン.comは、アニメに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
+    keywords: ['サイト紹介', 'アニメ'],
+    canonical: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/about' }),
+  });
+
   return c.render(
     <div className='min-h-screen bg-background'>
       <div className='container mx-auto px-4 py-8'>
@@ -54,27 +63,6 @@ export default createRoute((c) => {
         </div>
       </div>
     </div>,
-    {
-      title: 'このサイトについて',
-      description:
-        '金髪ヒロイン.comは、アニメや漫画、ゲームなどに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
-      openGraph: {
-        title: 'このサイトについて',
-        description:
-          '金髪ヒロイン.comは、アニメや漫画、ゲームなどに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/about' }),
-        images: absoluteUrl({
-          url: c.env.PUBLIC_APP_URL,
-          path: '/ogp.png',
-        }),
-      },
-      twitter: {
-        title: 'このサイトについて',
-        description:
-          '金髪ヒロイン.comは、アニメや漫画、ゲームなどに登場する魅力的な「金髪ヒロイン」たちにスポットライトを当てたファンサイトです。',
-        url: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/about' }),
-        images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-      },
-    },
+    { metadata },
   );
 });

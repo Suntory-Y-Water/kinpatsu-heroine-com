@@ -1,5 +1,6 @@
 import { createRoute } from 'honox/factory';
 import { absoluteUrl } from '@/lib/utils';
+import { generateMetadata } from '@/lib/metadata';
 import WorkForm from './$work-form';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
@@ -147,6 +148,17 @@ export default createRoute(
       title: node.title,
     }));
 
+    const metadata = generateMetadata({
+      title: '作品登録',
+      description:
+        '新しい金髪ヒロインを登録するために、まずは作品を選択してください。',
+      keywords: ['登録', 'フォーム', '作品'],
+      canonical: absoluteUrl({
+        url: c.env.PUBLIC_APP_URL,
+        path: '/register/work',
+      }),
+    });
+
     return c.render(
       <div className='min-h-screen bg-background py-8 px-4'>
         <div className='max-w-xl mx-auto bg-background-light py-8 px-4 rounded-xl shadow-2xl'>
@@ -192,34 +204,7 @@ export default createRoute(
           </form>
         </div>
       </div>,
-      {
-        title: '作品登録',
-        description:
-          '新しい金髪ヒロインを登録するために、まずは作品を選択してください。',
-        openGraph: {
-          title: '作品登録',
-          description:
-            '新しい金髪ヒロインを登録するために、まずは作品を選択してください。',
-          url: absoluteUrl({
-            url: c.env.PUBLIC_APP_URL,
-            path: '/register/work',
-          }),
-          images: absoluteUrl({
-            url: c.env.PUBLIC_APP_URL,
-            path: '/ogp.png',
-          }),
-        },
-        twitter: {
-          title: '作品登録',
-          description:
-            '新しい金髪ヒロインを登録するために、まずは作品を選択してください。',
-          url: absoluteUrl({
-            url: c.env.PUBLIC_APP_URL,
-            path: '/register/work',
-          }),
-          images: absoluteUrl({ url: c.env.PUBLIC_APP_URL, path: '/ogp.png' }),
-        },
-      },
+      { metadata },
     );
   },
 );

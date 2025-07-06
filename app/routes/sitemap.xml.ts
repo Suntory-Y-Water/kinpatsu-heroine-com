@@ -28,6 +28,7 @@ export default createRoute(async (c) => {
       '/privacy': 'yearly',
       '/terms': 'yearly',
     },
+    DB: c.env.DB,
   });
-  return c.body(data, headers);
+  return c.text(data, 200, headers);
 });
