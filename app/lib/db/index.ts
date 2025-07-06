@@ -2,6 +2,7 @@ export * from './createRegistrationCharacter';
 export * from './getRegistrationQueueTable';
 export * from './updateDeleteFlag';
 export * from './updateRegisterFlag';
+export * from './updateUnregisterFlag';
 export * from './createCharacter';
 export * from './createWork';
 export * from './createStreamingSite';
