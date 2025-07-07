@@ -7,6 +7,7 @@ import { SortOption, SortSelector } from '@/islands/SortSelector';
 import { StatusMessage } from '@/components/character/StatusMessage';
 import { Pagination } from '@/components/Pagination';
 import { generateMetadata } from '@/lib/metadata';
+import SearchForm from '@/components/SearchForm';
 
 type SortOrder = 'newest' | 'likes_desc' | 'random';
 const DEFAULT_SORT_ORDER: SortOrder = 'newest';
@@ -32,6 +33,9 @@ export default createRoute(async (c) => {
     ? sortQuery
     : DEFAULT_SORT_ORDER;
 
+  // 検索クエリを取得
+  const searchQuery = c.req.query('q') || '';
+
   // クエリパラメータからステータスとメッセージを取得
   const status = c.req.query('status') as
     | 'error'
@@ -43,6 +47,7 @@ export default createRoute(async (c) => {
 
   const result = await getAllCharacters({
     DB: c.env.DB,
+    searchQuery: searchQuery || undefined,
   });
 
   if (result.isErr()) {
@@ -98,10 +103,17 @@ export default createRoute(async (c) => {
               href='/register/work'
               className='inline-block bg-gradient-to-r from-primary to-primary-dark text-primary-foreground rounded-full px-8 py-4 font-bold text-lg hover:from-primary-light hover:to-primary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105'
             >
-              ✨ ヒロインを登録する
+              ヒロインを登録する
             </a>
           </div>
         )}
+
+        {/* 検索フォーム */}
+        <div className='px-4'>
+          <div className='max-w-7xl mx-auto'>
+            <SearchForm currentQuery={searchQuery} />
+          </div>
+        </div>
 
         {/* ソートセレクター - 位置を調整 */}
         <div className='px-4'>
@@ -112,23 +124,73 @@ export default createRoute(async (c) => {
 
         <StatusMessage status={status} message={message} />
 
+        {/* 検索結果の表示 */}
+        {searchQuery && (
+          <div className='px-4'>
+            <div className='max-w-7xl mx-auto'>
+              <div className='bg-background-light border border-border rounded-lg p-4 mb-6'>
+                <p className='text-foreground'>
+                  <span className='font-semibold'>「{searchQuery}」</span>
+                  の検索結果：
+                  <span className='text-primary font-bold ml-2'>
+                    {allCharacters.length}件
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* キャラクターグリッド */}
         <div className='px-4'>
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto'>
-            {characters.map((character, index) => (
-              <div
-                key={character.characterId}
-                className='transform transition-all duration-300'
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  animation: 'fadeInUp 0.6s ease-out forwards',
-                  opacity: 0,
-                }}
-              >
-                <CharacterCard {...character} />
+          {characters.length > 0 ? (
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto'>
+              {characters.map((character, index) => (
+                <div
+                  key={character.characterId}
+                  className='transform transition-all duration-300'
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    animation: 'fadeInUp 0.6s ease-out forwards',
+                    opacity: 0,
+                  }}
+                >
+                  <CharacterCard {...character} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className='max-w-7xl mx-auto text-center py-16'>
+              <div className='bg-background-light border border-border rounded-lg p-8'>
+                <div className='text-4xl mb-4'>😔</div>
+                <h3 className='text-xl font-semibold text-foreground mb-2'>
+                  {searchQuery
+                    ? '検索結果が見つかりません'
+                    : 'キャラクターが登録されていません'}
+                </h3>
+                <p className='text-foreground-muted mb-6'>
+                  {searchQuery
+                    ? `「${searchQuery}」に該当するキャラクターが見つかりませんでした。`
+                    : 'まだキャラクターが登録されていません。最初のキャラクターを登録してみませんか？'}
+                </p>
+                {searchQuery ? (
+                  <a
+                    href='/'
+                    className='inline-block bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium hover:bg-primary/90 transition-colors'
+                  >
+                    全てのキャラクターを見る
+                  </a>
+                ) : (
+                  <a
+                    href='/register/work'
+                    className='inline-block bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium hover:bg-primary/90 transition-colors'
+                  >
+                    キャラクターを登録する
+                  </a>
+                )}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* ページネーション */}

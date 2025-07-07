@@ -5,13 +5,21 @@ import {
 } from '@/config/drizzle/schema';
 import { ok, Result } from 'neverthrow';
 import { DatabaseError, databaseErrorHandler } from '@/types/error';
-import { eq, count, and, desc } from 'drizzle-orm';
+import { eq, count, and, desc, like } from 'drizzle-orm';
 import type { CharacterList } from '@/types/character';
 
+/**
+ * 登録済みキャラクターの一覧を取得します
+ * @param DB - D1データベースインスタンス
+ * @param searchQuery - キャラクター名の検索クエリ（部分一致）
+ * @returns 登録済みキャラクターの一覧
+ */
 export async function getAllCharacters({
   DB,
+  searchQuery,
 }: {
   DB: D1Database;
+  searchQuery?: string;
 }): Promise<Result<CharacterList[], DatabaseError>> {
   try {
     const db = drizzle(DB);
@@ -33,6 +41,7 @@ export async function getAllCharacters({
         and(
           eq(registrationQueueTable.is_deleted, false),
           eq(registrationQueueTable.is_registered, true),
+          searchQuery ? like(registrationQueueTable.character_name, `%${searchQuery}%`) : undefined,
         ),
       )
       .groupBy(

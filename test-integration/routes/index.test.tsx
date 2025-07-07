@@ -184,4 +184,170 @@ describe('GET / (app/routes/index.tsx)', () => {
     expect(response.status).toBe(200);
     expect(text).toContain('操作が正常に完了しました。やったね！'); // デコードされたメッセージ
   });
+
+  it('検索クエリにマッチするキャラクターが表示されること', async () => {
+    const charactersToInsert: CharacterRecord[] = [
+      {
+        character_id: 1,
+        work_id: 1,
+        character_name: 'アリス',
+        work_name: 'ワンダーランド',
+        character_image_url: '/img/alice.png',
+      },
+      {
+        character_id: 2,
+        work_id: 2,
+        character_name: '桜',
+        work_name: '春の物語',
+        character_image_url: '/img/sakura.png',
+      },
+      {
+        character_id: 3,
+        work_id: 3,
+        character_name: 'ベティ',
+        work_name: 'アメリカン・ドリーム',
+        character_image_url: '/img/betty.png',
+      },
+    ];
+    await insertCharacters(charactersToInsert);
+
+    const response = await SELF.fetch('http://localhost/?q=アリス');
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toContain('アリス');
+    expect(text).toContain('/img/alice.png');
+    expect(text).not.toContain('桜');
+    expect(text).not.toContain('ベティ');
+  });
+
+  it('検索クエリにマッチしないキャラクターがある場合、該当なしメッセージが表示されること', async () => {
+    const charactersToInsert: CharacterRecord[] = [
+      {
+        character_id: 1,
+        work_id: 1,
+        character_name: 'アリス',
+        work_name: 'ワンダーランド',
+        character_image_url: '/img/alice.png',
+      },
+    ];
+    await insertCharacters(charactersToInsert);
+
+    const response = await SELF.fetch(
+      'http://localhost/?q=存在しないキャラクター',
+    );
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toContain('検索結果が見つかりません');
+    expect(text).toContain('全てのキャラクターを見る');
+    expect(text).not.toContain('アリス');
+  });
+
+  it('部分一致検索が正常に動作すること', async () => {
+    const charactersToInsert: CharacterRecord[] = [
+      {
+        character_id: 1,
+        work_id: 1,
+        character_name: 'アリス・インワンダーランド',
+        work_name: 'ワンダーランド',
+        character_image_url: '/img/alice.png',
+      },
+      {
+        character_id: 2,
+        work_id: 2,
+        character_name: 'アリスター',
+        work_name: 'ファンタジー',
+        character_image_url: '/img/alister.png',
+      },
+      {
+        character_id: 3,
+        work_id: 3,
+        character_name: '桜',
+        work_name: '春の物語',
+        character_image_url: '/img/sakura.png',
+      },
+    ];
+    await insertCharacters(charactersToInsert);
+
+    const response = await SELF.fetch('http://localhost/?q=アリス');
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toContain('アリス・インワンダーランド');
+    expect(text).toContain('アリスター');
+    expect(text).not.toContain('桜');
+  });
+
+  it('空の検索クエリでは全キャラクターが表示されること', async () => {
+    const charactersToInsert: CharacterRecord[] = [
+      {
+        character_id: 1,
+        work_id: 1,
+        character_name: 'アリス',
+        work_name: 'ワンダーランド',
+        character_image_url: '/img/alice.png',
+      },
+      {
+        character_id: 2,
+        work_id: 2,
+        character_name: '桜',
+        work_name: '春の物語',
+        character_image_url: '/img/sakura.png',
+      },
+    ];
+    await insertCharacters(charactersToInsert);
+
+    const response = await SELF.fetch('http://localhost/?q=');
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toContain('アリス');
+    expect(text).toContain('桜');
+  });
+
+  it('検索とソート機能の組み合わせが正常に動作すること', async () => {
+    const charactersToInsert: CharacterRecord[] = [
+      {
+        character_id: 1,
+        work_id: 1,
+        character_name: 'アリス新',
+        work_name: 'ワンダーランド',
+        character_image_url: '/img/alice_new.png',
+        registration_date: new Date('2024-01-02T10:00:00Z').toISOString(),
+      },
+      {
+        character_id: 2,
+        work_id: 2,
+        character_name: 'アリス旧',
+        work_name: 'ワンダーランド',
+        character_image_url: '/img/alice_old.png',
+        registration_date: new Date('2024-01-01T10:00:00Z').toISOString(),
+      },
+      {
+        character_id: 3,
+        work_id: 3,
+        character_name: '桜',
+        work_name: '春の物語',
+        character_image_url: '/img/sakura.png',
+        registration_date: new Date('2024-01-03T10:00:00Z').toISOString(),
+      },
+    ];
+    await insertCharacters(charactersToInsert);
+
+    const response = await SELF.fetch('http://localhost/?q=アリス&sort=newest');
+    const text = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(text).toContain('アリス新');
+    expect(text).toContain('アリス旧');
+    expect(text).not.toContain('桜');
+
+    // 新しい順でソートされているか確認
+    const newCharIndex = text.indexOf('アリス新');
+    const oldCharIndex = text.indexOf('アリス旧');
+    expect(newCharIndex).toBeGreaterThan(-1);
+    expect(oldCharIndex).toBeGreaterThan(-1);
+    expect(newCharIndex).toBeLessThan(oldCharIndex);
+  });
 });
