@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: 
-      - 'feature-*'
-      - 'feature/*'
       # 依存関係が更新されたときにも一応チェックする
       - 'dependabot/*' 
     paths: ['**/*.ts', '**/*.tsx', '**/*.js', '.github/**', '**/*.json']
