@@ -12,5 +12,5 @@ WORKDIR /workspaces
 ENV PNPM_HOME="/home/node/.local/share/pnpm"
 ENV PATH="${PNPM_HOME}:${PATH}"
 
-# # pnpmの設定 (ホームディレクトリ ~/.pnpm-store は /home/node/.pnpm-store を指す)
+# pnpmの設定 (ホームディレクトリ ~/.pnpm-store は /home/node/.pnpm-store を指す)
 RUN pnpm config set store-dir ~/.pnpm-store
