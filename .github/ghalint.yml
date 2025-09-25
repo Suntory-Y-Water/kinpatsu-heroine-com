@@ -1,0 +1,7 @@
+# 内部のモジュールは信頼されているので、SHAチェックを無効化
+excludes:
+  - policy_name: action_ref_should_be_full_length_commit_sha
+    action_name: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-actions-security.yml
+
+  - policy_name: action_ref_should_be_full_length_commit_sha
+    action_name: Suntory-Y-Water/my-github-actions-ci/.github/workflows/reusable-typescript-ci.yml
