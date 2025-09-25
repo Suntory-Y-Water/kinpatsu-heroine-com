@@ -39,5 +39,5 @@ jobs:
     with:
       node-version: "20"
       pnpm-version: "9"
-      timeout-minutes: 10
+      timeout-minutes: 5
       version-check: true
